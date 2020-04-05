@@ -1,4 +1,4 @@
-ID	altura	diametro	inclinación	especie	origen	brotes
+ID	Altura	Diámetro	Inclinación	Especie	Origen	Brotes
 14	10	35	0	Ceibo	Nativo/Autóctono	5
 97	10	50	0	Palo borracho	Nativo/Autóctono	3
 124	12	15	0	Álamo	Exótico	2
