@@ -51,24 +51,16 @@ ggplot(
 #Inclinación
 
 #Diámetro
-mutate(name = fct_reorder(Especie, DiámetroPromedio)) %>%
+
 ggplot(
   df %>%
     group_by(Especie) %>%
     summarise(DiámetroPromedio = mean(Diámetro)) %>% 
     arrange(DiámetroPromedio),
-  aes(x=Especie, y=DiámetroPromedio)) + 
-  geom_bar(color="black", fill="green", stat = "identity") +
-  coord_flip()
-
-
-df %>%
-  group_by(Especie) %>%
-  summarise(DiámetroPromedio = mean(Diámetro)) %>% 
-  arrange(DiámetroPromedio)
-
-df %>%
-  filter(Especie == 'Acacia')
+  aes(x = reorder(Especie, DiámetroPromedio)
+      , y = DiámetroPromedio)) + 
+  geom_col(stat = "identity") +
+  labs(x = 'Especies', y = 'Díametro', title = 'Diámetro promedio según Especie', subtitle = 'By Agusmonster & Clarahzz', caption = 'Puto el que lee')
 
 ggplot(df, aes(x = Especie, y = Origen)) + geom_point()
 
