@@ -10,6 +10,7 @@ library(RColorBrewer)
 library(ggplot2)
 library(dplyr)
 library(forcats)
+library(tidyverse)
 
 
 # Data --------------------------------------------------------------------
@@ -121,14 +122,6 @@ ggplot(
   geom_bar(color = "black", fill = "green", stat = "identity") +
   coord_flip()
 
-# tabla de frecuencia de número de brotes ---------------------------------
-ggplot(df, aes(x = Brotes)) +
-  geom_bar()
-tablaFrec <- df %>%
-  group_by(Especie) %>%
-  summarise("Frecuencia Absoluta" = sum(Brotes)) %>%
-  arrange(`Frecuencia Absoluta`)
-
 
 # Tabla de frecuencia de número de brotes ---------------------------------
 
@@ -147,11 +140,15 @@ tablaFrec["Frecuencia Absoluta Acumulada"] <-
 tablaFrec['Frecuencia Relativa Acumulada'] <-
   (cumsum(tablaFrec["Frecuencia Relativa"]))
 
-#Nueva fila no funciona.
-nuevaFila <-
-  c(sum(tablaFrec["Frecuencia Absoluta"]), sum(tablaFrec["Frecuencia Relativa"]))
+z <- tablaFrec %>%
+  add_row('Especie' = 'Total',
+    "Frecuencia Absoluta" = sum(tablaFrec["Frecuencia Absoluta"]),
+    "Frecuencia Relativa" = sum(tablaFrec["Frecuencia Relativa"]),
+    "Frecuencia Absoluta Acumulada" = NA,
+    'Frecuencia Relativa Acumulada' = NA)
+plot(z)
 
-tablaFrec$nuevaFila <- rbind(tablaFrec, nuevaFila)
+rbind(tablaFrec, c("Total", 100, 0, 0 ,0))
 
 # ####
 
