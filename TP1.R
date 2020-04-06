@@ -62,9 +62,9 @@ ggplot(
 
 
 df %>%
-  group_by(Origen, Especie) %>%
-  summarise(InclinacionPromedio = mean(Inclinación)) %>% 
-  arrange(InclinacionPromedio)
+  group_by(Especie) %>%
+  summarise(DiámetroPromedio = mean(Diámetro)) %>% 
+  arrange(DiámetroPromedio)
 
 df %>%
   filter(Especie == 'Acacia')
@@ -98,17 +98,12 @@ ggplot(
 #df de frecuencia de número de brotes
 ggplot(df, aes(x=Brotes)) + 
   geom_bar()
-tablaFrec <- tabla %>% 
-  group_by(Especie)  %>% 
-    summarise('Frecuencia Absoluta' = sum(Brotes)) %>%
-                arrange('Frecuencia Absoluta')
 dfFrec <- df %>% 
   group_by(Especie)%>% 
     summarise("Frecuencia Absoluta" = sum(Brotes))
 dfFrec["Frecuencia relativa"] <- (
   dfFrec["Frecuencia Absoluta"] / sum(dfFrec["Frecuencia Absoluta"]))
 
-tablaFrec['Frecuencia Relativa'] <- tablaFrec['Frecuencia Absoluta'] / sum(tablaFrec['Frecuencia Absoluta'])
 
 ggplot(df %>% filter(Origen == 'Nativo/Autóctono'), aes(x = Altura)) + geom_bar()
 
