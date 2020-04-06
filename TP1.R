@@ -38,8 +38,55 @@ pie(table(Origen), border="white", col=myPalette, main= "Proporción de árboles
 ggplot(tabla, aes(x=Altura)) + geom_histogram(binwidth = 1) 
 ggplot(tabla, aes(x=Altura)) + geom_histogram(binwidth = 5)
 
+#Inclinación promedio por especie
+q <- tabla %>%
+  group_by(Especie) %>%
+  summarise(InclinacionPromedio = mean(Inclinación))
+
+ggplot(q, aes(x=Especie, y=InclinacionPromedio)) + 
+  geom_bar(color="black", fill="green", stat = "identity") +
+  coord_flip()
+
+#Inclinación
+
+#Diámetro
+
+#Especie
+
+#Brotes
+q <- tabla %>%
+  group_by(Especie) %>%
+  summarise(InclinacionPromedio = mean(Inclinación))
+
+ggplot(q, aes(x=Especie, y=InclinacionPromedio)) + 
+  geom_bar(color="black", fill="pink", stat = "identity") +
+  coord_flip()
+
+
+
+#Número de brotes por especie
+r <- tabla %>%
+  group_by(Especie) %>%
+  summarise(numeroBrotes = sum(Brotes))
+
+ggplot(r, aes(x=Especie, y=numeroBrotes)) + 
+  geom_bar(color="black", fill="green", stat = "identity") +
+  coord_flip()
+
+
+
+#Tabla de frecuencia de número de brotes
+ggplot(tabla, aes(x=Brotes)) + 
+  geom_bar()
+tablaFrec <- tabla %>% 
+  group_by(Especie)%>% 
+    summarise("Frecuencia Absoluta" = sum(Brotes))
+tablaFrec["Frecuencia relativa"] <- (
+  tablaFrec["Frecuencia Absoluta"] / sum(tablaFrec["Frecuencia Absoluta"]))
 
 
 ggplot(tabla %>% filter(Origen == 'Nativo/Autóctono'), aes(x = Altura)) + geom_bar()
 
 ggplot(tabla %>% filter(Origen == 'Exótico'), aes(x = Altura)) + geom_bar()
+
+
