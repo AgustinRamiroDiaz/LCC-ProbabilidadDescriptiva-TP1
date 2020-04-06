@@ -1,4 +1,3 @@
-
 # Imports -----------------------------------------------------------------
 if (!require("RColorBrewer")) {
   install.packages("RColorBrewer")
@@ -10,7 +9,7 @@ library(RColorBrewer)
 library(ggplot2)
 library(dplyr)
 library(forcats)
-
+library(tidyverse)
 
 # Data --------------------------------------------------------------------
 nombre <- 'base0.txt'
@@ -35,7 +34,6 @@ attach(df)
 plot(df)
 summary(df)
 
-
 # Altura promedio por especie ---------------------------------------------
 
 ggplot(
@@ -44,7 +42,7 @@ ggplot(
     summarise(AlturaPromedio = mean(Altura)),
   aes(x = Especie, y = AlturaPromedio)
 ) +
-  geom_bar(color = "blue", fill = "blue", stat = "identity") +
+  geom_col() +
   coord_flip()
 
 
