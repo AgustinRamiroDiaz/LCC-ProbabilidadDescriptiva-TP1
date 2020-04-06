@@ -10,8 +10,6 @@ library(ggplot2)
 library(dplyr)
 library(forcats)
 
-myPalette <- brewer.pal(5, "Set2") 
-
 # Data
 nombre <- 'base0.txt'
 df <- read.table(file=nombre, header=TRUE, sep='\t', fileEncoding='utf-8')
@@ -33,7 +31,7 @@ ggplot(
   coord_flip()
 
 # Origen
-pie(table(Origen), border="white", col=myPalette, main= "Proporción de árboles según su origen.")
+pie(table(Origen), border="white", col=brewer.pal(5, "Set2") , main= "Proporción de árboles según su origen.")
 
 # Altura
 ggplot(df, aes(x=Altura)) + geom_histogram(binwidth = 1) 
@@ -59,7 +57,7 @@ ggplot(
     arrange(DiámetroPromedio),
   aes(x = reorder(Especie, DiámetroPromedio)
       , y = DiámetroPromedio)) + 
-  geom_col(stat = "identity") +
+  geom_col() +
   labs(x = 'Especies', y = 'Díametro', title = 'Diámetro promedio según Especie', subtitle = 'By Agusmonster & Clarahzz', caption = 'Puto el que lee')
 
 ggplot(df, aes(x = Especie, y = Origen)) + geom_point()
