@@ -51,6 +51,26 @@ ggplot(
 
 #Diámetro
 
+ggplot(
+  df %>%
+    group_by(Especie) %>%
+    summarise(DiámetroPromedio = mean(Diámetro)) %>% 
+    arrange(DiámetroPromedio),
+  aes(x=Especie, y=DiámetroPromedio)) + 
+  geom_bar(color="black", fill="green", stat = "identity") +
+  coord_flip()
+
+
+df %>%
+  group_by(Origen, Especie) %>%
+  summarise(InclinacionPromedio = mean(Inclinación)) %>% 
+  arrange(InclinacionPromedio)
+
+df %>%
+  filter(Especie == 'Acacia')
+
+ggplot(df, aes(x = Especie, y = Origen)) + geom_point()
+
 #Especie
 
 #Brotes
