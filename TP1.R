@@ -1,4 +1,5 @@
 # Imports -----------------------------------------------------------------
+
 if (!require("RColorBrewer")) {
   install.packages("RColorBrewer")
 }
@@ -12,6 +13,7 @@ library(forcats)
 library(tidyverse)
 
 # Data --------------------------------------------------------------------
+
 nombre <- 'base0.txt'
 df <-
   read.table(
@@ -31,6 +33,7 @@ attach(df)
 
 
 # Plot --------------------------------------------------------------------
+
 plot(df)
 summary(df)
 
@@ -47,6 +50,7 @@ ggplot(
 
 
 # Origen ------------------------------------------------------------------
+
 pie(
   table(Origen),
   border = "white",
@@ -59,6 +63,7 @@ ggplot(df, aes(x = Altura)) + geom_histogram(binwidth = 1)
 ggplot(df, aes(x = Altura)) + geom_histogram(binwidth = 5)
 
 #Inclinación promedio por especie
+
 ggplot(
   df %>%
     group_by(Especie) %>%
@@ -72,8 +77,8 @@ ggplot(
 
 
 # Diámetro ----------------------------------------------------------------
-ggplot(df, aes(x = Diámetro)) + geom_histogram(binwidth = 1)
 
+ggplot(df, aes(x = Diámetro)) + geom_histogram(binwidth = 1)
 
 ggplot(
   df %>%
@@ -99,6 +104,7 @@ ggplot(
 
 
 # Brotes ------------------------------------------------------------------
+
 ggplot(
   df %>%
     group_by(Especie) %>%
@@ -110,6 +116,7 @@ ggplot(
 
 
 # Número de brotes por especie --------------------------------------------
+
 ggplot(
   df %>%
     group_by(Especie) %>%
@@ -121,7 +128,6 @@ ggplot(
 
 
 # Tabla de frecuencia de número de brotes ---------------------------------
-
 
 tablaFrec <- df %>%
   group_by(Especie)  %>%
