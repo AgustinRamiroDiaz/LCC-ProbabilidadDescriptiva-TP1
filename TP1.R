@@ -31,12 +31,10 @@ df <-
          'Brotes')]
 attach(df)
 
-
 # Plot --------------------------------------------------------------------
 
 plot(df)
 summary(df)
-
 
 # Altura ------------------------------------------------------------------
 
@@ -93,8 +91,13 @@ ggplot(
   geom_bar(color = "black", fill = "pink", stat = "identity") +
   coord_flip()
 
+# Especie -----------------------------------------------------------------
 
 # Origen ------------------------------------------------------------------
+
+ggplot(df %>% filter(Origen == 'Nativo/Autóctono'), aes(x = Altura)) + geom_bar()
+
+ggplot(df %>% filter(Origen == 'Exótico'), aes(x = Altura)) + geom_bar()
 
 pie(
   table(Origen),
@@ -102,24 +105,6 @@ pie(
   col = brewer.pal(5, "Set2") ,
   main = "Proporción de árboles según su origen."
 )
-
-
-
-# Inclinación promedio por especie ----------------------------------------
-
-ggplot(
-  df %>%
-    group_by(Especie) %>%
-    summarise(InclinacionPromedio = mean(Inclinación)),
-  aes(x = Especie, y = InclinacionPromedio)
-) +
-  geom_bar(color = "black", fill = "green", stat = "identity") +
-  coord_flip()
-
-
-
-# Especie -----------------------------------------------------------------
-
 
 # Brotes ------------------------------------------------------------------
 
@@ -139,6 +124,16 @@ ggplot(
     subtitle = 'By Agusmonster & Clarahzz'
   )
 
+# Inclinación promedio por especie ----------------------------------------
+
+ggplot(
+  df %>%
+    group_by(Especie) %>%
+    summarise(InclinacionPromedio = mean(Inclinación)),
+  aes(x = Especie, y = InclinacionPromedio)
+) +
+  geom_bar(color = "black", fill = "green", stat = "identity") +
+  coord_flip()
 
 # Número de brotes por especie --------------------------------------------
 
@@ -160,7 +155,6 @@ ggplot(
   geom_col() +
   coord_flip()
 
-
 # Altura promedio por especie ---------------------------------------------
 
 ggplot(
@@ -171,7 +165,6 @@ ggplot(
 ) +
   geom_col() +
   coord_flip()
-
 
 # Tabla de frecuencia de número de brotes ---------------------------------
 
@@ -200,9 +193,3 @@ z <- tablaFrec %>%
 plot(z)
 
 rbind(tablaFrec, c("Total", 100, 0, 0 , 0))
-
-# ####
-
-ggplot(df %>% filter(Origen == 'Nativo/Autóctono'), aes(x = Altura)) + geom_bar()
-
-ggplot(df %>% filter(Origen == 'Exótico'), aes(x = Altura)) + geom_bar()
