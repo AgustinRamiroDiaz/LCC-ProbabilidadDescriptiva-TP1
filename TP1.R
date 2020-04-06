@@ -17,10 +17,12 @@ tabla <- read.table(file=nombre, header=TRUE, sep='\t', fileEncoding='utf-8')
 tabla <- tabla[, c('Altura', 'Diámetro', 'Inclinación', 'Especie', 'Origen', 'Brotes')]
 attach(tabla)
 
+
 # Plot
 plot(tabla)
 summary(tabla)
 
+# Altura promedio por especie
 p <- tabla %>%
   group_by(Especie) %>%
   summarise(AlturaPromedio = mean(Altura))
@@ -29,8 +31,10 @@ ggplot(p, aes(x=Especie, y=AlturaPromedio)) +
   geom_bar(color="blue", fill="blue", stat = "identity") +
   coord_flip()
 
+# Origen
 pie(table(Origen), border="white", col=myPalette, main= "Proporción de árboles según su origen.")
 
+# Altura
 ggplot(tabla, aes(x=Altura)) + geom_histogram(binwidth = 1) 
 ggplot(tabla, aes(x=Altura)) + geom_histogram(binwidth = 5)
 
