@@ -1,4 +1,5 @@
-# Imports
+
+# Imports -----------------------------------------------------------------
 if (!require("RColorBrewer")) {
   install.packages("RColorBrewer")
 }
@@ -8,10 +9,10 @@ if (!require("ggplot2")) {
 library(RColorBrewer)
 library(ggplot2)
 library(dplyr)
+library(forcats)
 
-myPalette <- brewer.pal(5, "Set2")
 
-# Data
+# Data --------------------------------------------------------------------
 nombre <- 'base0.txt'
 df <-
   read.table(
@@ -30,11 +31,13 @@ df <-
 attach(df)
 
 
-# Plot
+# Plot --------------------------------------------------------------------
 plot(df)
 summary(df)
 
-# Altura promedio por especie
+
+# Altura promedio por especie ---------------------------------------------
+
 ggplot(
   df %>%
     group_by(Especie) %>%
@@ -44,11 +47,14 @@ ggplot(
   geom_bar(color = "blue", fill = "blue", stat = "identity") +
   coord_flip()
 
-# Origen
-pie(table(Origen),
-    border = "white",
-    col = myPalette,
-    main = "Proporción de árboles según su origen.")
+
+# Origen ------------------------------------------------------------------
+pie(
+  table(Origen),
+  border = "white",
+  col = brewer.pal(5, "Set2") ,
+  main = "Proporción de árboles según su origen."
+)
 
 # Altura
 ggplot(df, aes(x = Altura)) + geom_histogram(binwidth = 1)
@@ -64,13 +70,37 @@ ggplot(
   geom_bar(color = "black", fill = "green", stat = "identity") +
   coord_flip()
 
-#Inclinación
+# Inclinación -------------------------------------------------------------
 
-#Diámetro
 
-#Especie
+# Diámetro ----------------------------------------------------------------
+ggplot(df, aes(x = Diámetro)) + geom_histogram(binwidth = 1)
 
-#Brotes
+
+ggplot(
+  df %>%
+    group_by(Especie) %>%
+    summarise(DiámetroPromedio = mean(Diámetro)) %>%
+    arrange(DiámetroPromedio),
+  aes(
+    x = reorder(Especie, DiámetroPromedio)
+    ,
+    y = DiámetroPromedio
+  )
+) +
+  geom_col() +
+  labs(
+    x = 'Especies',
+    y = 'Díametro',
+    title = 'Diámetro promedio según Especie',
+    subtitle = 'By Agusmonster & Clarahzz',
+    caption = 'Puto el que lee'
+  )
+
+# Especie -----------------------------------------------------------------
+
+
+# Brotes ------------------------------------------------------------------
 ggplot(
   df %>%
     group_by(Especie) %>%
@@ -81,8 +111,7 @@ ggplot(
   coord_flip()
 
 
-
-#Número de brotes por especie
+# Número de brotes por especie --------------------------------------------
 ggplot(
   df %>%
     group_by(Especie) %>%
@@ -92,6 +121,13 @@ ggplot(
   geom_bar(color = "black", fill = "green", stat = "identity") +
   coord_flip()
 
+# tabla de frecuencia de número de brotes ---------------------------------
+ggplot(df, aes(x = Brotes)) +
+  geom_bar()
+tablaFrec <- df %>%
+  group_by(Especie) %>%
+  summarise("Frecuencia Absoluta" = sum(Brotes)) %>%
+  arrange(`Frecuencia Absoluta`)
 
 
 # Tabla de frecuencia de número de brotes ---------------------------------
