@@ -38,3 +38,8 @@ pie(table(Origen), border="white", col=myPalette, main= "Proporción de árboles
 ggplot(tabla, aes(x=Altura)) + geom_histogram(binwidth = 1) 
 ggplot(tabla, aes(x=Altura)) + geom_histogram(binwidth = 5)
 
+
+
+ggplot(tabla %>% filter(Origen == 'Nativo/Autóctono'), aes(x = Altura)) + geom_bar()
+
+ggplot(tabla %>% filter(Origen == 'Exótico'), aes(x = Altura)) + geom_bar()
