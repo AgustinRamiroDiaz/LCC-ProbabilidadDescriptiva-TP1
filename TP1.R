@@ -9,12 +9,24 @@ library(RColorBrewer)
 library(ggplot2)
 library(dplyr)
 
-myPalette <- brewer.pal(5, "Set2") 
+myPalette <- brewer.pal(5, "Set2")
 
 # Data
 nombre <- 'base0.txt'
-df <- read.table(file=nombre, header=TRUE, sep='\t', fileEncoding='utf-8')
-df <- df[, c('Altura', 'Diámetro', 'Inclinación', 'Especie', 'Origen', 'Brotes')]
+df <-
+  read.table(
+    file = nombre,
+    header = TRUE,
+    sep = '\t',
+    fileEncoding = 'utf-8'
+  )
+df <-
+  df[, c('Altura',
+         'Diámetro',
+         'Inclinación',
+         'Especie',
+         'Origen',
+         'Brotes')]
 attach(df)
 
 
@@ -26,25 +38,30 @@ summary(df)
 ggplot(
   df %>%
     group_by(Especie) %>%
-    summarise(AlturaPromedio = mean(Altura)), 
-  aes(x=Especie, y=AlturaPromedio)) + 
-  geom_bar(color="blue", fill="blue", stat = "identity") +
+    summarise(AlturaPromedio = mean(Altura)),
+  aes(x = Especie, y = AlturaPromedio)
+) +
+  geom_bar(color = "blue", fill = "blue", stat = "identity") +
   coord_flip()
 
 # Origen
-pie(table(Origen), border="white", col=myPalette, main= "Proporción de árboles según su origen.")
+pie(table(Origen),
+    border = "white",
+    col = myPalette,
+    main = "Proporción de árboles según su origen.")
 
 # Altura
-ggplot(df, aes(x=Altura)) + geom_histogram(binwidth = 1) 
-ggplot(df, aes(x=Altura)) + geom_histogram(binwidth = 5)
+ggplot(df, aes(x = Altura)) + geom_histogram(binwidth = 1)
+ggplot(df, aes(x = Altura)) + geom_histogram(binwidth = 5)
 
 #Inclinación promedio por especie
 ggplot(
   df %>%
     group_by(Especie) %>%
-    summarise(InclinacionPromedio = mean(Inclinación)), 
-  aes(x=Especie, y=InclinacionPromedio)) + 
-  geom_bar(color="black", fill="green", stat = "identity") +
+    summarise(InclinacionPromedio = mean(Inclinación)),
+  aes(x = Especie, y = InclinacionPromedio)
+) +
+  geom_bar(color = "black", fill = "green", stat = "identity") +
   coord_flip()
 
 #Inclinación
@@ -57,9 +74,10 @@ ggplot(
 ggplot(
   df %>%
     group_by(Especie) %>%
-    summarise(InclinacionPromedio = mean(Inclinación)), 
-  aes(x=Especie, y=InclinacionPromedio)) + 
-  geom_bar(color="black", fill="pink", stat = "identity") +
+    summarise(InclinacionPromedio = mean(Inclinación)),
+  aes(x = Especie, y = InclinacionPromedio)
+) +
+  geom_bar(color = "black", fill = "pink", stat = "identity") +
   coord_flip()
 
 
@@ -68,30 +86,39 @@ ggplot(
 ggplot(
   df %>%
     group_by(Especie) %>%
-    summarise(numeroBrotes = sum(Brotes)), 
-  aes(x=Especie, y=numeroBrotes)) + 
-  geom_bar(color="black", fill="green", stat = "identity") +
+    summarise(numeroBrotes = sum(Brotes)),
+  aes(x = Especie, y = numeroBrotes)
+) +
+  geom_bar(color = "black", fill = "green", stat = "identity") +
   coord_flip()
 
 
 
-#df de frecuencia de número de brotes
-ggplot(df, aes(x=Brotes)) + 
-  geom_bar()
-tablaFrec <- tabla %>% 
-  group_by(Especie)  %>% 
-    summarise('Frecuencia Absoluta' = sum(Brotes)) %>%
-                arrange('Frecuencia Absoluta')
-dfFrec <- df %>% 
-  group_by(Especie)%>% 
-    summarise("Frecuencia Absoluta" = sum(Brotes))
-dfFrec["Frecuencia relativa"] <- (
-  dfFrec["Frecuencia Absoluta"] / sum(dfFrec["Frecuencia Absoluta"]))
+# Tabla de frecuencia de número de brotes ---------------------------------
 
-tablaFrec['Frecuencia Relativa'] <- tablaFrec['Frecuencia Absoluta'] / sum(tablaFrec['Frecuencia Absoluta'])
+
+tablaFrec <- df %>%
+  group_by(Especie)  %>%
+  summarise('Frecuencia Absoluta' = sum(Brotes)) %>%
+  arrange(`Frecuencia Absoluta`)
+
+tablaFrec["Frecuencia Relativa"] <-
+  (tablaFrec["Frecuencia Absoluta"] / sum(tablaFrec["Frecuencia Absoluta"]))
+
+tablaFrec["Frecuencia Absoluta Acumulada"] <-
+  (cumsum(tablaFrec["Frecuencia Absoluta"]))
+
+tablaFrec['Frecuencia Relativa Acumulada'] <-
+  (cumsum(tablaFrec["Frecuencia Relativa"]))
+
+#Nueva fila no funciona.
+nuevaFila <-
+  c(sum(tablaFrec["Frecuencia Absoluta"]), sum(tablaFrec["Frecuencia Relativa"]))
+
+tablaFrec$nuevaFila <- rbind(tablaFrec, nuevaFila)
+
+# ####
 
 ggplot(df %>% filter(Origen == 'Nativo/Autóctono'), aes(x = Altura)) + geom_bar()
 
 ggplot(df %>% filter(Origen == 'Exótico'), aes(x = Altura)) + geom_bar()
-
-
