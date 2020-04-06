@@ -79,14 +79,16 @@ ggplot(r, aes(x=Especie, y=numeroBrotes)) +
 ggplot(tabla, aes(x=Brotes)) + 
   geom_bar()
 tablaFrec <- tabla %>% 
-  group_by(Especie)%>% 
-    summarise("Frecuencia Absoluta" = sum(Brotes))
-tablaFrec["Frecuencia relativa"] <- (
-  tablaFrec["Frecuencia Absoluta"] / sum(tablaFrec["Frecuencia Absoluta"]))
+  group_by(Especie)  %>% 
+    summarise('Frecuencia Absoluta' = sum(Brotes)) %>%
+                arrange('Frecuencia Absoluta')
+
+tablaFrec['Frecuencia Relativa'] <- tablaFrec['Frecuencia Absoluta'] / sum(tablaFrec['Frecuencia Absoluta'])
 
 
-ggplot(tabla %>% filter(Origen == 'Nativo/Autóctono'), aes(x = Altura)) + geom_bar()
+##No sé qué es esto, no tiene que ver con lo de arriba. 
+##ggplot(tabla %>% filter(Origen == 'Nativo/Autóctono'), aes(x = Altura)) + geom_bar()
 
-ggplot(tabla %>% filter(Origen == 'Exótico'), aes(x = Altura)) + geom_bar()
+##ggplot(tabla %>% filter(Origen == 'Exótico'), aes(x = Altura)) + geom_bar()
 
 
