@@ -8,6 +8,7 @@ if (!require("ggplot2")) {
 library(RColorBrewer)
 library(ggplot2)
 library(dplyr)
+library(forcats)
 
 myPalette <- brewer.pal(5, "Set2") 
 
@@ -50,7 +51,7 @@ ggplot(
 #Inclinación
 
 #Diámetro
-
+mutate(name = fct_reorder(Especie, DiámetroPromedio)) %>%
 ggplot(
   df %>%
     group_by(Especie) %>%
@@ -98,12 +99,13 @@ ggplot(
 #df de frecuencia de número de brotes
 ggplot(df, aes(x=Brotes)) + 
   geom_bar()
-dfFrec <- df %>% 
+tablaFrec <- df %>% 
   group_by(Especie)%>% 
-    summarise("Frecuencia Absoluta" = sum(Brotes))
-dfFrec["Frecuencia relativa"] <- (
-  dfFrec["Frecuencia Absoluta"] / sum(dfFrec["Frecuencia Absoluta"]))
+  summarise("Frecuencia Absoluta" = sum(Brotes))%>%
+  arrange(`Frecuencia Absoluta`)
 
+tablaFrec["Frecuencia relativa"] <- (
+  tablaFrec["Frecuencia Absoluta"] / sum(tablaFrec["Frecuencia Absoluta"]))
 
 ggplot(df %>% filter(Origen == 'Nativo/Autóctono'), aes(x = Altura)) + geom_bar()
 
