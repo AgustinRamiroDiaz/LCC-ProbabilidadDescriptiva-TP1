@@ -23,11 +23,11 @@ plot(tabla)
 summary(tabla)
 
 # Altura promedio por especie
-p <- tabla %>%
-  group_by(Especie) %>%
-  summarise(AlturaPromedio = mean(Altura))
-
-ggplot(p, aes(x=Especie, y=AlturaPromedio)) + 
+ggplot(
+  tabla %>%
+    group_by(Especie) %>%
+    summarise(AlturaPromedio = mean(Altura)), 
+  aes(x=Especie, y=AlturaPromedio)) + 
   geom_bar(color="blue", fill="blue", stat = "identity") +
   coord_flip()
 
