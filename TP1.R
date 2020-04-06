@@ -128,8 +128,30 @@ tablaFrec <- df %>%
   arrange(`Frecuencia Absoluta`)
 
 
-tablaFrec["Frecuencia relativa"] <-
+# Tabla de frecuencia de número de brotes ---------------------------------
+
+
+tablaFrec <- df %>%
+  group_by(Especie)  %>%
+  summarise('Frecuencia Absoluta' = sum(Brotes)) %>%
+  arrange(`Frecuencia Absoluta`)
+
+tablaFrec["Frecuencia Relativa"] <-
   (tablaFrec["Frecuencia Absoluta"] / sum(tablaFrec["Frecuencia Absoluta"]))
+
+tablaFrec["Frecuencia Absoluta Acumulada"] <-
+  (cumsum(tablaFrec["Frecuencia Absoluta"]))
+
+tablaFrec['Frecuencia Relativa Acumulada'] <-
+  (cumsum(tablaFrec["Frecuencia Relativa"]))
+
+#Nueva fila no funciona.
+nuevaFila <-
+  c(sum(tablaFrec["Frecuencia Absoluta"]), sum(tablaFrec["Frecuencia Relativa"]))
+
+tablaFrec$nuevaFila <- rbind(tablaFrec, nuevaFila)
+
+# ####
 
 ggplot(df %>% filter(Origen == 'Nativo/Autóctono'), aes(x = Altura)) + geom_bar()
 
