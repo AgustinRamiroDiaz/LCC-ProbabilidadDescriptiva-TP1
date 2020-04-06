@@ -37,15 +37,60 @@ attach(df)
 plot(df)
 summary(df)
 
-# Altura promedio por especie ---------------------------------------------
+
+# Altura ------------------------------------------------------------------
+
+ggplot(df, aes(x = Altura)) + geom_histogram(binwidth = 1)
+ggplot(df, aes(x = Altura)) + geom_histogram(binwidth = 5)
 
 ggplot(
   df %>%
     group_by(Especie) %>%
-    summarise(AlturaPromedio = mean(Altura)),
-  aes(x = Especie, y = AlturaPromedio)
+    summarise(AlturaPromedio = mean(Altura)) %>%
+    arrange(AlturaPromedio),
+  aes(x = reorder(Especie, AlturaPromedio),
+      y = AlturaPromedio)
 ) +
   geom_col() +
+  labs(
+    x = 'Especies',
+    y = 'Altura Promedio',
+    title = 'Altura promedio según Especie',
+    subtitle = 'By Agusmonster & Clarahzz'
+  )
+
+# Diámetro ----------------------------------------------------------------
+
+ggplot(df, aes(x = Diámetro)) + geom_histogram(binwidth = 1)
+
+ggplot(
+  df %>%
+    group_by(Especie) %>%
+    summarise(DiámetroPromedio = mean(Diámetro)) %>%
+    arrange(DiámetroPromedio),
+  aes(
+    x = reorder(Especie, DiámetroPromedio),
+    y = DiámetroPromedio
+  )
+) +
+  geom_col() +
+  labs(
+    x = 'Especies',
+    y = 'Díametro Promedio',
+    title = 'Diámetro promedio según Especie',
+    subtitle = 'By Agusmonster & Clarahzz',
+    caption = 'Puto el que lee'
+  )
+
+# Inclinación -------------------------------------------------------------
+
+ggplot(
+  df %>%
+    group_by(Especie) %>%
+    summarise(InclinacionPromedio = mean(Inclinación)),
+  aes(x = Especie, y = InclinacionPromedio)
+) +
+  geom_bar(color = "black", fill = "pink", stat = "identity") +
   coord_flip()
 
 
@@ -58,11 +103,9 @@ pie(
   main = "Proporción de árboles según su origen."
 )
 
-# Altura
-ggplot(df, aes(x = Altura)) + geom_histogram(binwidth = 1)
-ggplot(df, aes(x = Altura)) + geom_histogram(binwidth = 5)
 
-#Inclinación promedio por especie
+
+# Inclinación promedio por especie ----------------------------------------
 
 ggplot(
   df %>%
@@ -73,32 +116,7 @@ ggplot(
   geom_bar(color = "black", fill = "green", stat = "identity") +
   coord_flip()
 
-# Inclinación -------------------------------------------------------------
 
-
-# Diámetro ----------------------------------------------------------------
-
-ggplot(df, aes(x = Diámetro)) + geom_histogram(binwidth = 1)
-
-ggplot(
-  df %>%
-    group_by(Especie) %>%
-    summarise(DiámetroPromedio = mean(Diámetro)) %>%
-    arrange(DiámetroPromedio),
-  aes(
-    x = reorder(Especie, DiámetroPromedio)
-    ,
-    y = DiámetroPromedio
-  )
-) +
-  geom_col() +
-  labs(
-    x = 'Especies',
-    y = 'Díametro',
-    title = 'Diámetro promedio según Especie',
-    subtitle = 'By Agusmonster & Clarahzz',
-    caption = 'Puto el que lee'
-  )
 
 # Especie -----------------------------------------------------------------
 
@@ -107,12 +125,19 @@ ggplot(
 
 ggplot(
   df %>%
-    group_by(Especie) %>%
-    summarise(InclinacionPromedio = mean(Inclinación)),
-  aes(x = Especie, y = InclinacionPromedio)
+    group_by(Diámetro) %>%
+    summarise(AlturaPromedio = mean(Altura)) %>%
+    arrange(AlturaPromedio),
+  aes(x = Diámetro,
+      y = AlturaPromedio)
 ) +
-  geom_bar(color = "black", fill = "pink", stat = "identity") +
-  coord_flip()
+  geom_col() +
+  labs(
+    x = 'Diámetro',
+    y = 'Altura Promedio',
+    title = 'Altura promedio según Diámetro',
+    subtitle = 'By Agusmonster & Clarahzz'
+  )
 
 
 # Número de brotes por especie --------------------------------------------
@@ -121,9 +146,30 @@ ggplot(
   df %>%
     group_by(Especie) %>%
     summarise(numeroBrotes = sum(Brotes)),
-  aes(x = Especie, y = numeroBrotes)
+  aes(x = reorder(Especie, numeroBrotes), y = numeroBrotes)
 ) +
-  geom_bar(color = "black", fill = "green", stat = "identity") +
+  geom_col() +
+  coord_flip()
+
+ggplot(
+  df %>%
+    group_by(Especie) %>%
+    summarise(BrotesPromedio = mean(Brotes)),
+  aes(x = reorder(Especie, BrotesPromedio), y = BrotesPromedio)
+) +
+  geom_col() +
+  coord_flip()
+
+
+# Altura promedio por especie ---------------------------------------------
+
+ggplot(
+  df %>%
+    group_by(Especie) %>%
+    summarise(AlturaPromedio = mean(Altura)),
+  aes(x = Especie, y = AlturaPromedio)
+) +
+  geom_col() +
   coord_flip()
 
 
@@ -144,14 +190,16 @@ tablaFrec['Frecuencia Relativa Acumulada'] <-
   (cumsum(tablaFrec["Frecuencia Relativa"]))
 
 z <- tablaFrec %>%
-  add_row('Especie' = 'Total',
+  add_row(
+    'Especie' = 'Total',
     "Frecuencia Absoluta" = sum(tablaFrec["Frecuencia Absoluta"]),
     "Frecuencia Relativa" = sum(tablaFrec["Frecuencia Relativa"]),
     "Frecuencia Absoluta Acumulada" = NA,
-    'Frecuencia Relativa Acumulada' = NA)
+    'Frecuencia Relativa Acumulada' = NA
+  )
 plot(z)
 
-rbind(tablaFrec, c("Total", 100, 0, 0 ,0))
+rbind(tablaFrec, c("Total", 100, 0, 0 , 0))
 
 # ####
 
