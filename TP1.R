@@ -80,6 +80,23 @@ ggplot(
     caption = 'Puto el que lee'
   )
 
+ggplot(
+  df %>%
+    group_by(Altura) %>%
+    summarise(DiámetroPromedio = mean(Diámetro)) %>%
+    arrange(DiámetroPromedio),
+  aes(x = Altura,
+      y = DiámetroPromedio)
+) +
+  geom_col() +
+  labs(
+    x = 'Altura',
+    y = 'Díametro Promedio',
+    title = 'Diámetro promedio según Altura',
+    subtitle = 'By Agusmonster & Clarahzz',
+    caption = 'Puto el que lee'
+  )
+
 # Inclinación -------------------------------------------------------------
 
 ggplot(
@@ -130,10 +147,14 @@ ggplot(
   df %>%
     group_by(Especie) %>%
     summarise(InclinacionPromedio = mean(Inclinación)),
-  aes(x = Especie, y = InclinacionPromedio)
+  aes(x = reorder( Especie, InclinacionPromedio),
+      y = InclinacionPromedio)
 ) +
-  geom_bar(color = "black", fill = "green", stat = "identity") +
-  coord_flip()
+  geom_bar(stat="identity", position=position_dodge())+
+  labs(y = 'Inclinación promedio', x = 'Especie') +
+  geom_text(aes(label=round(InclinacionPromedio, 1)), vjust=1.5, color="white", size=3.5)
+
+mean((df %>% filter(Especie == 'Fresno'))$Inclinación)
 
 # Número de brotes por especie --------------------------------------------
 
