@@ -109,6 +109,17 @@ ggplot(
   coord_flip()
 
 # Especie -----------------------------------------------------------------
+ggplot(df %>% filter(Especie == 'Ceibo'), aes(x = Altura)) + geom_bar()
+ggplot(df %>% filter(Especie == 'Jacarandá'), aes(x = Altura)) + geom_bar()
+ggplot(df %>% filter(Especie == 'Eucalipto'), aes(x = Altura)) + geom_bar()
+ggplot(df %>% filter(Especie == 'Eucalipto'), aes(x = Altura)) + geom_bar()
+
+for (e in unique(Especie)) {
+  ggplot(df %>% filter(Especie == e), aes(x = Altura)) + geom_bar()
+}
+
+
+
 
 # Origen ------------------------------------------------------------------
 
