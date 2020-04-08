@@ -11,7 +11,7 @@ library(ggplot2)
 library(dplyr)
 library(forcats)
 library(tidyverse)
-
+library(ggExtra)
 # Data --------------------------------------------------------------------
 
 nombre <- 'base0.txt'
@@ -44,8 +44,7 @@ ggplot(df, aes(x = Altura)) + geom_histogram(binwidth = 5)
 ggplot(
   df %>%
     group_by(Especie) %>%
-    summarise(AlturaPromedio = mean(Altura)) %>%
-    arrange(AlturaPromedio),
+    summarise(AlturaPromedio = mean(Altura)),
   aes(x = reorder(Especie, AlturaPromedio),
       y = AlturaPromedio)
 ) +
@@ -56,6 +55,9 @@ ggplot(
     title = 'Altura promedio según Especie',
     subtitle = 'By Agusmonster & Clarahzz'
   )
+
+(ggplot(df , aes(x = Altura, y = Diámetro)) + geom_point() ) %>%
+  ggMarginal(type="boxplot")
 
 # Diámetro ----------------------------------------------------------------
 
@@ -83,7 +85,7 @@ ggplot(
 ggplot(
   df %>%
     group_by(Altura) %>%
-    summarise(DiámetroPromedio = mean(Diámetro)) %>%
+    summarise(DiámetroPromedio = mean(Diámetro) ) %>%
     arrange(DiámetroPromedio),
   aes(x = Altura,
       y = DiámetroPromedio)
@@ -97,6 +99,7 @@ ggplot(
     caption = 'Puto el que lee'
   )
 
+
 # Inclinación -------------------------------------------------------------
 
 ggplot(
@@ -108,11 +111,17 @@ ggplot(
   geom_bar(color = "black", fill = "pink", stat = "identity") +
   coord_flip()
 
+
+
 # Especie -----------------------------------------------------------------
 ggplot(df %>% filter(Especie == 'Ceibo'), aes(x = Altura)) + geom_bar()
 ggplot(df %>% filter(Especie == 'Jacarandá'), aes(x = Altura)) + geom_bar()
-ggplot(df %>% filter(Especie == 'Eucalipto'), aes(x = Altura)) + geom_bar()
-ggplot(df %>% filter(Especie == 'Eucalipto'), aes(x = Altura)) + geom_bar()
+ggplot(df %>% filter(Especie == 'Eucalipto'), 
+       aes(x = Altura)) + geom_bar()
+ggplot(df %>% filter(Especie == 'Eucalipto'), aes(x = Altura)) + geom_density()
+ggplot(df, aes(x = Altura)) + geom_bar()
+
+
 
 for (e in unique(Especie)) {
   ggplot(df %>% filter(Especie == e), aes(x = Altura)) + geom_bar()
@@ -163,9 +172,8 @@ ggplot(
 ) +
   geom_bar(stat="identity", position=position_dodge())+
   labs(y = 'Inclinación promedio', x = 'Especie') +
-  geom_text(aes(label=round(InclinacionPromedio, 1)), vjust=1.5, color="white", size=3.5)
+  geom_text(aes(label=round(InclinacionPromedio, 2)), vjust=1.5, color="white", size=4)
 
-mean((df %>% filter(Especie == 'Fresno'))$Inclinación)
 
 # Número de brotes por especie --------------------------------------------
 
