@@ -136,12 +136,18 @@ ggplot(df %>% filter(Especie == 'Ficus'), aes(x = Altura)) +
   geom_bar(color = paleta[10], fill = paleta[9]) +
   labs(x = 'Altura (m)', y = 'N° de árboles',title = 'Número de árboles de especie Ficus por altura')
 
+ggplot(df %>% filter(Especie == 'Fresno'), aes(x = Altura)) + 
+  geom_bar(color = paleta[10], fill = paleta[9]) +
+  labs(x = 'Altura (m)', y = 'N° de árboles',title = 'Número de árboles de especie Fesno por altura')
+
 ggplot(df %>% filter(Especie == 'Jacarandá'), aes(x = Altura)) +
   geom_bar(color = paleta[8], fill = paleta[7]) +
   labs(x = 'Altura (m)', y = 'N° de árboles',title = 'Número de árboles de especie Jacarandá por altura')
 
+ggplot(df %>% filter(Especie == 'Palo borracho'), aes(x = Altura)) +
+  geom_bar(color = paleta[8], fill = paleta[7]) +
+  labs(x = 'Altura (m)', y = 'N° de árboles',title = 'Número de árboles de especie Palo Borracho por altura')
 
-#Acá faltan árboles, los queremos todos? Duda
 
 for (e in unique(Especie)) {
   ggplot(df %>% filter(Especie == e), aes(x = Altura)) + geom_bar()
@@ -157,10 +163,15 @@ ggplot(df %>% filter(Origen == 'Nativo/Autóctono'), aes(x = Altura)) +
 
 ggplot(df %>% filter(Origen == 'Exótico'), aes(x = Altura)) + geom_bar(color = paleta[1], fill = paleta[2])
 
+#Variables para el gráfico de torta.
+pedazos=table(Origen)
+nombres <- paste(round((table(Origen) / sum(table(Origen))*100), 2), "%", sep = "")
+nombres <- paste(c("Exótico", "Nativo/Autóctono"), nombres, sep = '\n')
+names(pedazos) = nombres
 pie(
-  table(Origen),
+  pedazos,
   border = "white",
-  col = brewer.pal(10, "Spectral") ,
+  col = brewer.pal(10, "Spectral"),
   main = "Proporción de árboles según su origen."
 )
 
@@ -175,11 +186,7 @@ ggplot(
       y = AlturaPromedio)
 ) +
   geom_col(color = paleta[8], fill = paleta[8]) +
-  labs(
-    x = 'Diámetro',
-    y = 'Altura promedio',
-    title = 'Altura promedio según el diámetro'
-  )
+  labs(    x = 'Diámetro (cm)',y = 'Altura promedio (m)', title = 'Altura promedio según el diámetro')
 
 # Inclinación promedio por especie ----------------------------------------
 
@@ -191,7 +198,7 @@ ggplot(
       y = InclinacionPromedio)
 ) +
   geom_bar(stat="identity", position=position_dodge(),color = paleta[10], fill = paleta[10])+
-  labs(y = 'Inclinación promedio', x = 'Especie') +
+  labs(y = 'Inclinación promedio (°)', x = 'Especie', title = ' Inclinación promedio según la especie') +
   geom_text(aes(label=round(InclinacionPromedio, 1)), vjust=1.5, color="white", size=3.5)
 
 mean((df %>% filter(Especie == 'Fresno'))$Inclinación)
@@ -205,7 +212,8 @@ ggplot(
   aes(x = reorder(Especie, numeroBrotes), y = numeroBrotes)
 ) +
   geom_col(color = paleta[8], fill = paleta[8]) +
-  coord_flip()
+  coord_flip() +
+  labs(x = 'Especie',y = 'Número de brotes', title = 'Cantidad de brotes por especie de árbol.')
 
 ggplot(
   df %>%
@@ -214,7 +222,8 @@ ggplot(
   aes(x = reorder(Especie, BrotesPromedio), y = BrotesPromedio)
 ) +
   geom_col(color = paleta[3], fill = paleta[4]) +
-  coord_flip()
+  coord_flip()+
+  labs(x = 'Especie',y = 'Brotes promedio', title = 'Promedio de brotes por especie de árbol')
 
 # Altura promedio por especie ---------------------------------------------
 
@@ -225,7 +234,8 @@ ggplot(
   aes(x = Especie, y = AlturaPromedio)
 ) +
   geom_col(color = paleta[2], fill = paleta[1]) +
-  coord_flip()
+  coord_flip()+
+  labs(x = 'Especie',y = 'Altura promedio (m)', title = 'Altura promedio según la especie de árbol')
 
 # Tabla de frecuencia de número de brotes ---------------------------------
 
