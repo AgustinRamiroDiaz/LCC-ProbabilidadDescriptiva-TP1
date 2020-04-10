@@ -41,7 +41,10 @@ paleta=brewer.pal(10,name = 'Spectral')
 
 ggplot(df, aes(x = Altura)) + 
   geom_histogram(color = paleta[7], fill = paleta[8],binwidth = 1) +
-  labs(x = 'Altura (m)', y = 'Cantidad de árboles',title = 'Número de árboles por altura.') #Duda por histograma
+  labs(x = 'Altura (m)', y = 'Cantidad de árboles') + #Duda por histograma
+  ggtitle('Número de árboles por altura.') +
+  theme(plot.title = element_text(size=rel(2), vjust=2, face='plain', color='black', hjust=0.5))
+
   
 ggplot(df, aes(x = Altura)) +
   geom_histogram(color = paleta[4], fill = paleta[5],binwidth = 5) +
