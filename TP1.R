@@ -11,7 +11,7 @@ library(ggplot2)
 library(dplyr)
 library(forcats)
 library(tidyverse)
-
+library(ggExtra)
 # Data --------------------------------------------------------------------
 
 nombre <- 'base0.txt'
@@ -54,13 +54,15 @@ ggplot(df, aes(x = Altura)) +
 ggplot(
   df %>%
     group_by(Especie) %>%
-    summarise(AlturaPromedio = mean(Altura)) %>%
-    arrange(AlturaPromedio),
+    summarise(AlturaPromedio = mean(Altura)),
   aes(x = reorder(Especie, AlturaPromedio),
       y = AlturaPromedio)
 ) +
   geom_col(color = paleta[1], fill = paleta[1]) +
   labs(x = 'Especie', y = 'Altura promedio (m)',title = 'Altura promedio según la especie')
+
+(ggplot(df , aes(x = Altura, y = Diámetro)) + geom_point() ) %>%
+  ggMarginal(type="boxplot")
 
 # Diámetro ----------------------------------------------------------------
 
@@ -88,7 +90,7 @@ ggplot(
 ggplot(
   df %>%
     group_by(Altura) %>%
-    summarise(DiámetroPromedio = mean(Diámetro)) %>%
+    summarise(DiámetroPromedio = mean(Diámetro) ) %>%
     arrange(DiámetroPromedio),
   aes(x = Altura,
       y = DiámetroPromedio)
@@ -99,6 +101,7 @@ ggplot(
     y = 'Diámetro Promedio (cm)',
     title = 'Diámetro promedio según la altura'
   )
+
 
 # Inclinación -------------------------------------------------------------
 
@@ -111,6 +114,8 @@ ggplot(
   geom_bar(color = "blue", fill = paleta[9], stat = "identity") +
   coord_flip() +
   labs(x = 'Especie', y = 'Inclinación promedio (°)',title = 'Inclinación de los árboles según la especie.')
+
+
 
 # Especie -----------------------------------------------------------------
 
@@ -204,7 +209,6 @@ ggplot(
   labs(y = 'Inclinación promedio (°)', x = 'Especie', title = ' Inclinación promedio según la especie') +
   geom_text(aes(label=round(InclinacionPromedio, 1)), vjust=1.5, color="white", size=3.5)
 
-mean((df %>% filter(Especie == 'Fresno'))$Inclinación)
 
 # Número de brotes por especie --------------------------------------------
 
