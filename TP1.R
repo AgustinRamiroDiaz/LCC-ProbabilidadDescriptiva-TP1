@@ -62,7 +62,7 @@ ggplot(
   labs(x = 'Especie', y = 'Altura promedio (m)',title = 'Altura promedio según la especie')
 
 (ggplot(df , aes(x = Altura, y = Diámetro)) + geom_point() ) %>%
-  ggMarginal(type="boxplot")
+  ggMarginal(type="histogram")
 
 # Diámetro ----------------------------------------------------------------
 
@@ -246,28 +246,28 @@ ggplot(
 
 # Tabla de frecuencia de número de brotes ---------------------------------
 
-tablaFrec <- df %>%
-  group_by(Especie)  %>%
-  summarise('Frecuencia Absoluta' = sum(Brotes)) %>%
-  arrange(`Frecuencia Absoluta`)
+#Espera un dataframe de 2 columnas, la primera con las etiquetas y la segunda con las cantidades
+tablaFrecuencia <- function(dataframe) {
+  tablaFrec <- dataframe
+  
+  names(tablaFrec)[2] = 'Frecuencia Absoluta'
+  
+  tablaFrec <- tablaFrec %>% arrange(`Frecuencia Absoluta`)
+  
+  tablaFrec["Frecuencia Relativa"] <-
+    (tablaFrec["Frecuencia Absoluta"] / sum(tablaFrec["Frecuencia Absoluta"]))
+  
+  tablaFrec["Frecuencia Absoluta Acumulada"] <-
+    (cumsum(tablaFrec["Frecuencia Absoluta"]))
+  
+  tablaFrec['Frecuencia Relativa Acumulada'] <-
+    (cumsum(tablaFrec["Frecuencia Relativa"]))
+  
+  nombre <- names(tablaFrec)[1]
+  
+  return (tablaFrec)
+}
 
-tablaFrec["Frecuencia Relativa"] <-
-  (tablaFrec["Frecuencia Absoluta"] / sum(tablaFrec["Frecuencia Absoluta"]))
-
-tablaFrec["Frecuencia Absoluta Acumulada"] <-
-  (cumsum(tablaFrec["Frecuencia Absoluta"]))
-
-tablaFrec['Frecuencia Relativa Acumulada'] <-
-  (cumsum(tablaFrec["Frecuencia Relativa"]))
-
-z <- tablaFrec %>%
-  add_row(
-    'Especie' = 'Total',
-    "Frecuencia Absoluta" = sum(tablaFrec["Frecuencia Absoluta"]),
-    "Frecuencia Relativa" = sum(tablaFrec["Frecuencia Relativa"]),
-    "Frecuencia Absoluta Acumulada" = NA,
-    'Frecuencia Relativa Acumulada' = NA
-  )
-plot(z)
-
-rbind(tablaFrec, c("Total", 100, 0, 0 , 0))
+tablaFrecuencia(df %>%
+                  group_by(Especie)  %>%
+                  summarise('Frecuencia Absoluta' = sum(Brotes)))
