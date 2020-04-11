@@ -12,6 +12,7 @@ library(dplyr)
 library(forcats)
 library(tidyverse)
 library(ggExtra)
+library(GGally)
 # Data --------------------------------------------------------------------
 
 nombre <- 'base0.txt'
@@ -45,7 +46,6 @@ ggplot(df, aes(x = Altura)) +
   ggtitle('Número de árboles por altura.') +
   theme(plot.title = element_text(size=rel(2), vjust=2, face='plain', color='black', hjust=0.5))
 
-  
 ggplot(df, aes(x = Altura)) +
   geom_histogram(color = paleta[4], fill = paleta[5],binwidth = 5) +
   labs(x = 'Altura (m)', y = 'Cantidad de árboles',title = ) + #Duda por histograma
@@ -65,11 +65,28 @@ ggplot(
   ggtitle('Altura promedio según la especie') +
   theme(plot.title = element_text(size=rel(2), vjust=2, face='plain', color='black', hjust=0.5))
 
-(ggplot(df , aes(x = Altura, y = Diámetro)) + geom_point() +
+(ggplot(df , aes(x = Altura, y = Diámetro)) + 
+    geom_point(color = paleta[9]) +
     labs(x = 'Altura (m)', y = 'Diámetro (cm)') +
     ggtitle('Relación entre altura y diámetro por árbol') +
     theme(plot.title = element_text(size=rel(2), vjust=2, face='plain', color='black', hjust=0.5))) %>%
-  ggMarginal(type="boxplot")
+  ggMarginal(type="boxplot", color = 'black')
+
+
+(ggplot(df , aes(x = Altura, y = Inclinación)) + 
+    geom_point(color = paleta[9]) +
+    labs(x = 'Altura (m)', y = 'Inclinación (°)') +
+    ggtitle('Relación entre altura e inclinación por árbol') +
+    theme(plot.title = element_text(size=rel(2), vjust=2, face='plain', color='black', hjust=0.5))) %>%
+  ggMarginal(type="boxplot", color = 'black')
+
+(ggplot(df , aes(x = Diámetro, y = Inclinación)) + 
+    geom_point(color = paleta[9]) +
+    labs(x = 'Diámetro (cm)', y = 'Inclinación (°)') +
+    ggtitle('Relación entre diámetro e inclinación por árbol') +
+    theme(plot.title = element_text(size=rel(2), vjust=2, face='plain', color='black', hjust=0.5))) %>%
+  ggMarginal(type="boxplot", color = 'black')
+
 
 # Diámetro ----------------------------------------------------------------
 
@@ -118,17 +135,17 @@ ggplot(
 ggplot(
   df %>%
     group_by(Especie) %>%
-    summarise(InclinacionPromedio = mean(Inclinación)),
+    summarise(InclinacionPromedio = mean(Inclinación), DesviacionEstandar = sd(Inclinación)),
   aes(x = Especie, y = InclinacionPromedio)
 ) +
-  geom_col(color = "blue", fill = paleta[9]) +
+  geom_col(color = paleta[9], fill = paleta[9]) +
   coord_flip() +
   labs(x = 'Especie', y = 'Inclinación promedio (°)') +
   geom_text(aes(label=round(InclinacionPromedio, 1)), hjust=1.5, color="white", size=3.5) +
   ggtitle('Inclinación de los árboles según la especie.') +
   theme(plot.title = element_text(size=rel(2), vjust=2, face='plain', color='black', hjust=0.5))
 
-
+ plot(df %>% filter(Especie == 'Jacarandá'))
 
 # Especie -----------------------------------------------------------------
 
@@ -216,6 +233,16 @@ pie(
 )
 
 # Brotes ------------------------------------------------------------------
+ggplot(df,
+  aes(x = Diámetro,
+      y = AlturaPromedio)
+) +
+  geom_bar(color = paleta[8], fill = paleta[8]) +
+  labs(x = 'Brotes',y = 'Cantidad') +
+  ggtitle('Brotes') +
+  theme(plot.title = element_text(size=rel(2), vjust=2, face='plain', color='black', hjust=0.5))
+
+
 
 ggplot(
   df %>%
@@ -229,6 +256,7 @@ ggplot(
   labs(    x = 'Diámetro (cm)',y = 'Altura promedio (m)') +
   ggtitle('Altura promedio según el diámetro') +
   theme(plot.title = element_text(size=rel(2), vjust=2, face='plain', color='black', hjust=0.5))
+
 
 # Inclinación promedio por especie ----------------------------------------
 
@@ -280,7 +308,7 @@ ggplot(
 ggplot(
   df %>%
     group_by(Especie) %>%
-    summarise(AlturaPromedio = mean(Altura)),
+    summarise(AlturaPromedio = mean(Altura), DesviacionEstandar = sd(Altura)),
   aes(x = Especie, y = AlturaPromedio)
 ) +
   geom_col(color = paleta[2], fill = paleta[1]) +
