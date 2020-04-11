@@ -234,8 +234,7 @@ pie(
 
 # Brotes ------------------------------------------------------------------
 ggplot(df,
-  aes(x = Diámetro,
-      y = AlturaPromedio)
+  aes(x = Brotes)
 ) +
   geom_bar(color = paleta[8], fill = paleta[8]) +
   labs(x = 'Brotes',y = 'Cantidad') +
