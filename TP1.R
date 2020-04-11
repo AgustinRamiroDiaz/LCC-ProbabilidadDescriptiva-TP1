@@ -121,7 +121,7 @@ ggplot(
     summarise(InclinacionPromedio = mean(Inclinación)),
   aes(x = Especie, y = InclinacionPromedio)
 ) +
-  geom_bar(color = "blue", fill = paleta[9], stat = "identity") +
+  geom_col(color = "blue", fill = paleta[9]) +
   coord_flip() +
   labs(x = 'Especie', y = 'Inclinación promedio (°)') +
   geom_text(aes(label=round(InclinacionPromedio, 1)), hjust=1.5, color="white", size=3.5) +
@@ -240,7 +240,7 @@ ggplot(
   aes(x = reorder( Especie, InclinacionPromedio),
       y = InclinacionPromedio)
 ) +
-  geom_bar(stat="identity", position=position_dodge(), color = paleta[10], fill = paleta[10])+
+  geom_col(position=position_dodge(), color = paleta[10], fill = paleta[10])+
   labs(y = 'Inclinación promedio (°)', x = 'Especie') +
   geom_text(aes(label=round(InclinacionPromedio, 1)), vjust=1.5, color="white", size=3.5) +
   ggtitle('Inclinación promedio según la especie') +
