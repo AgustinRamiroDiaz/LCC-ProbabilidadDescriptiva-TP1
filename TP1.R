@@ -124,6 +124,7 @@ ggplot(
   geom_bar(color = "blue", fill = paleta[9], stat = "identity") +
   coord_flip() +
   labs(x = 'Especie', y = 'Inclinación promedio (°)') +
+  geom_text(aes(label=round(InclinacionPromedio, 1)), hjust=1.5, color="white", size=3.5) +
   ggtitle('Inclinación de los árboles según la especie.') +
   theme(plot.title = element_text(size=rel(2), vjust=2, face='plain', color='black', hjust=0.5))
 
@@ -230,7 +231,7 @@ ggplot(
   theme(plot.title = element_text(size=rel(2), vjust=2, face='plain', color='black', hjust=0.5))
 
 # Inclinación promedio por especie ----------------------------------------
-#ACA
+
 
 ggplot(
   df %>%
@@ -239,7 +240,7 @@ ggplot(
   aes(x = reorder( Especie, InclinacionPromedio),
       y = InclinacionPromedio)
 ) +
-  geom_bar(stat="identity", position=position_dodge(),color = paleta[10], fill = paleta[10])+
+  geom_bar(stat="identity", position=position_dodge(), color = paleta[10], fill = paleta[10])+
   labs(y = 'Inclinación promedio (°)', x = 'Especie') +
   geom_text(aes(label=round(InclinacionPromedio, 1)), vjust=1.5, color="white", size=3.5) +
   ggtitle('Inclinación promedio según la especie') +
@@ -257,6 +258,7 @@ ggplot(
   geom_col(color = paleta[8], fill = paleta[8]) +
   coord_flip() +
   labs(x = 'Especie',y = 'Número de brotes') +
+  geom_text(aes(label=round(numeroBrotes, 1)), hjust=1.5, color="white", size=3.5) +
   ggtitle('Cantidad de brotes por especie de árbol.') +
   theme(plot.title = element_text(size=rel(2), vjust=2, face='plain', color='black', hjust=0.5))
 
@@ -269,6 +271,7 @@ ggplot(
   geom_col(color = paleta[3], fill = paleta[4]) +
   coord_flip()+
   labs(x = 'Especie',y = 'Brotes promedio') +
+  geom_text(aes(label=round(BrotesPromedio, 1)), hjust=1.5, color="white", size=3.5) +
   ggtitle('Promedio de brotes por especie de árbol') +
   theme(plot.title = element_text(size=rel(2), vjust=2, face='plain', color='black', hjust=0.5))
 
@@ -283,6 +286,7 @@ ggplot(
   geom_col(color = paleta[2], fill = paleta[1]) +
   coord_flip() +
   labs(x = 'Especie',y = 'Altura promedio (m)') +
+  geom_text(aes(label=round(AlturaPromedio, 1)), hjust=1.5, color="white", size=3.5) +
   ggtitle('Altura promedio según la especie de árbol') +
   theme(plot.title = element_text(size=rel(2), vjust=2, face='plain', color='black', hjust=0.5))
 
