@@ -14,6 +14,8 @@ library(tidyverse)
 library(ggExtra)
 library(GGally)
 library(gridExtra)
+library(gtable)
+
 # Data --------------------------------------------------------------------
 
 nombre <- 'base0.txt'
@@ -46,11 +48,11 @@ ggplot(df, aes(x = Altura)) +
                  fill = paleta[8],
                  binwidth = 1) +
   labs(x = 'Altura (m)', y = 'Cantidad de árboles') + #Duda por histograma
-  ggtitle('Cantidad de árboles por altura.') +
+  ggtitle('CANTIDAD DE ÁRBOLES POR ALTURA \n BUENOS AIRES, 2011') +
   theme(plot.title = element_text(
     size = rel(2),
     vjust = 2,
-    face = 'plain',
+    face = 'bold',
     color = 'black',
     hjust = 0.5
   ))
