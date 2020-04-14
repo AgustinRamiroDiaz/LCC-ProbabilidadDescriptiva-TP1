@@ -43,13 +43,13 @@ paleta=brewer.pal(10,name = 'Spectral')
 ggplot(df, aes(x = Altura)) + 
   geom_histogram(color = paleta[7], fill = paleta[8],binwidth = 1) +
   labs(x = 'Altura (m)', y = 'Cantidad de árboles') + #Duda por histograma
-  ggtitle('Número de árboles por altura.') +
+  ggtitle('Cantidad de árboles por altura.') +
   theme(plot.title = element_text(size=rel(2), vjust=2, face='plain', color='black', hjust=0.5))
 
 ggplot(df, aes(x = Altura)) +
   geom_histogram(color = paleta[4], fill = paleta[5],binwidth = 5) +
   labs(x = 'Altura (m)', y = 'Cantidad de árboles',title = ) + #Duda por histograma
-  ggtitle('Número de árboles por altura.') +
+  ggtitle('Cantidad de árboles por altura.') +
   theme(plot.title = element_text(size=rel(2), vjust=2, face='plain', color='black', hjust=0.5))
 
 
@@ -93,7 +93,7 @@ ggplot(
 ggplot(df, aes(x = Diámetro)) +
   geom_histogram(color = paleta[3], fill = paleta[4],binwidth = 1) +
   labs(x = 'Diámetro (cm)', y = 'Cantidad de árboles') +
-  ggtitle('Número de árboles según el diámetro.') +
+  ggtitle('Cantidad de árboles según el diámetro.') +
   theme(plot.title = element_text(size=rel(2), vjust=2, face='plain', color='black', hjust=0.5))
 
 ggplot(
@@ -132,6 +132,14 @@ ggplot(
 
 # Inclinación -------------------------------------------------------------
 
+
+ggplot(df, aes(x = Inclinación)) +
+  geom_histogram(color = paleta[3], fill = paleta[4],binwidth = 1) +
+  labs(x ='Inclinación (°)', y = 'Cantidad de árboles') +
+  ggtitle('Número de árboles según la inclinación') +
+  theme(plot.title = element_text(size=rel(2), vjust=2, face='plain', color='black', hjust=0.5))
+
+
 ggplot(
   df %>%
     group_by(Especie) %>%
@@ -145,64 +153,74 @@ ggplot(
   ggtitle('Inclinación de los árboles según la especie.') +
   theme(plot.title = element_text(size=rel(2), vjust=2, face='plain', color='black', hjust=0.5))
 
- plot(df %>% filter(Especie == 'Jacarandá'))
+plot(df %>% filter(Especie == 'Jacarandá'))
 
 # Especie -----------------------------------------------------------------
+
+ggplot(
+  df %>%
+    group_by(Especie) %>%
+    summary(CantidadEspecie = sum(Especie)) %>%
+  aes(x = Especie, y = CantidadEspecie) +
+  geom_histogram(color = paleta[3], fill = paleta[4],binwidth = 1) +
+  labs(x ='Inclinación (°)', y = 'Cantidad de árboles') +
+  ggtitle('Cántidad de árboles por la especie.') +
+  theme(plot.title = element_text(size=rel(2), vjust=2, face='plain', color='black', hjust=0.5))
 
 
 ggplot(df %>% filter(Especie == 'Acacia'), aes(x = Altura)) + 
   geom_bar(color = paleta[3], fill = paleta[4]) +
-  labs(x = 'Altura (m)', y = 'N° de árboles') +
-  ggtitle('Número de árboles de especie Acacia por altura') +
+  labs(x = 'Altura (m)', y = 'Cantidad de árboles') +
+  ggtitle('Cantidad de árboles de especie Acacia por altura') +
   theme(plot.title = element_text(size=rel(2), vjust=2, face='plain', color='black', hjust=0.5))
 
 ggplot(df %>% filter(Especie == 'Álamo'), aes(x = Altura)) + 
   geom_bar(color = paleta[3], fill = paleta[4]) +
-  labs(x = 'Altura (m)', y = 'N° de árboles') +
-  ggtitle('Número de árboles de especie Álamo por altura') +
+  labs(x = 'Altura (m)', y = 'Cantidad de árboles') +
+  ggtitle('Cantidad de árboles de especie Álamo por altura') +
   theme(plot.title = element_text(size=rel(2), vjust=2, face='plain', color='black', hjust=0.5))
 
 ggplot(df %>% filter(Especie == 'Casuarina'), aes(x = Altura)) + 
   geom_bar(color = paleta[3], fill = paleta[4]) +
-  labs(x = 'Altura (m)', y = 'N° de árboles') +
-  ggtitle('Número de árboles de especie Casuarina por altura') +
+  labs(x = 'Altura (m)', y = 'Cantidad de árboles') +
+  ggtitle('Cantidad de árboles de especie Casuarina por altura') +
   theme(plot.title = element_text(size=rel(2), vjust=2, face='plain', color='black', hjust=0.5))
 
 ggplot(df %>% filter(Especie == 'Ceibo'), aes(x = Altura)) + 
   geom_bar(color = paleta[3], fill = paleta[4]) +
-  labs(x = 'Altura (m)', y = 'N° de árboles') +
-  ggtitle('Número de árboles de especie Ceibo por altura') +
+  labs(x = 'Altura (m)', y = 'Cantidad de árboles') +
+  ggtitle('Cantidad de árboles de especie Ceibo por altura') +
   theme(plot.title = element_text(size=rel(2), vjust=2, face='plain', color='black', hjust=0.5))
 
 ggplot(df %>% filter(Especie == 'Eucalipto'), aes(x = Altura)) + 
   geom_bar(color = paleta[10], fill = paleta[9]) +
-  labs(x = 'Altura (m)', y = 'N° de árboles') +
-  ggtitle('Número de árboles de especie Eucalipto por altura') +
+  labs(x = 'Altura (m)', y = 'Cantidad de árboles') +
+  ggtitle('Cantidad de árboles de especie Eucalipto por altura') +
   theme(plot.title = element_text(size=rel(2), vjust=2, face='plain', color='black', hjust=0.5))
 
 ggplot(df %>% filter(Especie == 'Ficus'), aes(x = Altura)) + 
   geom_bar(color = paleta[10], fill = paleta[9]) +
-  labs(x = 'Altura (m)', y = 'N° de árboles') +
-  ggtitle('Número de árboles de especie Ficus por altura') +
+  labs(x = 'Altura (m)', y = 'Cantidad de árboles') +
+  ggtitle('Cantidad de árboles de especie Ficus por altura') +
   theme(plot.title = element_text(size=rel(2), vjust=2, face='plain', color='black', hjust=0.5))
 
 
 ggplot(df %>% filter(Especie == 'Fresno'), aes(x = Altura)) + 
   geom_bar(color = paleta[10], fill = paleta[9]) +
-  labs(x = 'Altura (m)', y = 'N° de árboles') +
-  ggtitle('Número de árboles de especie Fresno por altura') +
+  labs(x = 'Altura (m)', y = 'Cantidad de árboles') +
+  ggtitle('Cantidad de árboles de especie Fresno por altura') +
   theme(plot.title = element_text(size=rel(2), vjust=2, face='plain', color='black', hjust=0.5))
 
 ggplot(df %>% filter(Especie == 'Jacarandá'), aes(x = Altura)) + 
   geom_bar(color = paleta[8], fill = paleta[7]) +
-  labs(x = 'Altura (m)', y = 'N° de árboles') +
-  ggtitle('Número de árboles de especie Jacarandá por altura') +
+  labs(x = 'Altura (m)', y = 'Cantidad de árboles') +
+  ggtitle('Cantidad de árboles de especie Jacarandá por altura') +
   theme(plot.title = element_text(size=rel(2), vjust=2, face='plain', color='black', hjust=0.5))
 
 ggplot(df %>% filter(Especie == 'Palo borracho'), aes(x = Altura)) + 
   geom_bar(color = paleta[8], fill = paleta[7]) +
-  labs(x = 'Altura (m)', y = 'N° de árboles') +
-  ggtitle('Número de árboles de especie Palo borracho por altura') +
+  labs(x = 'Altura (m)', y = 'Cantidad de árboles') +
+  ggtitle('Cantidad de árboles de especie Palo borracho por altura') +
   theme(plot.title = element_text(size=rel(2), vjust=2, face='plain', color='black', hjust=0.5))
 
 
@@ -210,14 +228,14 @@ ggplot(df %>% filter(Especie == 'Palo borracho'), aes(x = Altura)) +
 
 ggplot(df %>% filter(Origen == 'Nativo/Autóctono'), aes(x = Altura)) +
   geom_bar(color = paleta[3], fill = paleta[4]) +
-  labs(x = 'Altura (m)', y = 'N° de árboles') +
-  ggtitle('Número de árboles de origen Nativo/Autóctono por altura') +
+  labs(x = 'Altura (m)', y = 'Cantidad de árboles') +
+  ggtitle('Cantidad de árboles de origen Nativo/Autóctono por altura') +
   theme(plot.title = element_text(size=rel(2), vjust=2, face='plain', color='black', hjust=0.5))
 
 ggplot(df %>% filter(Origen == 'Exótico'), aes(x = Altura)) + 
   geom_bar(color = paleta[1], fill = paleta[2])+
-  labs(x = 'Altura (m)', y = 'N° de árboles') +
-  ggtitle('Número de árboles de origen Exótico por altura') +
+  labs(x = 'Altura (m)', y = 'Cantidad de árboles') +
+  ggtitle('Cantidad de árboles de origen Exótico por altura') +
   theme(plot.title = element_text(size=rel(2), vjust=2, face='plain', color='black', hjust=0.5))
 
 #Variables para el gráfico de torta.
@@ -233,13 +251,13 @@ pie(
 )
 
 # Brotes ------------------------------------------------------------------
+
 ggplot(df,
-  aes(x = Diámetro,
-      y = AlturaPromedio)
+  aes(x = Brotes)
 ) +
-  geom_bar(color = paleta[8], fill = paleta[8]) +
+  geom_histogram(color = paleta[8], fill = paleta[8]) +
   labs(x = 'Brotes',y = 'Cantidad') +
-  ggtitle('Brotes') +
+  ggtitle('Cantidad de árboles con x cantidad de brotes ? no sé como escribir el título tampoco si tiene sentido este histograma') +
   theme(plot.title = element_text(size=rel(2), vjust=2, face='plain', color='black', hjust=0.5))
 
 
