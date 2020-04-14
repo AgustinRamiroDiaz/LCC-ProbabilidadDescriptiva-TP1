@@ -595,6 +595,7 @@ TFEspecie <- TFEspecie %>%
           'Frecuencia Relativa Acumulada' = NA)
 
 #Tabla de frecuencia de la altura.
+
 TFAltura <- tablaFrecuencia(as.data.frame(table(cut(Altura, breaks = seq(1, 36, 5)))))
 names(TFAltura)[1] = "Altura (m)"
 TFAltura <- TFAltura %>%
