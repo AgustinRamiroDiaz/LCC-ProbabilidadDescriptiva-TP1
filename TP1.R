@@ -564,8 +564,6 @@ tablaFrecuencia <- function(dataframe) {
   
   names(tablaFrec)[2] = 'Frecuencia Absoluta'
   
-  tablaFrec <- tablaFrec %>% arrange(`Frecuencia Absoluta`)
-  
   tablaFrec["Frecuencia Relativa"] <-
     (tablaFrec["Frecuencia Absoluta"] / sum(tablaFrec["Frecuencia Absoluta"]))
   
@@ -582,10 +580,13 @@ tablaFrecuencia <- function(dataframe) {
   return (tablaFrec)
 }
 
+#Tabla de frecuencia de Especie
+
 TFEspecie <- tablaFrecuencia(df %>%
                           group_by(Especie)  %>%
-                          summarise('Frecuencia Absoluta' = sum(Brotes)))
-
+                          summarise('Frecuencia Absoluta' = sum(Brotes)) %>%
+                          arrange(`Frecuencia Absoluta`))
+                          
 TFEspecie <- TFEspecie %>%
   add_row("Especie" = 'Total',
           "Frecuencia Absoluta" = sum(TFEspecie["Frecuencia Absoluta"]),
@@ -593,5 +594,18 @@ TFEspecie <- TFEspecie %>%
           "Frecuencia Absoluta Acumulada" = NA,
           'Frecuencia Relativa Acumulada' = NA)
 
+#Tabla de frecuencia de la altura.
+TFAltura <- tablaFrecuencia(as.data.frame(table(cut(Altura, breaks = seq(1, 36, 5)))))
+names(TFAltura)[1] = "Altura (m)"
+TFAltura <- TFAltura %>%
+  add_row("Altura (m)" = 'Total',
+          "Frecuencia Absoluta" = sum(TFAltura["Frecuencia Absoluta"]),
+          "Frecuencia Relativa" = 1,
+          "Frecuencia Absoluta Acumulada" = NA,
+          'Frecuencia Relativa Acumulada' = NA)
+
 #Para exportar las imágenes a png.
 grid.draw(tableGrob(TFEspecie))
+
+grid.draw(tableGrob(TFAltura))
+dev.off()
