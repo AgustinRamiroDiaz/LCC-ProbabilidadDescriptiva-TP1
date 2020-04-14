@@ -578,24 +578,20 @@ tablaFrecuencia <- function(dataframe) {
   tablaFrec["Frecuencia Relativa"] <-
     round(tablaFrec["Frecuencia Relativa"], 2)
   
-  nombre <- names(tablaFrec)[1]
   
   return (tablaFrec)
 }
 
-caca <- tablaFrecuencia(df %>%
+TFEspecie <- tablaFrecuencia(df %>%
                           group_by(Especie)  %>%
                           summarise('Frecuencia Absoluta' = sum(Brotes)))
 
-grid.draw(grob)
-
-#Esto lo escribe en un archivo txt.
-#write.table(caca, file='caca.txt', sep = ',', quote = FALSE, row.names = F)
+TFEspecie <- TFEspecie %>%
+  add_row("Especie" = 'Total',
+          "Frecuencia Absoluta" = sum(TFEspecie["Frecuencia Absoluta"]),
+          "Frecuencia Relativa" = 1,
+          "Frecuencia Absoluta Acumulada" = NA,
+          'Frecuencia Relativa Acumulada' = NA)
 
 #Para exportar las imágenes a png.
-png("caca.png",
-    width = 800,
-    height = 300,
-    bg = "white")
-grid.table(caca)
-dev.off()
+grid.draw(tableGrob(TFEspecie))
