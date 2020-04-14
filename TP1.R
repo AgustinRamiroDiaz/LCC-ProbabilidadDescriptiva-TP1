@@ -13,6 +13,7 @@ library(forcats)
 library(tidyverse)
 library(ggExtra)
 library(GGally)
+library(gridExtra)
 # Data --------------------------------------------------------------------
 
 nombre <- 'base0.txt'
@@ -161,9 +162,9 @@ ggplot(
   df %>%
     group_by(Especie) %>%
     summary(CantidadEspecie = sum(Especie)) %>%
-  aes(x = Especie, y = CantidadEspecie) +
+  aes(x = Especie, y = CantidadEspecie)) +
   geom_histogram(color = paleta[3], fill = paleta[4],binwidth = 1) +
-  labs(x ='Inclinación (°)', y = 'Cantidad de árboles') +
+  labs(x ='Especie', y = 'Cantidad de árboles') +
   ggtitle('Cántidad de árboles por la especie.') +
   theme(plot.title = element_text(size=rel(2), vjust=2, face='plain', color='black', hjust=0.5))
 
@@ -350,16 +351,28 @@ tablaFrecuencia <- function(dataframe) {
     (tablaFrec["Frecuencia Absoluta"] / sum(tablaFrec["Frecuencia Absoluta"]))
   
   tablaFrec["Frecuencia Absoluta Acumulada"] <-
-    (cumsum(tablaFrec["Frecuencia Absoluta"]))
+    round(cumsum(tablaFrec["Frecuencia Absoluta"]),2)
   
   tablaFrec['Frecuencia Relativa Acumulada'] <-
-    (cumsum(tablaFrec["Frecuencia Relativa"]))
+    round(cumsum(tablaFrec["Frecuencia Relativa"]),2)
+  
+  tablaFrec["Frecuencia Relativa"] <- round(tablaFrec["Frecuencia Relativa"], 2)
   
   nombre <- names(tablaFrec)[1]
   
   return (tablaFrec)
 }
 
-tablaFrecuencia(df %>%
+caca<-tablaFrecuencia(df %>%
                   group_by(Especie)  %>%
                   summarise('Frecuencia Absoluta' = sum(Brotes)))
+
+grid.draw(grob)
+
+#Esto lo escribe en un archivo txt.
+#write.table(caca, file='caca.txt', sep = ',', quote = FALSE, row.names = F)
+
+#Para exportar las imágenes a png.
+png("caca.png", width = 800, height=300, bg="white")
+grid.table(caca)
+dev.off()
