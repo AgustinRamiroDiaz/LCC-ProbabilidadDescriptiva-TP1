@@ -1,11 +1,4 @@
 # Imports -----------------------------------------------------------------
-
-if (!require("RColorBrewer")) {
-  install.packages("RColorBrewer")
-}
-if (!require("ggplot2")) {
-  install.packages("ggplot2")
-}
 library(RColorBrewer)
 library(ggplot2)
 library(dplyr)
@@ -16,7 +9,7 @@ library(GGally)
 library(gridExtra)
 library(grid)
 library(gtable)
-
+library(ggthemes)
 # Data --------------------------------------------------------------------
 
 nombre <- 'base0.txt'
@@ -57,14 +50,14 @@ ggplot(df, aes(x = Altura)) +
     face = 'bold',
     color = 'black',
     hjust = 0.5
-  )) + theme_
+  ))
 
 
 ggplot(df, aes(x = Altura)) +
   geom_histogram(color = paleta[4],
                  fill = paleta[5],
                  binwidth = 5) +
-  labs(x = 'Altura (m)', y = 'Cantidad de árboles', title = ) + #Duda por histograma
+  labs(x = 'Altura (m)', y = 'Cantidad de árboles') + #Duda por histograma
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('CANTIDAD DE ÁRBOLES SEGÚN LA ALTURA \n BUENOS AIRES, 2011') +
   theme(plot.title = element_text(
@@ -120,15 +113,13 @@ ggplot(
     labs(x = 'Altura (m)', y = 'Inclinación (°)') +
     labs(caption = "Fuente: Censo Forestal Urbano Público") +
     ggtitle('RELACIÓN ENTRE ALTURA E INCLINACIÓN POR ÁRBOL') +
-    theme(
-      plot.title = element_text(
-        size = rel(2),
-        vjust = 2,
-        face = 'plain',
-        color = 'black',
-        hjust = 0.5
-      )
-    )
+    theme(plot.title = element_text(
+      size = rel(2),
+      vjust = 2,
+      face = 'plain',
+      color = 'black',
+      hjust = 0.5
+    ))
 ) %>%
   ggMarginal(type = "boxplot", color = 'black')
 
