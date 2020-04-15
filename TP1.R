@@ -57,7 +57,7 @@ ggplot(df, aes(x = Altura)) +
     face = 'bold',
     color = 'black',
     hjust = 0.5
-  )) + theme_
+  ))
 
 
 ggplot(df, aes(x = Altura)) +
@@ -95,6 +95,7 @@ ggplot(
     hjust = 0.5
   ))
 
+#No se ve el título TODO
 (
   ggplot(df , aes(x = Altura, y = Diámetro)) +
     geom_point(color = paleta[9]) +
@@ -588,7 +589,7 @@ ggplot(
     hjust = 0.5
   ))
 
-# Tabla de frecuencia de número de brotes ---------------------------------
+# Tabla de frecuencia ---------------------------------
 
 #Espera un dataframe de 2 columnas, la primera con las etiquetas y la segunda con las cantidades
 tablaFrecuencia <- function(dataframe) {
@@ -612,23 +613,7 @@ tablaFrecuencia <- function(dataframe) {
   return (tablaFrec)
 }
 
-#Tabla de frecuencia de Especie
 
-TFEspecie <- tablaFrecuencia(
-  df %>%
-    group_by(Especie)  %>%
-    summarise('Frecuencia Absoluta' = sum(Brotes)) %>%
-    arrange(`Frecuencia Absoluta`)
-)
-
-TFEspecie <- TFEspecie %>%
-  add_row(
-    "Especie" = 'Total',
-    "Frecuencia Absoluta" = sum(TFEspecie["Frecuencia Absoluta"]),
-    "Frecuencia Relativa" = 1,
-    "Frecuencia Absoluta Acumulada" = NA,
-    'Frecuencia Relativa Acumulada' = NA
-  )
 
 #Tabla de frecuencia de la altura.
 
@@ -645,6 +630,91 @@ TFAltura <- TFAltura %>%
     "Frecuencia Absoluta Acumulada" = NA,
     'Frecuencia Relativa Acumulada' = NA
   )
+
+imprimirTabla(TFAltura, 'ALTURA DE LOS ÁRBOLES CENSADOS\nBUENOS AIRES, 2011', 'Fuente: Censo Forestal Urbano Público')
+
+
+#Tabla de Frecuencia de Diámetro.
+
+TFDiametro <- 
+  tablaFrecuencia(as.data.frame(table(cut(
+    Diámetro, breaks = seq(1, 36, 5)
+  ))))
+
+names(TFDiametro)[1] = "Diámetro (cm)"
+
+TFDiametro <- TFDiametro %>%
+  add_row(
+    "Diámetro (cm)" = 'Total',
+    "Frecuencia Absoluta" = sum(TFDiametro["Frecuencia Absoluta"]),
+    "Frecuencia Relativa" = 1,
+    "Frecuencia Absoluta Acumulada" = NA,
+    'Frecuencia Relativa Acumulada' = NA
+  )
+
+imprimirTabla(TFDiametro, 'DIÁMETRO DE LOS ÁRBOLES CENSADOS\nBUENOS AIRES, 2011', 'Fuente: Censo Forestal Urbano Público')
+
+#Tabla de frecuencia de la Inclinación
+
+TFInclinacion <- 
+  tablaFrecuencia(as.data.frame(table(cut(
+    Inclinación, breaks = seq(1, 36, 5)
+  ))))
+
+names(TFInclinacion)[1] = "Inclinación (°)"
+
+TFIncliancion <- TFInclinacion %>%
+  add_row(
+    "Inclinación (°)" = 'Total',
+    "Frecuencia Absoluta" = sum(TFInclinacion["Frecuencia Absoluta"]),
+    "Frecuencia Relativa" = 1,
+    "Frecuencia Absoluta Acumulada" = NA,
+    'Frecuencia Relativa Acumulada' = NA
+  )
+
+imprimirTabla(TFDiametro, 'INCLINACION DE LOS ÁRBOLES CENSADOS\nBUENOS AIRES, 2011', 'Fuente: Censo Forestal Urbano Público')
+
+
+#Tabla de frecuencia de Especie
+
+TFEspecie <- tablaFrecuencia(
+  df %>%
+    group_by(Especie)  %>%
+    summarise('Frecuencia Absoluta' = n()) %>%
+    arrange(`Frecuencia Absoluta`)
+)
+
+TFEspecie <- TFEspecie %>%
+  add_row(
+    "Especie" = 'Total',
+    "Frecuencia Absoluta" = sum(TFEspecie["Frecuencia Absoluta"]),
+    "Frecuencia Relativa" = 1,
+    "Frecuencia Absoluta Acumulada" = NA,
+    'Frecuencia Relativa Acumulada' = NA
+  )
+
+imprimirTabla(TFEspecie, 'ESPECIE DE LOS ÁRBOLES CENSADOS\nBUENOS AIRES, 2011', 'Fuente: Censo Forestal Urbano Público')
+
+#TABLA DE FRECUENCIA DE LOS BROTES
+
+TFBrotes <- tablaFrecuencia(
+  df %>%
+    group_by(Especie)  %>%
+    summarise('Frecuencia Absoluta' = sum(Brotes)) %>%
+    arrange(`Frecuencia Absoluta`)
+)
+
+TFBrotes <- TFBrotes %>%
+  add_row(
+    "Especie" = 'Total',
+    "Frecuencia Absoluta" = sum(TFBrotes["Frecuencia Absoluta"]),
+    "Frecuencia Relativa" = 1,
+    "Frecuencia Absoluta Acumulada" = NA,
+    'Frecuencia Relativa Acumulada' = NA
+  )
+
+
+imprimirTabla(TFBrotes, 'BROTES DE LOS ÁRBOLES CENSADOS\nBUENOS AIRES, 2011', 'Fuente: Censo Forestal Urbano Público')
 
 #Para exportar las imágenes a png.
 imprimirTabla <- function(tabla, titulo, pie) {
@@ -674,5 +744,4 @@ imprimirTabla <- function(tabla, titulo, pie) {
   grid.draw(p)
 }
 
-imprimirTabla(TFEspecie, 'Titulo', 'Pie')
 dev.off()
