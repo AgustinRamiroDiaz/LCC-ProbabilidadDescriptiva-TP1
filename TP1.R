@@ -147,7 +147,7 @@ ggplot(
 ggplot(df, aes(x = Diámetro)) +
   geom_histogram(color = paleta[3],
                  fill = paleta[4],
-                 binwidth = 1) +
+                 binwidth = 5) +
   labs(x = 'Diámetro (cm)', y = 'Cantidad de árboles') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('CANTIDAD DE ÁRBOLES SEGÚN EL DIÁMETRO') +
@@ -192,10 +192,9 @@ ggplot(
 ) +
   geom_col(color = "white", fill = paleta[3]) + #Color.
   labs(x = 'Altura (m)',
-       y = 'Diámetro Promedio (cm)',
-       title = 'DIÁMETRO PROMEDIO SEGÚN LA ALTURA') +
+       y = 'Diámetro Promedio (cm)') + 
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
-  ggtitle('Diámetro promedio según la altura') +
+  ggtitle('DIÁMETRO PROMEDIO SEGÚN LA ALTURA') +
   theme(plot.title = element_text(
     size = rel(2),
     vjust = 2,
@@ -203,30 +202,38 @@ ggplot(
     color = 'black',
     hjust = 0.5
   ))
-
+ggplot(df, aes(x=Inclinación)) + 
+  geom_boxplot(color = paleta[3], fill = paleta[5]) + 
+  labs(x = 'Inclinación', y = 'Cantidad de árboles') +
+  labs(caption = "Fuente: Censo Forestal Urbano Público") +
+  ggtitle('INCLINACIÓN SEGÚN LA ESPECIE') +
+  theme(plot.title = element_text(
+    size = rel(2),
+    vjust = 2,
+    face = 'plain',
+    color = 'black',
+    hjust = 0.5
+  )) +
+  facet_grid(Especie ~ .)
 
 # Inclinación -------------------------------------------------------------
-image <- ggplot(df, aes(x = Inclinación)) +
-  geom_histogram(color = 'black',
-               fill = paleta[6]) +
-  labs(x = 'Inclinación (°)', y = 'Densidad de árboles') +
+ggplot(df, aes(x=Inclinación)) + 
+  geom_boxplot(color = paleta[3], fill = paleta[5]) + 
+  labs(x = 'Inclinación', y = 'Densidad') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
-  ggtitle('DENSIDAD DE ÁRBOLES SEGÚN LA INCLINACIÓN') +
+  ggtitle('INCLINACIÓN SEGÚN LA ESPECIE') +
   theme(plot.title = element_text(
     size = rel(2),
     vjust = 2,
     face = 'plain',
     color = 'black',
     hjust = 0.5
-  ))
-ggsave(file="test.svg", plot=image, width=10, height=8)
-
-install.packages('svglite')
-
+  )) +
+  facet_grid(Especie ~ .)
 
 ggplot(df, aes(x = Inclinación)) +
   geom_boxplot(color = 'black',
-                 fill = paleta[6]) +
+                 fill = paleta[6], ) +
   labs(x = 'Inclinación (°)', y = 'Densidad de árboles') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('DENSIDAD DE ÁRBOLES SEGÚN LA INCLINACIÓN') +
@@ -236,9 +243,9 @@ ggplot(df, aes(x = Inclinación)) +
     face = 'plain',
     color = 'black',
     hjust = 0.5
-  ))
+  )) + 
+  scale_x_continuous(breaks = seq(1, max(Inclinación), 1))
 
-  
 ggplot(df, aes(x = Inclinación, y = 'Identity')) +
   geom_violin(color = 'black',
                fill = paleta[6]) +
@@ -295,13 +302,22 @@ ggplot(
     hjust = 0.5
   ))
 
-plot(df %>% filter(Especie == 'Jacarandá'))
-
 # Especie -----------------------------------------------------------------
 
 
 ggplot(df, aes(x=Altura)) + 
-  geom_bar() + facet_grid(Especie ~ .)
+  geom_bar(color = paleta[8], fill = paleta[7]) + 
+  labs(x = 'Especie', y = 'Cantidad de árboles') +
+  labs(caption = "Fuente: Censo Forestal Urbano Público") +
+  ggtitle('ALTURA SEGÚN LA ESPECIE') +
+  theme(plot.title = element_text(
+    size = rel(2),
+    vjust = 2,
+    face = 'plain',
+    color = 'black',
+    hjust = 0.5
+  )) +
+  facet_grid(Especie ~ .)
     
 
 
@@ -313,125 +329,6 @@ ggplot(df %>%
   labs(x = 'Especie', y = 'Cantidad de árboles') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('CANTIDAD DE ÁRBOLES SEGÚN LA ESPECIE') +
-  theme(plot.title = element_text(
-    size = rel(2),
-    vjust = 2,
-    face = 'plain',
-    color = 'black',
-    hjust = 0.5
-  ))
-
-
-ggplot(df %>% filter(Especie == 'Acacia'), aes(x = Altura)) +
-  geom_bar(color = paleta[3], fill = paleta[4]) +
-  labs(x = 'Altura (m)', y = 'Cantidad de árboles') +
-  labs(caption = "Fuente: Censo Forestal Urbano Público") +
-  ggtitle('CANTIDAD DE ÁRBOLES DE ESPECIE ACACIA SEGÚN LA ALTURA') +
-  theme(plot.title = element_text(
-    size = rel(2),
-    vjust = 2,
-    face = 'plain',
-    color = 'black',
-    hjust = 0.5
-  ))
-
-ggplot(df %>% filter(Especie == 'Álamo'), aes(x = Altura)) +
-  geom_bar(color = paleta[3], fill = paleta[4]) +
-  labs(x = 'Altura (m)', y = 'Cantidad de árboles') +
-  labs(caption = "Fuente: Censo Forestal Urbano Público") +
-  ggtitle('CANTIDAD DE ÁRBOLES DE ESPECIE ÁLAMO SEGÚN LA ALTURA') +
-  theme(plot.title = element_text(
-    size = rel(2),
-    vjust = 2,
-    face = 'plain',
-    color = 'black',
-    hjust = 0.5
-  ))
-
-ggplot(df %>% filter(Especie == 'Casuarina'), aes(x = Altura)) +
-  geom_bar(color = paleta[3], fill = paleta[4]) +
-  labs(x = 'Altura (m)', y = 'Cantidad de árboles') +
-  labs(caption = "Fuente: Censo Forestal Urbano Público") +
-  ggtitle('CANTIDAD DE ÁRBOLES DE ESPECIE CASUARINA SEGÚN LA ALTURA') +
-  theme(plot.title = element_text(
-    size = rel(2),
-    vjust = 2,
-    face = 'plain',
-    color = 'black',
-    hjust = 0.5
-  ))
-
-ggplot(df %>% filter(Especie == 'Ceibo'), aes(x = Altura)) +
-  geom_bar(color = paleta[3], fill = paleta[4]) +
-  labs(x = 'Altura (m)', y = 'Cantidad de árboles') +
-  labs(caption = "Fuente: Censo Forestal Urbano Público") +
-  ggtitle('CANTIDAD DE ÁRBOLES DE ESPECIE CEIBO SEGÚN LA ALTURA') +
-  theme(plot.title = element_text(
-    size = rel(2),
-    vjust = 2,
-    face = 'plain',
-    color = 'black',
-    hjust = 0.5
-  ))
-
-ggplot(df %>% filter(Especie == 'Eucalipto'), aes(x = Altura)) +
-  geom_bar(color = paleta[10], fill = paleta[9]) +
-  labs(x = 'Altura (m)', y = 'Cantidad de árboles') +
-  labs(caption = "Fuente: Censo Forestal Urbano Público") +
-  ggtitle('CANTIDAD DE ÁRBOLES DE ESPECIE EUCALIPTO SEGÚN LA ALTURA') +
-  theme(plot.title = element_text(
-    size = rel(2),
-    vjust = 2,
-    face = 'plain',
-    color = 'black',
-    hjust = 0.5
-  ))
-
-ggplot(df %>% filter(Especie == 'Ficus'), aes(x = Altura)) +
-  geom_bar(color = paleta[10], fill = paleta[9]) +
-  labs(x = 'Altura (m)', y = 'Cantidad de árboles') +
-  labs(caption = "Fuente: Censo Forestal Urbano Público") +
-  ggtitle('CANTIDAD DE ÁRBOLES DE ESPECIE FICUS SEGÚN LA ALTURA') +
-  theme(plot.title = element_text(
-    size = rel(2),
-    vjust = 2,
-    face = 'plain',
-    color = 'black',
-    hjust = 0.5
-  ))
-
-
-ggplot(df %>% filter(Especie == 'Fresno'), aes(x = Altura)) +
-  geom_bar(color = paleta[10], fill = paleta[9]) +
-  labs(x = 'Altura (m)', y = 'Cantidad de árboles') +
-  labs(caption = "Fuente: Censo Forestal Urbano Público") +
-  ggtitle('CANTIDAD DE ÁRBOLES DE ESPECIE FRESNO SEGÚN LA ALTURA') +
-  theme(plot.title = element_text(
-    size = rel(2),
-    vjust = 2,
-    face = 'plain',
-    color = 'black',
-    hjust = 0.5
-  ))
-
-ggplot(df %>% filter(Especie == 'Jacarandá'), aes(x = Altura)) +
-  geom_bar(color = paleta[8], fill = paleta[7]) +
-  labs(x = 'Altura (m)', y = 'Cantidad de árboles') +
-  labs(caption = "Fuente: Censo Forestal Urbano Público") +
-  ggtitle('CANTIDAD DE ÁRBOLES DE ESPECIE JACARANDÁ SEGÚN LA ALTURA') +
-  theme(plot.title = element_text(
-    size = rel(2),
-    vjust = 2,
-    face = 'plain',
-    color = 'black',
-    hjust = 0.5
-  ))
-
-ggplot(df %>% filter(Especie == 'Palo borracho'), aes(x = Altura)) +
-  geom_bar(color = paleta[8], fill = paleta[7]) +
-  labs(x = 'Altura (m)', y = 'Cantidad de árboles') +
-  labs(caption = "Fuente: Censo Forestal Urbano Público") +
-  ggtitle('CANTIDAD DE ÁRBOLES DE ESPECIE PALO BORRACHO SEGÚN LA ALTURA') +
   theme(plot.title = element_text(
     size = rel(2),
     vjust = 2,
@@ -661,7 +558,7 @@ tablaFrecuencia <- function(dataframe) {
 
 TFAltura <-
   tablaFrecuencia(as.data.frame(table(cut(
-    Altura, right = FALSE, breaks = seq(1, 36, 5)
+    Altura, right = FALSE, breaks = seq(1, 41, 5)
   ))))
 names(TFAltura)[1] = "Altura (m)"
 TFAltura <- TFAltura %>%
