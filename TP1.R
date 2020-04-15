@@ -660,7 +660,7 @@ tablaFrecuencia <- function(dataframe) {
 
 TFAltura <-
   tablaFrecuencia(as.data.frame(table(cut(
-    Altura, breaks = seq(1, 36, 5)
+    Altura, right = FALSE, breaks = seq(1, 36, 5)
   ))))
 names(TFAltura)[1] = "Altura (m)"
 TFAltura <- TFAltura %>%
@@ -679,8 +679,8 @@ imprimirTabla(TFAltura, 'ALTURA DE LOS ÁRBOLES CENSADOS\nBUENOS AIRES, 2011', '
 
 TFDiametro <- 
   tablaFrecuencia(as.data.frame(table(cut(
-    Diámetro, breaks = seq(1, 36, 5)
-  ))))
+    Diámetro, right = FALSE, breaks = c(seq(0, 100, 5), 251)))))
+
 
 names(TFDiametro)[1] = "Diámetro (cm)"
 
@@ -694,16 +694,16 @@ TFDiametro <- TFDiametro %>%
   )
 
 
-TFDiámetro <- tablaFrecuencia(as.data.frame(table(cut(Diámetro, breaks = c(seq(0, 100, 5), 250)))))
 
 imprimirTabla(TFDiametro, 'DIÁMETRO DE LOS ÁRBOLES CENSADOS\nBUENOS AIRES, 2011', 'Fuente: Censo Forestal Urbano Público')
 
 #Tabla de frecuencia de la Inclinación
 
+
 TFInclinacion <- 
   tablaFrecuencia(as.data.frame(table(cut(
-    Inclinación, breaks = seq(1, 36, 5)
-  ))))
+    Inclinación, right = FALSE,breaks = c( seq(0,20,1), 55)))))
+
 
 names(TFInclinacion)[1] = "Inclinación (°)"
 
@@ -716,10 +716,12 @@ TFIncliancion <- TFInclinacion %>%
     'Frecuencia Relativa Acumulada' = NA
   )
 
-imprimirTabla(TFDiametro, 'INCLINACION DE LOS ÁRBOLES CENSADOS\nBUENOS AIRES, 2011', 'Fuente: Censo Forestal Urbano Público')
+imprimirTabla(TFInclinacion, 'INCLINACION DE LOS ÁRBOLES CENSADOS\nBUENOS AIRES, 2011', 'Fuente: Censo Forestal Urbano Público')
 
 
 #Tabla de frecuencia de Especie
+
+
 
 TFEspecie <- tablaFrecuencia(
   df %>%
