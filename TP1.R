@@ -48,7 +48,7 @@ ggplot(df, aes(x = Altura)) +
   geom_histogram(color = paleta[7],
                  fill = paleta[8],
                  binwidth = 1) +
-  labs(x = 'Altura (m)', y = 'Cantidad de árboles' )+
+  labs(x = 'Altura (m)', y = 'Cantidad de árboles') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('CANTIDAD DE ÁRBOLES POR ALTURA \n BUENOS AIRES, 2011') +
   theme(plot.title = element_text(
@@ -64,7 +64,7 @@ ggplot(df, aes(x = Altura)) +
   geom_histogram(color = paleta[4],
                  fill = paleta[5],
                  binwidth = 5) +
-  labs(x = 'Altura (m)', y = 'Cantidad de árboles', title =) + #Duda por histograma
+  labs(x = 'Altura (m)', y = 'Cantidad de árboles', title = ) + #Duda por histograma
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('CANTIDAD DE ÁRBOLES POR ALTURA \n BUENOS AIRES, 2011') +
   theme(plot.title = element_text(
@@ -137,7 +137,9 @@ ggplot(
     geom_point(color = paleta[9]) +
     labs(x = 'Diámetro (cm)', y = 'Inclinación (°)') +
     labs(caption = "Fuente: Censo Forestal Urbano Público") +
-    ggtitle('RELACIÓN ENTRE DIPAMETRORelación entre diámetro e inclinación por árbol') +
+    ggtitle(
+      'RELACIÓN ENTRE DIPAMETRORelación entre diámetro e inclinación por árbol'
+    ) +
     theme(
       plot.title = element_text(
         size = rel(2),
@@ -615,46 +617,62 @@ tablaFrecuencia <- function(dataframe) {
 
 #Tabla de frecuencia de Especie
 
-TFEspecie <- tablaFrecuencia(df %>%
-                          group_by(Especie)  %>%
-                          summarise('Frecuencia Absoluta' = sum(Brotes)) %>%
-                          arrange(`Frecuencia Absoluta`))
-                          
+TFEspecie <- tablaFrecuencia(
+  df %>%
+    group_by(Especie)  %>%
+    summarise('Frecuencia Absoluta' = sum(Brotes)) %>%
+    arrange(`Frecuencia Absoluta`)
+)
+
 TFEspecie <- TFEspecie %>%
-  add_row("Especie" = 'Total',
-          "Frecuencia Absoluta" = sum(TFEspecie["Frecuencia Absoluta"]),
-          "Frecuencia Relativa" = 1,
-          "Frecuencia Absoluta Acumulada" = NA,
-          'Frecuencia Relativa Acumulada' = NA)
+  add_row(
+    "Especie" = 'Total',
+    "Frecuencia Absoluta" = sum(TFEspecie["Frecuencia Absoluta"]),
+    "Frecuencia Relativa" = 1,
+    "Frecuencia Absoluta Acumulada" = NA,
+    'Frecuencia Relativa Acumulada' = NA
+  )
 
 #Tabla de frecuencia de la altura.
 
-TFAltura <- tablaFrecuencia(as.data.frame(table(cut(Altura, breaks = seq(1, 36, 5)))))
+TFAltura <-
+  tablaFrecuencia(as.data.frame(table(cut(
+    Altura, breaks = seq(1, 36, 5)
+  ))))
 names(TFAltura)[1] = "Altura (m)"
 TFAltura <- TFAltura %>%
-  add_row("Altura (m)" = 'Total',
-          "Frecuencia Absoluta" = sum(TFAltura["Frecuencia Absoluta"]),
-          "Frecuencia Relativa" = 1,
-          "Frecuencia Absoluta Acumulada" = NA,
-          'Frecuencia Relativa Acumulada' = NA)
+  add_row(
+    "Altura (m)" = 'Total',
+    "Frecuencia Absoluta" = sum(TFAltura["Frecuencia Absoluta"]),
+    "Frecuencia Relativa" = 1,
+    "Frecuencia Absoluta Acumulada" = NA,
+    'Frecuencia Relativa Acumulada' = NA
+  )
 
 #Para exportar las imágenes a png.
 imprimirTabla <- function(tabla, titulo, pie) {
-  tema <- ttheme_default(core = list(fg_params=list(hjust=1, x=1)),
-                 rowhead = list(fg_params=list(hjust=1, x=1)))
+  tema <-
+    ttheme_default(core = list(fg_params = list(hjust = 1, x = 1)),
+                   rowhead = list(fg_params = list(hjust = 1, x = 1)))
   
-  g1 <- tableGrob(tabla[,1, drop = FALSE])
-  g2 <- tableGrob(tabla[,-1, drop = FALSE], rows = NULL, theme = tema)
+  g1 <- tableGrob(tabla[, 1, drop = FALSE])
+  g2 <-
+    tableGrob(tabla[, -1, drop = FALSE], rows = NULL, theme = tema)
   
-  tg <- gtable_combine(g1, g2 )
+  tg <- gtable_combine(g1, g2)
   
-  title <- textGrob(titulo, gp=gpar(fontsize=30))
+  title <- textGrob(titulo, gp = gpar(fontsize = 30))
   footnote <- textGrob(pie, just = "left")
   padding <- unit(5, "mm")
   p <- gtable_add_rows(tg, grobHeight(title) + padding, pos = 0)
   p <- gtable_add_rows(p, grobHeight(footnote) + padding)
-  p <- gtable_add_grob(p, list(title, footnote), 
-                       t=c(1, nrow(p)), l=c(1,1), r= ncol(p))
+  p <- gtable_add_grob(
+    p,
+    list(title, footnote),
+    t = c(1, nrow(p)),
+    l = c(1, 1),
+    r = ncol(p)
+  )
   grid.newpage()
   grid.draw(p)
 }
