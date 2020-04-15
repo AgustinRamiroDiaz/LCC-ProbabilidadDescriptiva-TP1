@@ -1,11 +1,4 @@
 # Imports -----------------------------------------------------------------
-
-if (!require("RColorBrewer")) {
-  install.packages("RColorBrewer")
-}
-if (!require("ggplot2")) {
-  install.packages("ggplot2")
-}
 library(RColorBrewer)
 library(ggplot2)
 library(dplyr)
@@ -16,7 +9,7 @@ library(GGally)
 library(gridExtra)
 library(grid)
 library(gtable)
-
+library(ggthemes)
 # Data --------------------------------------------------------------------
 
 nombre <- 'base0.txt'
@@ -64,7 +57,7 @@ ggplot(df, aes(x = Altura)) +
   geom_histogram(color = paleta[4],
                  fill = paleta[5],
                  binwidth = 5) +
-  labs(x = 'Altura (m)', y = 'Cantidad de árboles', title = ) + #Duda por histograma
+  labs(x = 'Altura (m)', y = 'Cantidad de árboles') + #Duda por histograma
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('CANTIDAD DE ÁRBOLES SEGÚN LA ALTURA \n BUENOS AIRES, 2011') +
   theme(plot.title = element_text(
@@ -105,7 +98,6 @@ ggplot(
     theme(
       plot.title = element_text(
         size = rel(2),
-        vjust = 2,
         face = 'plain',
         color = 'black',
         hjust = 0.5
@@ -121,15 +113,12 @@ ggplot(
     labs(x = 'Altura (m)', y = 'Inclinación (°)') +
     labs(caption = "Fuente: Censo Forestal Urbano Público") +
     ggtitle('RELACIÓN ENTRE ALTURA E INCLINACIÓN POR ÁRBOL') +
-    theme(
-      plot.title = element_text(
-        size = rel(2),
-        vjust = 2,
-        face = 'plain',
-        color = 'black',
-        hjust = 0.5
-      )
-    )
+    theme(plot.title = element_text(
+      size = rel(2),
+      face = 'plain',
+      color = 'black',
+      hjust = 0.5
+    ))
 ) %>%
   ggMarginal(type = "boxplot", color = 'black')
 
@@ -141,7 +130,6 @@ ggplot(
     ggtitle('RELACIÓN ENTRE DIPAMETRO E INCLINACIÓN POR ÁRBOL') +
     theme(plot.title = element_text(
         size = rel(2),
-        vjust = 2,
         face = 'plain',
         color = 'black',
         hjust = 0.5
@@ -216,11 +204,23 @@ ggplot(
 
 # Inclinación -------------------------------------------------------------
 
+ggplot(df, aes(x = Inclinación)) +
+  geom_boxplot(color = 'black',
+                 fill = paleta[6]) +
+  labs(x = 'Inclinación (°)', y = 'Cantidad de árboles') +
+  labs(caption = "Fuente: Censo Forestal Urbano Público") +
+  ggtitle('NÚMERO DE ÁRBOLES SEGÚN LA INCLINACIÓN') +
+  theme(plot.title = element_text(
+    size = rel(2),
+    vjust = 2,
+    face = 'plain',
+    color = 'black',
+    hjust = 0.5
+  ))
 
 ggplot(df, aes(x = Inclinación)) +
-  geom_histogram(color = paleta[3],
-                 fill = paleta[4],
-                 binwidth = 1) +
+  geom_density(color = paleta[3],
+                 fill = paleta[4]) +
   labs(x = 'Inclinación (°)', y = 'Cantidad de árboles') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('NÚMERO DE ÁRBOLES SEGÚN LA INCLINACIÓN') +
@@ -713,9 +713,8 @@ TFBrotes <- TFBrotes %>%
     'Frecuencia Relativa Acumulada' = NA
   )
 
-
+TFDiámetro <- tablaFrecuencia(as.data.frame(table(cut(Diámetro, breaks = c(seq(0, 100, 5), 250)))))
 imprimirTabla(TFBrotes, 'BROTES DE LOS ÁRBOLES CENSADOS\nBUENOS AIRES, 2011', 'Fuente: Censo Forestal Urbano Público')
-
 #Para exportar las imágenes a png.
 imprimirTabla <- function(tabla, titulo, pie) {
   tema <-
