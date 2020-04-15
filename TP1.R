@@ -643,7 +643,10 @@ imprimirTabla <- function(tabla, titulo, pie) {
   tema <- ttheme_default(core = list(fg_params=list(hjust=1, x=1)),
                  rowhead = list(fg_params=list(hjust=1, x=1)))
   
-  tg <- tableGrob(tabla, theme = tema)
+  g1 <- tableGrob(tabla[,1, drop = FALSE])
+  g2 <- tableGrob(tabla[,-1, drop = FALSE], rows = NULL, theme = tema)
+  
+  tg <- gtable_combine(g1, g2 )
   
   title <- textGrob(titulo, gp=gpar(fontsize=30))
   footnote <- textGrob(pie, just = "left")
@@ -657,4 +660,4 @@ imprimirTabla <- function(tabla, titulo, pie) {
 }
 
 imprimirTabla(TFEspecie, 'Titulo', 'Pie')
-
+dev.off()
