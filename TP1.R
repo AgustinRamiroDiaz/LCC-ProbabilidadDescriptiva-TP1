@@ -82,6 +82,7 @@ ggplot(
   geom_col(color = paleta[1], fill = paleta[1]) +
   labs(x = 'Especie', y = 'Altura promedio (m)') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
+  
   ggtitle('ALTURA PROMEDIO SEGÚN LA ESPECIE') +
   theme(plot.title = element_text(
     size = rel(2),
@@ -202,11 +203,11 @@ ggplot(
     color = 'black',
     hjust = 0.5
   ))
-ggplot(df, aes(x=Inclinación)) + 
-  geom_boxplot(color = paleta[3], fill = paleta[5]) + 
-  labs(x = 'Inclinación', y = 'Cantidad de árboles') +
+ggplot(df, aes(x=Diámetro)) + 
+  geom_bar(color = paleta[3], fill = paleta[5]) + 
+  labs(x = 'Diámetro', y = 'Cantidad de árboles') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
-  ggtitle('INCLINACIÓN SEGÚN LA ESPECIE') +
+  ggtitle('DIÁMETRO SEGÚN LA ESPECIE') +
   theme(plot.title = element_text(
     size = rel(2),
     vjust = 2,
@@ -228,12 +229,13 @@ ggplot(df, aes(x=Inclinación)) +
     face = 'plain',
     color = 'black',
     hjust = 0.5
-  )) +
+  ),
+  plot.margin =  margin(20)) +
   facet_grid(Especie ~ .)
 
 ggplot(df, aes(x = Inclinación)) +
   geom_boxplot(color = 'black',
-                 fill = paleta[6], ) +
+                 fill = paleta[6]) +
   labs(x = 'Inclinación (°)', y = 'Densidad de árboles') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('DENSIDAD DE ÁRBOLES SEGÚN LA INCLINACIÓN') +
@@ -244,7 +246,7 @@ ggplot(df, aes(x = Inclinación)) +
     color = 'black',
     hjust = 0.5
   )) + 
-  scale_x_continuous(breaks = seq(1, max(Inclinación), 1))
+  scale_x_continuous(breaks = seq(0, max(Inclinación), 5))
 
 ggplot(df, aes(x = Inclinación, y = 'Identity')) +
   geom_violin(color = 'black',
@@ -258,7 +260,8 @@ ggplot(df, aes(x = Inclinación, y = 'Identity')) +
     face = 'plain',
     color = 'black',
     hjust = 0.5
-  ))
+  ),
+  plot.margin =  margin(20))
 
 
 ggplot(df, aes(x = Inclinación)) +
@@ -273,7 +276,8 @@ ggplot(df, aes(x = Inclinación)) +
     face = 'plain',
     color = 'black',
     hjust = 0.5
-  ))
+  ),
+  plot.margin =  margin(20))
 
 
 ggplot(
@@ -300,7 +304,8 @@ ggplot(
     face = 'plain',
     color = 'black',
     hjust = 0.5
-  ))
+  ),
+  plot.margin =  margin(20))
 
 # Especie -----------------------------------------------------------------
 
@@ -316,7 +321,8 @@ ggplot(df, aes(x=Altura)) +
     face = 'plain',
     color = 'black',
     hjust = 0.5
-  )) +
+  ),
+  plot.margin =  margin(20)) +
   facet_grid(Especie ~ .)
     
 
@@ -335,7 +341,8 @@ ggplot(df %>%
     face = 'plain',
     color = 'black',
     hjust = 0.5
-  ))
+  ),
+  plot.margin =  margin(20))
 
 
 # Origen ------------------------------------------------------------------
