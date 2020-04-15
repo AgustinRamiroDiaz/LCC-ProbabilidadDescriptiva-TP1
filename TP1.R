@@ -97,7 +97,6 @@ ggplot(
     theme(
       plot.title = element_text(
         size = rel(2),
-        vjust = 2,
         face = 'plain',
         color = 'black',
         hjust = 0.5
@@ -115,7 +114,6 @@ ggplot(
     ggtitle('RELACIÓN ENTRE ALTURA E INCLINACIÓN POR ÁRBOL') +
     theme(plot.title = element_text(
       size = rel(2),
-      vjust = 2,
       face = 'plain',
       color = 'black',
       hjust = 0.5
@@ -131,7 +129,6 @@ ggplot(
     ggtitle('RELACIÓN ENTRE DIPAMETRO E INCLINACIÓN POR ÁRBOL') +
     theme(plot.title = element_text(
         size = rel(2),
-        vjust = 2,
         face = 'plain',
         color = 'black',
         hjust = 0.5
@@ -206,6 +203,20 @@ ggplot(
 
 # Inclinación -------------------------------------------------------------
 
+ggplot(df, aes(x = Inclinación)) +
+  geom_boxplot(color = paleta[3],
+                 fill = paleta[4],
+                 binwidth = 1) +
+  labs(x = 'Inclinación (°)', y = 'Cantidad de árboles') +
+  labs(caption = "Fuente: Censo Forestal Urbano Público") +
+  ggtitle('NÚMERO DE ÁRBOLES SEGÚN LA INCLINACIÓN') +
+  theme(plot.title = element_text(
+    size = rel(2),
+    vjust = 2,
+    face = 'plain',
+    color = 'black',
+    hjust = 0.5
+  ))
 
 ggplot(df, aes(x = Inclinación)) +
   geom_histogram(color = paleta[3],
