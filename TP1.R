@@ -204,9 +204,8 @@ ggplot(
 # Inclinación -------------------------------------------------------------
 
 ggplot(df, aes(x = Inclinación)) +
-  geom_boxplot(color = paleta[3],
-                 fill = paleta[4],
-                 binwidth = 1) +
+  geom_boxplot(color = 'black',
+                 fill = paleta[6]) +
   labs(x = 'Inclinación (°)', y = 'Cantidad de árboles') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('NÚMERO DE ÁRBOLES SEGÚN LA INCLINACIÓN') +
@@ -219,9 +218,8 @@ ggplot(df, aes(x = Inclinación)) +
   ))
 
 ggplot(df, aes(x = Inclinación)) +
-  geom_histogram(color = paleta[3],
-                 fill = paleta[4],
-                 binwidth = 1) +
+  geom_density(color = paleta[3],
+                 fill = paleta[4]) +
   labs(x = 'Inclinación (°)', y = 'Cantidad de árboles') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('NÚMERO DE ÁRBOLES SEGÚN LA INCLINACIÓN') +
@@ -648,6 +646,8 @@ TFAltura <- TFAltura %>%
     'Frecuencia Relativa Acumulada' = NA
   )
 
+TFDiámetro <- tablaFrecuencia(as.data.frame(table(cut(Diámetro, breaks = c(seq(0, 100, 5), 250)))))
+TFDiámetro
 #Para exportar las imágenes a png.
 imprimirTabla <- function(tabla, titulo, pie) {
   tema <-
