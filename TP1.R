@@ -10,6 +10,7 @@ library(gridExtra)
 library(grid)
 library(gtable)
 library(ggthemes)
+library(cowplot)
 # Data --------------------------------------------------------------------
 
 nombre <- 'base0.txt'
@@ -88,7 +89,7 @@ ggplot(
     hjust = 0.5
   ))
 
-#No se ve el título TODO
+
 (
   ggplot(df , aes(x = Altura, y = Diámetro)) +
     geom_point(color = paleta[9]) +
@@ -203,13 +204,12 @@ ggplot(
 
 
 # Inclinación -------------------------------------------------------------
-
-ggplot(df, aes(x = Inclinación)) +
-  geom_boxplot(color = 'black',
-                 fill = paleta[6]) +
-  labs(x = 'Inclinación (°)', y = 'Cantidad de árboles') +
+image <- ggplot(df, aes(x = Inclinación)) +
+  geom_histogram(color = 'black',
+               fill = paleta[6]) +
+  labs(x = 'Inclinación (°)', y = 'Densidad de árboles') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
-  ggtitle('NÚMERO DE ÁRBOLES SEGÚN LA INCLINACIÓN') +
+  ggtitle('DENSIDAD DE ÁRBOLES SEGÚN LA INCLINACIÓN') +
   theme(plot.title = element_text(
     size = rel(2),
     vjust = 2,
@@ -217,6 +217,41 @@ ggplot(df, aes(x = Inclinación)) +
     color = 'black',
     hjust = 0.5
   ))
+ggsave(file="test.svg", plot=image, width=10, height=8)
+
+install.packages('svglite')
+library(svglite)
+
+
+ggplot(df, aes(x = Inclinación)) +
+  geom_boxplot(color = 'black',
+                 fill = paleta[6]) +
+  labs(x = 'Inclinación (°)', y = 'Densidad de árboles') +
+  labs(caption = "Fuente: Censo Forestal Urbano Público") +
+  ggtitle('DENSIDAD DE ÁRBOLES SEGÚN LA INCLINACIÓN') +
+  theme(plot.title = element_text(
+    size = rel(2),
+    vjust = 2,
+    face = 'plain',
+    color = 'black',
+    hjust = 0.5
+  ))
+
+  
+ggplot(df, aes(x = Inclinación, y = 'Identity')) +
+  geom_violin(color = 'black',
+               fill = paleta[6]) +
+  labs(x = 'Inclinación (°)', y = 'Densidad de árboles') +
+  labs(caption = "Fuente: Censo Forestal Urbano Público") +
+  ggtitle('DENSIDAD DE ÁRBOLES SEGÚN LA INCLINACIÓN') +
+  theme(plot.title = element_text(
+    size = rel(2),
+    vjust = 2,
+    face = 'plain',
+    color = 'black',
+    hjust = 0.5
+  ))
+
 
 ggplot(df, aes(x = Inclinación)) +
   geom_density(color = paleta[3],
@@ -262,6 +297,12 @@ ggplot(
 plot(df %>% filter(Especie == 'Jacarandá'))
 
 # Especie -----------------------------------------------------------------
+
+
+  ggplot(df, aes(x=Altura)) + 
+    geom_bar() + facet_grid(. ~ Especie)
+    
+
 
 ggplot(df %>%
          group_by(Especie) %>%
