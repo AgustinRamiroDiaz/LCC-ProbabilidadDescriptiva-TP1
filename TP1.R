@@ -56,7 +56,9 @@ ggplot(df, aes(x = Altura)) +
       hjust = 0.5
     ),
     plot.margin =  margin(20)
-  )
+  ) + 
+  scale_x_continuous(breaks = seq(0, max(Inclinación), 5)) + 
+  scale_y_continuous(breaks = seq(0, max(Inclinación), 5))
 
 
 ggplot(df, aes(x = Altura)) +
@@ -75,7 +77,9 @@ ggplot(df, aes(x = Altura)) +
       hjust = 0.5
     ),
     plot.margin =  margin(20)
-  )
+  ) + 
+  scale_x_continuous(breaks = seq(0, max(Inclinación), 5)) + 
+  scale_y_continuous(breaks = seq(0, max(Inclinación), 5))
 
 
 ggplot(
@@ -98,8 +102,7 @@ ggplot(
       hjust = 0.5
     ),
     plot.margin =  margin(20)
-  )
-
+  ) 
 
 (
   ggplot(df , aes(x = Altura, y = Diámetro)) +
@@ -386,7 +389,11 @@ ggplot(df %>%
       hjust = 0.5
     ),
     plot.margin =  margin(20)
-  )
+  ) +
+  geom_text(aes(label = Cant),
+            vjust = 1.5,
+            color = "white",
+            size = 3.5)
 
 
 # Origen ------------------------------------------------------------------
