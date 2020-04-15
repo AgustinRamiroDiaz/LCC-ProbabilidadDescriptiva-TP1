@@ -693,6 +693,9 @@ TFDiametro <- TFDiametro %>%
     'Frecuencia Relativa Acumulada' = NA
   )
 
+
+TFDiámetro <- tablaFrecuencia(as.data.frame(table(cut(Diámetro, breaks = c(seq(0, 100, 5), 250)))))
+
 imprimirTabla(TFDiametro, 'DIÁMETRO DE LOS ÁRBOLES CENSADOS\nBUENOS AIRES, 2011', 'Fuente: Censo Forestal Urbano Público')
 
 #Tabla de frecuencia de la Inclinación
@@ -754,8 +757,9 @@ TFBrotes <- TFBrotes %>%
     'Frecuencia Relativa Acumulada' = NA
   )
 
-TFDiámetro <- tablaFrecuencia(as.data.frame(table(cut(Diámetro, breaks = c(seq(0, 100, 5), 250)))))
+
 imprimirTabla(TFBrotes, 'BROTES DE LOS ÁRBOLES CENSADOS\nBUENOS AIRES, 2011', 'Fuente: Censo Forestal Urbano Público')
+
 #Para exportar las imágenes a png.
 imprimirTabla <- function(tabla, titulo, pie) {
   tema <-
