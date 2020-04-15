@@ -11,6 +11,8 @@ library(grid)
 library(gtable)
 library(ggthemes)
 library(cowplot)
+library(svglite)
+
 # Data --------------------------------------------------------------------
 
 nombre <- 'base0.txt'
@@ -220,7 +222,6 @@ image <- ggplot(df, aes(x = Inclinación)) +
 ggsave(file="test.svg", plot=image, width=10, height=8)
 
 install.packages('svglite')
-library(svglite)
 
 
 ggplot(df, aes(x = Inclinación)) +
@@ -299,8 +300,8 @@ plot(df %>% filter(Especie == 'Jacarandá'))
 # Especie -----------------------------------------------------------------
 
 
-  ggplot(df, aes(x=Altura)) + 
-    geom_bar() + facet_grid(. ~ Especie)
+ggplot(df, aes(x=Altura)) + 
+  geom_bar() + facet_grid(Especie ~ .)
     
 
 
