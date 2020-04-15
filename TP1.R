@@ -57,7 +57,8 @@ ggplot(df, aes(x = Altura)) +
     face = 'bold',
     color = 'black',
     hjust = 0.5
-  ))
+  )) + theme_
+
 
 ggplot(df, aes(x = Altura)) +
   geom_histogram(color = paleta[4],
@@ -85,7 +86,7 @@ ggplot(
   geom_col(color = paleta[1], fill = paleta[1]) +
   labs(x = 'Especie', y = 'Altura promedio (m)') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
-  ggtitle('Altura promedio según la especie') +
+  ggtitle('ALTURA PROMEDIO SEGÚN LA ESPECIE') +
   theme(plot.title = element_text(
     size = rel(2),
     vjust = 2,
@@ -99,7 +100,7 @@ ggplot(
     geom_point(color = paleta[9]) +
     labs(x = 'Altura (m)', y = 'Diámetro (cm)') +
     labs(caption = "Fuente: Censo Forestal Urbano Público") +
-    ggtitle('Relación entre altura y diámetro por árbol') +
+    ggtitle('RELACIÓN ENTRE ALTURA Y DIÁMETRO POR ÁRBOL') +
     theme(
       plot.title = element_text(
         size = rel(2),
@@ -118,7 +119,7 @@ ggplot(
     geom_point(color = paleta[9]) +
     labs(x = 'Altura (m)', y = 'Inclinación (°)') +
     labs(caption = "Fuente: Censo Forestal Urbano Público") +
-    ggtitle('Relación entre altura e inclinación por árbol') +
+    ggtitle('RELACIÓN ENTRE ALTURA E INCLINACIÓN POR ÁRBOL') +
     theme(
       plot.title = element_text(
         size = rel(2),
@@ -136,7 +137,7 @@ ggplot(
     geom_point(color = paleta[9]) +
     labs(x = 'Diámetro (cm)', y = 'Inclinación (°)') +
     labs(caption = "Fuente: Censo Forestal Urbano Público") +
-    ggtitle('Relación entre diámetro e inclinación por árbol') +
+    ggtitle('RELACIÓN ENTRE DIPAMETRORelación entre diámetro e inclinación por árbol') +
     theme(
       plot.title = element_text(
         size = rel(2),
@@ -638,7 +639,22 @@ TFAltura <- TFAltura %>%
           'Frecuencia Relativa Acumulada' = NA)
 
 #Para exportar las imágenes a png.
-grid.draw(tableGrob(TFEspecie))
+imprimirTabla <- function(tabla, titulo, pie) {
+  tema <- ttheme_default(core = list(fg_params=list(hjust=1, x=1)),
+                 rowhead = list(fg_params=list(hjust=1, x=1)))
+  
+  tg <- tableGrob(tabla, theme = tema)
+  
+  title <- textGrob(titulo, gp=gpar(fontsize=30))
+  footnote <- textGrob(pie, just = "left")
+  padding <- unit(5, "mm")
+  p <- gtable_add_rows(tg, grobHeight(title) + padding, pos = 0)
+  p <- gtable_add_rows(p, grobHeight(footnote) + padding)
+  p <- gtable_add_grob(p, list(title, footnote), 
+                       t=c(1, nrow(p)), l=c(1,1), r= ncol(p))
+  grid.newpage()
+  grid.draw(p)
+}
 
-grid.draw(tableGrob(TFAltura))
-dev.off()
+imprimirTabla(TFEspecie, 'Titulo', 'Pie')
+
