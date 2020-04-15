@@ -48,7 +48,7 @@ ggplot(df, aes(x = Altura)) +
   geom_histogram(color = paleta[7],
                  fill = paleta[8],
                  binwidth = 1) +
-  labs(x = 'Altura (m)', y = 'Cantidad de árboles') + #Duda por histograma
+  labs(x = 'Altura (m)', y = 'Cantidad de árboles', caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('CANTIDAD DE ÁRBOLES POR ALTURA \n BUENOS AIRES, 2011') +
   theme(plot.title = element_text(
     size = rel(2),
@@ -63,7 +63,7 @@ ggplot(df, aes(x = Altura)) +
                  fill = paleta[5],
                  binwidth = 5) +
   labs(x = 'Altura (m)', y = 'Cantidad de árboles', title =) + #Duda por histograma
-  ggtitle('Cantidad de árboles por altura.') +
+  ggtitle('CANTIDAD DE ÁRBOLES POR ALTURA \n BUENOS AIRES, 2011') +
   theme(plot.title = element_text(
     size = rel(2),
     vjust = 2,
