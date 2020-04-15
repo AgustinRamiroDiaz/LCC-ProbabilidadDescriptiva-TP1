@@ -102,7 +102,11 @@ ggplot(
       hjust = 0.5
     ),
     plot.margin =  margin(20)
-  ) 
+  ) +
+  geom_text(aes(label = round(AlturaPromedio, 2)),
+            vjust = 1.5,
+            color = "white",
+            size = 3.5)
 
 (
   ggplot(df , aes(x = Altura, y = Diámetro)) +
@@ -182,7 +186,9 @@ ggplot(df, aes(x = Diámetro)) +
       hjust = 0.5
     ),
     plot.margin =  margin(20)
-  )
+  ) + 
+  scale_x_continuous(breaks = seq(0, max(Diámetro), 10))
+
 
 ggplot(
   df %>%
@@ -199,14 +205,21 @@ ggplot(
        y = 'Diámetro promedio (cm)') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('DIÁMETRO PROMEDIO SEGÚN LA ESPECIE\nBUENOS AIRES, 2011') +
-  theme(plot.title = element_text(
-    size = rel(2),
-    vjust = 2,
-    face = 'plain',
-    color = 'black',
-    hjust = 0.5
-  ))
-
+  theme(
+    plot.title = element_text(
+      size = rel(2),
+      vjust = 2,
+      face = 'plain',
+      color = 'black',
+      hjust = 0.5
+    ),
+    plot.margin =  margin(20)
+  ) +
+  geom_text(aes(label = round(DiámetroPromedio, 2)),
+            vjust = 1.5,
+            color = "white",
+            size = 3.5) +
+  scale_y_continuous(breaks = seq(0, max(Diámetro), 10))
 
 ggplot(
   df %>%
@@ -230,10 +243,12 @@ ggplot(
       hjust = 0.5
     ),
     plot.margin =  margin(20)
-  )
+  ) +
+  scale_x_continuous(breaks = seq(0, max(Diámetro), 1)) +
+  scale_y_continuous(breaks = seq(0, max(Diámetro), 10))
 
 ggplot(df, aes(x = Diámetro)) +
-  geom_bar(color = paleta[3], fill = paleta[5]) +
+  geom_boxplot(color = paleta[3], fill = paleta[5]) +
   labs(x = 'Diámetro', y = 'Cantidad de árboles') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('DIÁMETRO SEGÚN LA ESPECIE\nBUENOS AIRES, 2011') +
