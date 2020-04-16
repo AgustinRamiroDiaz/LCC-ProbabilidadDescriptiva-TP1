@@ -324,7 +324,7 @@ ggplot(
 # Especie -----------------------------------------------------------------
 
 ggplot(df, aes(x = Altura)) +
-  geom_histogram(color = paleta[8], fill = paleta[7], binwidth = 1) +
+  geom_histogram(color = paleta[8], fill = paleta[7], breaks = seq(1, 37, 3)) +
   labs(x = 'Especie', y = 'Cantidad de árboles') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('ALTURA SEGÚN LA ESPECIE\nBUENOS AIRES, 2011') +
