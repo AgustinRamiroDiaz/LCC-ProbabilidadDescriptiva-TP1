@@ -60,37 +60,15 @@ ggplot(df, aes(x = Altura)) +
   scale_x_continuous(breaks = seq(0, max(Altura), 4)) + 
   scale_y_continuous(breaks = seq(0, 100, 10))
 
-
-ggplot(df, aes(x = Altura)) +
-  geom_histogram(color = paleta[4],
-                 fill = paleta[5],
-                 binwidth = 4) +
-  labs(x = 'Altura (m)', y = 'Cantidad de árboles') + #Duda por histograma
-  labs(caption = "Fuente: Censo Forestal Urbano Público") +
-  ggtitle('CANTIDAD DE ÁRBOLES SEGÚN LA ALTURA\nBUENOS AIRES, 2011') +
-  theme(
-    plot.title = element_text(
-      size = rel(2),
-      vjust = 2,
-      face = 'plain',
-      color = 'black',
-      hjust = 0.5
-    ),
-    plot.margin =  margin(20,20,20,20)
-  ) + 
-  scale_x_continuous(breaks = seq(0, max(Inclinación), 5)) + 
-  scale_y_continuous(breaks = seq(0, max(Inclinación), 5))
-
-
 ggplot(
   df %>%
     group_by(Especie) %>%
     summarise(AlturaPromedio = mean(Altura)),
-  aes(x = reorder(Especie, AlturaPromedio),
-      y = AlturaPromedio)
+  aes(y = reorder(Especie, AlturaPromedio),
+      x = AlturaPromedio)
 ) +
   geom_col(color = paleta[1], fill = paleta[1]) +
-  labs(x = 'Especie', y = 'Altura promedio (m)') +
+  labs(y = 'Especie', x = 'Altura promedio (m)') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('ALTURA PROMEDIO SEGÚN LA ESPECIE\nBUENOS AIRES, 2011') +
   theme(
@@ -104,7 +82,7 @@ ggplot(
     plot.margin =  margin(20,20,20,20)
   ) +
   geom_text(aes(label = round(AlturaPromedio, 2)),
-            vjust = 1.5,
+            hjust = 1.3,
             color = "white",
             size = 3.5)
 
@@ -779,7 +757,6 @@ TFBrotes <- TFBrotes %>%
     "Frecuencia Absoluta Acumulada" = NA,
     'Frecuencia Relativa Acumulada' = NA
   )
-
 
 imprimirTabla(
   TFBrotes,
