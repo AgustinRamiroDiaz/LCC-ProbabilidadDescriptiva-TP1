@@ -102,7 +102,7 @@ ggplot(
       plot.margin =  margin(20,20,20,20)
     )
 ) %>%
-  ggMarginal(type = "boxplot", color = paleta[9])
+  ggMarginal(type = "boxplot", fill = paleta[9], color = 'black')
 
 
 (
@@ -123,7 +123,7 @@ ggplot(
       plot.margin =  margin(20,20,20,20)
     )
 ) %>%
-  ggMarginal(type = "boxplot", color = paleta[9])
+  ggMarginal(type = "boxplot", fill = paleta[8], color = 'black')
 
 (
   ggplot(df , aes(x = Diámetro, y = Inclinación)) +
@@ -143,7 +143,7 @@ ggplot(
       plot.margin =  margin(20,20,20,20)
     )
 ) %>%
-  ggMarginal(type = "boxplot", color = paleta[9])
+  ggMarginal(type = "boxplot", fill = paleta[9], color = 'black')
 
 
 
@@ -202,31 +202,6 @@ ggplot(
             size = 3.5) +
   scale_x_continuous(breaks = seq(0, max(Diámetro), 10))
 
-ggplot(
-  df %>%
-    group_by(Altura) %>%
-    summarise(DiámetroPromedio = mean(Diámetro)) %>%
-    arrange(DiámetroPromedio),
-  aes(x = Altura,
-      y = DiámetroPromedio)
-) +
-  geom_col(color = "white", fill = paleta[3]) + #Color.
-  labs(x = 'Altura (m)',
-       y = 'Diámetro Promedio (cm)') +
-  labs(caption = "Fuente: Censo Forestal Urbano Público") +
-  ggtitle('DIÁMETRO PROMEDIO SEGÚN LA ALTURA\nBUENOS AIRES, 2011') +
-  theme(
-    plot.title = element_text(
-      size = rel(2),
-      vjust = 2,
-      face = 'plain',
-      color = 'black',
-      hjust = 0.5
-    ),
-    plot.margin =  margin(20,20,20,20)
-  ) +
-  scale_x_continuous(breaks = seq(0, max(Diámetro), 1)) +
-  scale_y_continuous(breaks = seq(0, max(Diámetro), 10))
 
 ggplot(df, aes(x = Diámetro)) +
   geom_boxplot(color = 'black', fill = paleta[8]) +
@@ -252,7 +227,7 @@ ggplot(df, aes(x = Diámetro)) +
 
 
 ggplot(df, aes(x = Inclinación)) +
-  geom_boxplot(color = paleta[3], fill = paleta[5]) +
+  geom_boxplot(color = 'black', fill = paleta[5]) +
   labs(x = 'Inclinación', y = '') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('INCLINACIÓN SEGÚN LA ESPECIE\nBUENOS AIRES, 2011') +
@@ -484,7 +459,7 @@ ggplot(
   labs(y = 'Inclinación promedio (°)', x = 'Especie') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   geom_text(aes(label = round(InclinacionPromedio, 1)),
-            vjust = 1.5,
+            hjust = 1.2,
             color = "white",
             size = 3.5) +
   ggtitle('INCLINACIÓN PROMEDIO SEGÚN LA ESPECIE\nBUENOS AIRES, 2011') +
@@ -497,7 +472,7 @@ ggplot(
       hjust = 0.5
     ),
     plot.margin =  margin(20,20,20,20)
-  )
+  ) + coord_flip()
 
 
 # Número de brotes por especie --------------------------------------------
@@ -516,7 +491,7 @@ ggplot(
             hjust = 1.5,
             color = "white",
             size = 3.5) +
-  ggtitle('CANTIDAD DE BROTES SEGÚN LA ESPECIE\nBUENOS AIRES, 2011') +
+  ggtitle('CANTIDAD TOTAL DE BROTES SEGÚN LA ESPECIE\nBUENOS AIRES, 2011') +
   theme(
     plot.title = element_text(
       size = rel(2),
@@ -563,7 +538,7 @@ ggplot(
       AlturaPromedio = mean(Altura),
       DesviacionEstandar = sd(Altura)
     ),
-  aes(x = Especie, y = AlturaPromedio)
+  aes(x = reorder(Especie), y = AlturaPromedio)
 ) +
   geom_col(color = paleta[2], fill = paleta[1]) +
   coord_flip() +
