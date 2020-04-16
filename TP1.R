@@ -176,13 +176,13 @@ ggplot(
     summarise(DiámetroPromedio = mean(Diámetro)) %>%
     arrange(DiámetroPromedio),
   aes(
-    x = reorder(Especie, DiámetroPromedio),
-    y = DiámetroPromedio
+    y = reorder(Especie, DiámetroPromedio),
+    x = DiámetroPromedio
   )
 ) +
   geom_col(color = paleta[2], fill = paleta[2]) +
-  labs(x = 'Especie',
-       y = 'Diámetro promedio (cm)') +
+  labs(y = 'Especie',
+       x = 'Diámetro promedio (cm)') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('DIÁMETRO PROMEDIO SEGÚN LA ESPECIE\nBUENOS AIRES, 2011') +
   theme(
@@ -196,10 +196,10 @@ ggplot(
     plot.margin =  margin(20,20,20,20)
   ) +
   geom_text(aes(label = round(DiámetroPromedio, 2)),
-            vjust = 1.5,
+            hjust = 1.3,
             color = "white",
             size = 3.5) +
-  scale_y_continuous(breaks = seq(0, max(Diámetro), 10))
+  scale_x_continuous(breaks = seq(0, max(Diámetro), 10))
 
 ggplot(
   df %>%
