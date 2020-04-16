@@ -429,20 +429,14 @@ ggplot(df,
   scale_x_continuous(breaks = seq(0, 10, 1))
 
 
-
-
-ggplot(
-  df %>%
-    group_by(Diámetro) %>%
-    summarise(AlturaPromedio = mean(Altura)) %>%
-    arrange(AlturaPromedio),
-  aes(x = Diámetro,
-      y = AlturaPromedio)
-) +
-  geom_col(color = paleta[8], fill = paleta[8]) +
-  labs(x = 'Diámetro (cm)', y = 'Altura promedio (m)') +
+ggplot(df,
+       aes(x = Brotes)) +
+  geom_bar(color = paleta[8], fill = paleta[8], width = 0.2) +
+  labs(x = 'Brotes', y = 'Cantidad') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
-  ggtitle('ALTURA PROMEDIO SEGÚN EL DIÁMETRO\nBUENOS AIRES, 2011') +
+  ggtitle(
+    'CANTIDAD DE ÁRBOLES POR CANTIDAD DE BROTES\nBUENOS AIRES, 2011'
+  ) +
   theme(
     plot.title = element_text(
       size = rel(2),
@@ -452,8 +446,9 @@ ggplot(
       hjust = 0.5
     ),
     plot.margin =  margin(20,20,20,20)
-  )
-
+  ) +   
+  scale_x_continuous(breaks = seq(0, 10, 1)) +
+  facet_grid(Especie ~ .)
 
 # Inclinación promedio por especie ----------------------------------------
 
