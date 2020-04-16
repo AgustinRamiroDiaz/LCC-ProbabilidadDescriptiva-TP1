@@ -300,7 +300,7 @@ ggplot(
 
 ggplot(df, aes(x = Altura)) +
   geom_histogram(color = paleta[8], fill = paleta[7], breaks = seq(1, 37, 3)) +
-  labs(x = 'Especie', y = 'Cantidad de árboles') +
+  labs(x = 'Altura', y = 'Cantidad de árboles') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('ALTURA SEGÚN LA ESPECIE\nBUENOS AIRES, 2011') +
   theme(
@@ -314,7 +314,8 @@ ggplot(df, aes(x = Altura)) +
     plot.margin =  margin(20,20,20,20)
   ) +
   facet_grid(Especie ~ .) +
-  scale_x_continuous(breaks = seq(0, 300, 5))
+  scale_x_continuous(breaks = seq(1, 300, 3))
+  
 
 
 ggplot(df %>%
