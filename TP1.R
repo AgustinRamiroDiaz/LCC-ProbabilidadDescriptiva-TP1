@@ -82,7 +82,7 @@ ggplot(
     plot.margin =  margin(20,20,20,20)
   ) +
   geom_text(aes(label = round(AlturaPromedio, 2)),
-            hjust = 1.3,
+            hjust = 1.5,
             color = "white",
             size = 3.5)
 
@@ -197,7 +197,7 @@ ggplot(
     plot.margin =  margin(20,20,20,20)
   ) +
   geom_text(aes(label = round(DiámetroPromedio, 2)),
-            hjust = 1.3,
+            hjust = 1.5,
             color = "white",
             size = 3.5) +
   scale_x_continuous(breaks = seq(0, max(Diámetro), 10))
@@ -230,10 +230,12 @@ ggplot(
 
 ggplot(df, aes(x = Diámetro)) +
   geom_boxplot(color = 'black', fill = paleta[8]) +
-  labs(x = 'Diámetro', y = 'Cantidad de árboles') +
+  labs(x = 'Diámetro', y = '') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('DIÁMETRO SEGÚN LA ESPECIE\nBUENOS AIRES, 2011') +
   theme(
+    axis.text.y = element_blank(),    
+    axis.ticks.y = element_blank(),
     plot.title = element_text(
       size = rel(2),
       vjust = 2,
@@ -251,10 +253,12 @@ ggplot(df, aes(x = Diámetro)) +
 
 ggplot(df, aes(x = Inclinación)) +
   geom_boxplot(color = paleta[3], fill = paleta[5]) +
-  labs(x = 'Inclinación', y = 'Densidad') +
+  labs(x = 'Inclinación', y = '') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('INCLINACIÓN SEGÚN LA ESPECIE\nBUENOS AIRES, 2011') +
   theme(
+    axis.text.y = element_blank(),    
+    axis.ticks.y = element_blank(),
     plot.title = element_text(
       size = rel(2),
       vjust = 2,
@@ -269,10 +273,12 @@ ggplot(df, aes(x = Inclinación)) +
 ggplot(df, aes(x = Inclinación)) +
   geom_boxplot(color = 'black',
                fill = paleta[6]) +
-  labs(x = 'Inclinación (°)', y = 'Densidad de árboles') +
+  labs(x = 'Inclinación (°)', y = '') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('DENSIDAD DE ÁRBOLES SEGÚN LA INCLINACIÓN\nBUENOS AIRES, 2011') +
   theme(
+    axis.text.y = element_blank(),    
+    axis.ticks.y = element_blank(),
     plot.title = element_text(
       size = rel(2),
       vjust = 2,
@@ -291,6 +297,8 @@ ggplot(df, aes(x = Inclinación, y = 'Identity')) +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('DENSIDAD DE ÁRBOLES SEGÚN LA INCLINACIÓN\nBUENOS AIRES, 2011') +
   theme(
+    axis.text.y = element_blank(),    
+    axis.ticks.y = element_blank(),
     plot.title = element_text(
       size = rel(2),
       vjust = 2,
@@ -300,7 +308,6 @@ ggplot(df, aes(x = Inclinación, y = 'Identity')) +
     ),
     plot.margin =  margin(20,20,20,20)
   )
-
 
 ggplot(df, aes(x = Inclinación)) +
   geom_density(color = paleta[3],
@@ -327,7 +334,7 @@ ggplot(
       InclinacionPromedio = mean(Inclinación),
       DesviacionEstandar = sd(Inclinación)
     ),
-  aes(x = Especie, y = InclinacionPromedio)
+  aes(x = reorder(Especie,InclinacionPromedio) , y = InclinacionPromedio)
 ) +
   geom_col(color = paleta[9], fill = paleta[9]) +
   coord_flip() +
@@ -367,16 +374,16 @@ ggplot(df, aes(x = Altura)) +
     ),
     plot.margin =  margin(20,20,20,20)
   ) +
-  facet_grid(Especie ~ .)
-
+  facet_grid(Especie ~ .) +
+  scale_x_continuous(breaks = seq(0, 300, 5))
 
 
 ggplot(df %>%
          group_by(Especie) %>%
          summarise(Cant = n()),
-       aes(x = reorder(Especie, Cant), y = Cant)) +
+       aes(y = reorder(Especie, Cant), x = Cant)) +
   geom_col(color = paleta[3], fill = paleta[4]) +
-  labs(x = 'Especie', y = 'Cantidad de árboles') +
+  labs(y = 'Especie', x = 'Cantidad de árboles') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('CANTIDAD DE ÁRBOLES SEGÚN LA ESPECIE\nBUENOS AIRES, 2011') +
   theme(
@@ -387,19 +394,19 @@ ggplot(df %>%
       color = 'black',
       hjust = 0.5
     ),
-    plot.margin =  margin(20,20,20,20)
+    plot.margin =  margin(20, 20, 20, 20)
   ) +
   geom_text(aes(label = Cant),
-            vjust = 1.5,
+            hjust = 1.5,
             color = "white",
-            size = 3.5)
+            size = 3.5) +
+  scale_x_continuous(breaks = seq(0, 300, 5))
+
 
 
 # Origen ------------------------------------------------------------------
-#TODO: Acá también habría que poner el gráfico de manera que quede
-#una curva, sin huecos. (COSO de telegram)
-ggplot(df %>% filter(Origen == 'Nativo/Autóctono'), aes(x = Altura)) +
-  geom_histogram(color = paleta[3], fill = paleta[4], binwidth = 4) +
+ggplot(df, aes(x = Altura)) +
+  geom_histogram(color = paleta[3], fill = paleta[2], breaks = seq(0, max(Altura), 3)) +
   labs(x = 'Altura (m)', y = 'Cantidad de árboles') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('CANTIDAD DE ÁRBALOS DE ORIGEN NATIVO/AUTÓCTONO SEGÚN LA ALTURA\nBUENOS AIRES, 2011') +
@@ -412,23 +419,11 @@ ggplot(df %>% filter(Origen == 'Nativo/Autóctono'), aes(x = Altura)) +
       hjust = 0.5
     ),
     plot.margin =  margin(20,20,20,20)
-  )
-#TODO: ídem. Poner el mismo width así podemos hacer las comparaciones.
-ggplot(df %>% filter(Origen == 'Exótico'), aes(x = Altura)) +
-  geom_histogram(color = paleta[1], fill = paleta[2],binwidth = 4) +
-  labs(x = 'Altura (m)', y = 'Cantidad de árboles') +
-  labs(caption = "Fuente: Censo Forestal Urbano Público") +
-  ggtitle('CANTIDAD DE ÁRBALOS DE ORIGEN EXÓTICO SEGÚN LA ALTURA\nBUENOS AIRES, 2011') +
-  theme(
-    plot.title = element_text(
-      size = rel(2),
-      vjust = 2,
-      face = 'plain',
-      color = 'black',
-      hjust = 0.5
-    ),
-    plot.margin =  margin(20,20,20,20)
-  )
+  ) +
+  scale_x_continuous(breaks = seq(0, 300, 5)) +
+  scale_y_continuous(breaks = seq(0, 300, 5)) +
+  facet_grid(Origen ~ .)
+  
 
 #Variables para el gráfico de torta.
 pedazos = table(Origen)
