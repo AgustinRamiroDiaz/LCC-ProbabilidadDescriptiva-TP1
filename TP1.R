@@ -169,11 +169,12 @@ ggplot(
 
 
 # Diámetro ----------------------------------------------------------------
-#TODO: Acá habría que sacar los valores aíslados, también según el coso que leí.
+
 ggplot(df, aes(x = Diámetro)) +
   geom_histogram(color = paleta[3],
                  fill = paleta[4],
-                 binwidth = 12) +
+                 binwidth = 12,
+                 breaks = seq(0, max(Diámetro), 10)) +
   labs(x = 'Diámetro (cm)', y = 'Cantidad de árboles') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('CANTIDAD DE ÁRBOLES SEGÚN EL DIÁMETRO\nBUENOS AIRES, 2011') +
@@ -187,7 +188,7 @@ ggplot(df, aes(x = Diámetro)) +
     ),
     plot.margin =  margin(20,20,20,20)
   ) + 
-  scale_x_continuous(breaks = seq(0, max(Diámetro), 12))+ 
+  scale_x_continuous(breaks = seq(0, max(Diámetro), 20))+ 
   scale_y_continuous(breaks = seq(0, 100, 20))
 
 
@@ -266,6 +267,9 @@ ggplot(df, aes(x = Diámetro)) +
   facet_grid(Especie ~ .)
 
 # Inclinación -------------------------------------------------------------
+
+
+
 ggplot(df, aes(x = Inclinación)) +
   geom_boxplot(color = paleta[3], fill = paleta[5]) +
   labs(x = 'Inclinación', y = 'Densidad') +
@@ -464,14 +468,14 @@ pie(
 )
 
 # Brotes ------------------------------------------------------------------
-#TODO: título del título y entender bien este gráfico.
+
 ggplot(df,
        aes(x = Brotes)) +
-  geom_histogram(color = paleta[8], fill = paleta[8]) +
+  geom_bar(color = paleta[8], fill = paleta[8], width = 0.2) +
   labs(x = 'Brotes', y = 'Cantidad') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle(
-    'Cantidad de árboles con x cantidad de brotes\nBUENOS AIRES, 2011'
+    'CANTIDAD DE ÁRBOLES POR CANTIDAD DE BROTES\nBUENOS AIRES, 2011'
   ) +
   theme(
     plot.title = element_text(
@@ -482,7 +486,9 @@ ggplot(df,
       hjust = 0.5
     ),
     plot.margin =  margin(20,20,20,20)
-  )
+  ) +   
+  scale_x_continuous(breaks = seq(0, 9, 1))
+
 
 
 
@@ -680,7 +686,7 @@ imprimirTabla(
 
 TFDiametro <-
   tablaFrecuencia(as.data.frame(table(cut(
-    Diámetro, right = FALSE, breaks = c(seq(0, 100, 5), 251)
+    Diámetro, right = FALSE, breaks = c(seq(0, 100, 10), 251)
   ))))
 
 
