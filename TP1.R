@@ -88,7 +88,7 @@ ggplot(
 
 (
   ggplot(df , aes(x = Altura, y = Diámetro)) +
-    geom_point(color = paleta[9]) +
+    geom_point(color = paleta[10]) +
     labs(x = 'Altura (m)', y = 'Diámetro (cm)') +
     labs(caption = "Fuente: Censo Forestal Urbano Público") +
     ggtitle('RELACIÓN ENTRE ALTURA Y DIÁMETRO POR ÁRBOL\nBUENOS AIRES, 2011') +
@@ -102,12 +102,12 @@ ggplot(
       plot.margin =  margin(20,20,20,20)
     )
 ) %>%
-  ggMarginal(type = "boxplot", color = 'black')
+  ggMarginal(type = "boxplot", color = paleta[9])
 
 
 (
   ggplot(df , aes(x = Altura, y = Inclinación)) +
-    geom_point(color = paleta[9]) +
+    geom_point(color = paleta[10]) +
     labs(x = 'Altura (m)', y = 'Inclinación (°)') +
     labs(caption = "Fuente: Censo Forestal Urbano Público") +
     ggtitle(
@@ -123,11 +123,11 @@ ggplot(
       plot.margin =  margin(20,20,20,20)
     )
 ) %>%
-  ggMarginal(type = "boxplot", color = 'black')
+  ggMarginal(type = "boxplot", color = paleta[9])
 
 (
   ggplot(df , aes(x = Diámetro, y = Inclinación)) +
-    geom_point(color = paleta[9]) +
+    geom_point(color = paleta[10]) +
     labs(x = 'Diámetro (cm)', y = 'Inclinación (°)') +
     labs(caption = "Fuente: Censo Forestal Urbano Público") +
     ggtitle(
@@ -143,7 +143,7 @@ ggplot(
       plot.margin =  margin(20,20,20,20)
     )
 ) %>%
-  ggMarginal(type = "boxplot", color = 'black')
+  ggMarginal(type = "boxplot", color = paleta[9])
 
 
 
@@ -245,8 +245,8 @@ ggplot(df, aes(x = Diámetro)) +
     ),
     plot.margin =  margin(20,20,20,20)
   ) +
-  facet_grid(Especie ~ .)
-
+  facet_grid(Especie ~ .) +
+  scale_x_continuous(breaks = seq(0, 300, 20))
 # Inclinación -------------------------------------------------------------
 
 
@@ -268,7 +268,8 @@ ggplot(df, aes(x = Inclinación)) +
     ),
     plot.margin =  margin(20,20,20,20)
   ) +
-  facet_grid(Especie ~ .)
+  facet_grid(Especie ~ .) +
+  scale_x_continuous(breaks = seq(0, 300, 5))
 
 ggplot(df, aes(x = Inclinación)) +
   geom_boxplot(color = 'black',
@@ -289,42 +290,6 @@ ggplot(df, aes(x = Inclinación)) +
     plot.margin =  margin(20,20,20,20)
   ) +
   scale_x_continuous(breaks = seq(0, max(Inclinación), 5))
-
-ggplot(df, aes(x = Inclinación, y = 'Identity')) +
-  geom_violin(color = 'black',
-              fill = paleta[6]) +
-  labs(x = 'Inclinación (°)', y = 'Densidad de árboles') +
-  labs(caption = "Fuente: Censo Forestal Urbano Público") +
-  ggtitle('DENSIDAD DE ÁRBOLES SEGÚN LA INCLINACIÓN\nBUENOS AIRES, 2011') +
-  theme(
-    axis.text.y = element_blank(),    
-    axis.ticks.y = element_blank(),
-    plot.title = element_text(
-      size = rel(2),
-      vjust = 2,
-      face = 'plain',
-      color = 'black',
-      hjust = 0.5
-    ),
-    plot.margin =  margin(20,20,20,20)
-  )
-
-ggplot(df, aes(x = Inclinación)) +
-  geom_density(color = paleta[3],
-               fill = paleta[4]) +
-  labs(x = 'Inclinación (°)', y = 'Cantidad de árboles') +
-  labs(caption = "Fuente: Censo Forestal Urbano Público") +
-  ggtitle('NÚMERO DE ÁRBOLES SEGÚN LA INCLINACIÓN\nBUENOS AIRES, 2011') +
-  theme(
-    plot.title = element_text(
-      size = rel(2),
-      vjust = 2,
-      face = 'plain',
-      color = 'black',
-      hjust = 0.5
-    ),
-    plot.margin =  margin(20,20,20,20)
-  )
 
 
 ggplot(
@@ -406,10 +371,10 @@ ggplot(df %>%
 
 # Origen ------------------------------------------------------------------
 ggplot(df, aes(x = Altura)) +
-  geom_histogram(color = paleta[3], fill = paleta[2], breaks = seq(0, max(Altura), 3)) +
+  geom_histogram(color = paleta[1], fill = paleta[2], breaks = seq(0, max(Altura), 3)) +
   labs(x = 'Altura (m)', y = 'Cantidad de árboles') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
-  ggtitle('CANTIDAD DE ÁRBALOS DE ORIGEN NATIVO/AUTÓCTONO SEGÚN LA ALTURA\nBUENOS AIRES, 2011') +
+  ggtitle('ALTURA SEGÚN EL ORIGEN\nBUENOS AIRES, 2011') +
   theme(
     plot.title = element_text(
       size = rel(2),
@@ -420,7 +385,7 @@ ggplot(df, aes(x = Altura)) +
     ),
     plot.margin =  margin(20,20,20,20)
   ) +
-  scale_x_continuous(breaks = seq(0, 300, 5)) +
+  scale_x_continuous(breaks = seq(0, 300, 3)) +
   scale_y_continuous(breaks = seq(0, 300, 5)) +
   facet_grid(Origen ~ .)
   
@@ -464,20 +429,14 @@ ggplot(df,
   scale_x_continuous(breaks = seq(0, 10, 1))
 
 
-
-
-ggplot(
-  df %>%
-    group_by(Diámetro) %>%
-    summarise(AlturaPromedio = mean(Altura)) %>%
-    arrange(AlturaPromedio),
-  aes(x = Diámetro,
-      y = AlturaPromedio)
-) +
-  geom_col(color = paleta[8], fill = paleta[8]) +
-  labs(x = 'Diámetro (cm)', y = 'Altura promedio (m)') +
+ggplot(df,
+       aes(x = Brotes)) +
+  geom_bar(color = paleta[8], fill = paleta[8], width = 0.2) +
+  labs(x = 'Brotes', y = 'Cantidad') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
-  ggtitle('ALTURA PROMEDIO SEGÚN EL DIÁMETRO\nBUENOS AIRES, 2011') +
+  ggtitle(
+    'CANTIDAD DE ÁRBOLES POR CANTIDAD DE BROTES\nBUENOS AIRES, 2011'
+  ) +
   theme(
     plot.title = element_text(
       size = rel(2),
@@ -487,8 +446,9 @@ ggplot(
       hjust = 0.5
     ),
     plot.margin =  margin(20,20,20,20)
-  )
-
+  ) +   
+  scale_x_continuous(breaks = seq(0, 10, 1)) +
+  facet_grid(Especie ~ .)
 
 # Inclinación promedio por especie ----------------------------------------
 
