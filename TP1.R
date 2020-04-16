@@ -754,6 +754,13 @@ TFBrotes <- TFBrotes %>%
     'Frecuencia Relativa Acumulada' = NA
   )
 
+TFBrotes <- rbind(TFBrotes, c("Brotes" = 'Total',
+                  "Frecuencia Absoluta" = sum(TFBrotes["Frecuencia Absoluta"]),
+                  "Frecuencia Relativa" = 1,
+                  "Frecuencia Absoluta Acumulada" = NA,
+                  'Frecuencia Relativa Acumulada' = NA))
+
+
 imprimirTabla(
   TFBrotes,
   'BROTES DE LOS ÁRBOLES CENSADOS\nBUENOS AIRES, 2011',
