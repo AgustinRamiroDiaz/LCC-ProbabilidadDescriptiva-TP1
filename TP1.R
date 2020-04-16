@@ -397,7 +397,7 @@ pie(
   pedazos,
   border = "white",
   col = brewer.pal(10, "Spectral"),
-  main = "PROPORCIÓN DE ÁRBOLES SEGÚN SU ORIGEN"
+  main = "PROPORCIÓN DE ÁRBOLES SEGÚN SU ORIGEN\nBUENOS AIRES, 2011"
 )
 
 # Brotes ------------------------------------------------------------------
