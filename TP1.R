@@ -39,11 +39,12 @@ summary(df)
 paleta = brewer.pal(10, name = 'Spectral')
 
 # Altura ------------------------------------------------------------------
-
+#TODO:  en binwidth no habría que dejarlo en 5? Ver link que te pase en telegram página 9.
+#Además así coincide con la tabla de frecuencias que toma intervalos de 5. 
 ggplot(df, aes(x = Altura)) +
   geom_histogram(color = paleta[7],
                  fill = paleta[8],
-                 binwidth = 1) +
+                 binwidth = 4) +
   labs(x = 'Altura (m)', y = 'Cantidad de árboles') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('CANTIDAD DE ÁRBOLES SEGÚN LA ALTURA\nBUENOS AIRES, 2011') +
@@ -57,8 +58,8 @@ ggplot(df, aes(x = Altura)) +
     ),
     plot.margin =  margin(20)
   ) + 
-  scale_x_continuous(breaks = seq(0, max(Inclinación), 5)) + 
-  scale_y_continuous(breaks = seq(0, max(Inclinación), 5))
+  scale_x_continuous(breaks = seq(0, max(Altura), 4)) + 
+  scale_y_continuous(breaks = seq(0, 100, 10))
 
 
 ggplot(df, aes(x = Altura)) +
@@ -169,11 +170,11 @@ ggplot(
 
 
 # Diámetro ----------------------------------------------------------------
-
+#TODO: Acá habría que sacar los valores aíslados, también según el coso que leí.
 ggplot(df, aes(x = Diámetro)) +
   geom_histogram(color = paleta[3],
                  fill = paleta[4],
-                 binwidth = 5) +
+                 binwidth = 12) +
   labs(x = 'Diámetro (cm)', y = 'Cantidad de árboles') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('CANTIDAD DE ÁRBOLES SEGÚN EL DIÁMETRO\nBUENOS AIRES, 2011') +
@@ -187,7 +188,8 @@ ggplot(df, aes(x = Diámetro)) +
     ),
     plot.margin =  margin(20)
   ) + 
-  scale_x_continuous(breaks = seq(0, max(Diámetro), 10))
+  scale_x_continuous(breaks = seq(0, max(Diámetro), 12))+ 
+  scale_y_continuous(breaks = seq(0, 100, 20))
 
 
 ggplot(
@@ -412,7 +414,8 @@ ggplot(df %>%
 
 
 # Origen ------------------------------------------------------------------
-
+#TODO: Acá también habría que poner el gráfico de manera que quede
+#una curva, sin huecos. (COSO de telegram)
 ggplot(df %>% filter(Origen == 'Nativo/Autóctono'), aes(x = Altura)) +
   geom_bar(color = paleta[3], fill = paleta[4]) +
   labs(x = 'Altura (m)', y = 'Cantidad de árboles') +
@@ -428,7 +431,7 @@ ggplot(df %>% filter(Origen == 'Nativo/Autóctono'), aes(x = Altura)) +
     ),
     plot.margin =  margin(20)
   )
-
+#TODO: ídem. Poner el mismo width así podemos hacer las comparaciones.
 ggplot(df %>% filter(Origen == 'Exótico'), aes(x = Altura)) +
   geom_bar(color = paleta[1], fill = paleta[2]) +
   labs(x = 'Altura (m)', y = 'Cantidad de árboles') +
@@ -462,14 +465,14 @@ pie(
 )
 
 # Brotes ------------------------------------------------------------------
-
+#TODO: título del título y entender bien este gráfico.
 ggplot(df,
        aes(x = Brotes)) +
   geom_histogram(color = paleta[8], fill = paleta[8]) +
   labs(x = 'Brotes', y = 'Cantidad') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle(
-    'Cantidad de árboles con x cantidad de brotes ? no sé como escribir el título tampoco si tiene sentido este histograma\nBUENOS AIRES, 2011'
+    'Cantidad de árboles con x cantidad de brotes\nBUENOS AIRES, 2011'
   ) +
   theme(
     plot.title = element_text(
@@ -655,7 +658,7 @@ tablaFrecuencia <- function(dataframe) {
 
 TFAltura <-
   tablaFrecuencia(as.data.frame(table(cut(
-    Altura, right = FALSE, breaks = seq(1, 41, 5)
+    Altura, right = FALSE, breaks = seq(0, 41, 4)
   ))))
 names(TFAltura)[1] = "Altura (m)"
 TFAltura <- TFAltura %>%
