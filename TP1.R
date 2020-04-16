@@ -146,6 +146,7 @@ ggplot(
   ggMarginal(type = "boxplot", color = 'black')
 
 
+
 # Diámetro ----------------------------------------------------------------
 
 ggplot(df, aes(x = Diámetro)) +
@@ -228,7 +229,7 @@ ggplot(
   scale_y_continuous(breaks = seq(0, max(Diámetro), 10))
 
 ggplot(df, aes(x = Diámetro)) +
-  geom_boxplot(color = paleta[3], fill = paleta[5]) +
+  geom_boxplot(color = 'black', fill = paleta[8]) +
   labs(x = 'Diámetro', y = 'Cantidad de árboles') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('DIÁMETRO SEGÚN LA ESPECIE\nBUENOS AIRES, 2011') +
@@ -336,7 +337,7 @@ ggplot(
             hjust = 1.5,
             color = "white",
             size = 3.5) +
-  ggtitle('INCLINACIÓN DE ÁRBOLES SEGÚN LA ESPECIE\nBUENOS AIRES, 2011') +
+  ggtitle('INCLINACIÓN PROMEDIO DE ÁRBOLES SEGÚN LA ESPECIE\nBUENOS AIRES, 2011') +
   theme(
     plot.title = element_text(
       size = rel(2),
@@ -465,7 +466,7 @@ ggplot(df,
     ),
     plot.margin =  margin(20,20,20,20)
   ) +   
-  scale_x_continuous(breaks = seq(0, 9, 1))
+  scale_x_continuous(breaks = seq(0, 10, 1))
 
 
 
