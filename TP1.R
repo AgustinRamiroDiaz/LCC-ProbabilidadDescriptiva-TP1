@@ -38,6 +38,8 @@ plot(df)
 summary(df)
 paleta = brewer.pal(10, name = 'Spectral')
 
+# Altura ------------------------------------------------------------------
+
 ggplot(df, aes(x = Altura)) +
   geom_histogram(color = paleta[7],
                  fill = paleta[8],
@@ -62,7 +64,7 @@ ggplot(df, aes(x = Altura)) +
 ggplot(df, aes(x = Altura)) +
   geom_histogram(color = paleta[4],
                  fill = paleta[5],
-                 binwidth = 5) +
+                 binwidth = 4) +
   labs(x = 'Altura (m)', y = 'Cantidad de árboles') + #Duda por histograma
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('CANTIDAD DE ÁRBOLES SEGÚN LA ALTURA\nBUENOS AIRES, 2011') +
