@@ -323,9 +323,8 @@ ggplot(
 
 # Especie -----------------------------------------------------------------
 
-
 ggplot(df, aes(x = Altura)) +
-  geom_bar(color = paleta[8], fill = paleta[7]) +
+  geom_histogram(color = paleta[8], fill = paleta[7], binwidth = 1) +
   labs(x = 'Especie', y = 'Cantidad de árboles') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('ALTURA SEGÚN LA ESPECIE\nBUENOS AIRES, 2011') +
@@ -372,6 +371,25 @@ ggplot(df %>%
 # Origen ------------------------------------------------------------------
 ggplot(df, aes(x = Altura)) +
   geom_histogram(color = paleta[1], fill = paleta[2], breaks = seq(0, max(Altura), 3)) +
+  labs(x = 'Altura (m)', y = 'Cantidad de árboles') +
+  labs(caption = "Fuente: Censo Forestal Urbano Público") +
+  ggtitle('ALTURA SEGÚN EL ORIGEN\nBUENOS AIRES, 2011') +
+  theme(
+    plot.title = element_text(
+      size = rel(2),
+      vjust = 2,
+      face = 'plain',
+      color = 'black',
+      hjust = 0.5
+    ),
+    plot.margin =  margin(20,20,20,20)
+  ) +
+  scale_x_continuous(breaks = seq(0, 300, 3)) +
+  scale_y_continuous(breaks = seq(0, 300, 5)) +
+  facet_grid(Origen ~ .)
+
+ggplot(df, aes(x = Diámetro)) +
+  geom_histogram(color = paleta[1], fill = paleta[2], breaks = seq(0, 250, 10)) +
   labs(x = 'Altura (m)', y = 'Cantidad de árboles') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('ALTURA SEGÚN EL ORIGEN\nBUENOS AIRES, 2011') +
@@ -435,7 +453,7 @@ ggplot(df,
   labs(x = 'Brotes', y = 'Cantidad') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle(
-    'CANTIDAD DE ÁRBOLES POR CANTIDAD DE BROTES\nBUENOS AIRES, 2011'
+    'CANTIDAD DE BROTES POR ESPECIE\nBUENOS AIRES, 2011'
   ) +
   theme(
     plot.title = element_text(
