@@ -766,14 +766,14 @@ imprimirTabla(
 
 TFBrotes <- tablaFrecuencia(
   df %>%
-    group_by(Especie)  %>%
+    group_by(Brotes)  %>%
     summarise('Frecuencia Absoluta' = sum(Brotes)) %>%
-    arrange(`Frecuencia Absoluta`)
+    arrange(`Brotes`)
 )
 
 TFBrotes <- TFBrotes %>%
   add_row(
-    "Especie" = 'Total',
+    "Brotes" = 'Total',
     "Frecuencia Absoluta" = sum(TFBrotes["Frecuencia Absoluta"]),
     "Frecuencia Relativa" = 1,
     "Frecuencia Absoluta Acumulada" = NA,
