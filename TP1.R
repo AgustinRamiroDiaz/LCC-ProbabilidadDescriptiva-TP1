@@ -38,9 +38,6 @@ plot(df)
 summary(df)
 paleta = brewer.pal(10, name = 'Spectral')
 
-# Altura ------------------------------------------------------------------
-#TODO:  en binwidth no habría que dejarlo en 5? Ver link que te pase en telegram página 9.
-#Además así coincide con la tabla de frecuencias que toma intervalos de 5. 
 ggplot(df, aes(x = Altura)) +
   geom_histogram(color = paleta[7],
                  fill = paleta[8],
@@ -56,7 +53,7 @@ ggplot(df, aes(x = Altura)) +
       color = 'black',
       hjust = 0.5
     ),
-    plot.margin =  margin(20)
+    plot.margin =  margin(20,20,20,20)
   ) + 
   scale_x_continuous(breaks = seq(0, max(Altura), 4)) + 
   scale_y_continuous(breaks = seq(0, 100, 10))
@@ -77,7 +74,7 @@ ggplot(df, aes(x = Altura)) +
       color = 'black',
       hjust = 0.5
     ),
-    plot.margin =  margin(20)
+    plot.margin =  margin(20,20,20,20)
   ) + 
   scale_x_continuous(breaks = seq(0, max(Inclinación), 5)) + 
   scale_y_continuous(breaks = seq(0, max(Inclinación), 5))
@@ -102,7 +99,7 @@ ggplot(
       color = 'black',
       hjust = 0.5
     ),
-    plot.margin =  margin(20)
+    plot.margin =  margin(20,20,20,20)
   ) +
   geom_text(aes(label = round(AlturaPromedio, 2)),
             vjust = 1.5,
@@ -122,7 +119,7 @@ ggplot(
         color = 'black',
         hjust = 0.5
       ),
-      plot.margin =  margin(20)
+      plot.margin =  margin(20,20,20,20)
     )
 ) %>%
   ggMarginal(type = "boxplot", color = 'black')
@@ -143,7 +140,7 @@ ggplot(
         color = 'black',
         hjust = 0.5
       ),
-      plot.margin =  margin(20)
+      plot.margin =  margin(20,20,20,20)
     )
 ) %>%
   ggMarginal(type = "boxplot", color = 'black')
@@ -163,7 +160,7 @@ ggplot(
         color = 'black',
         hjust = 0.5
       ),
-      plot.margin =  margin(20)
+      plot.margin =  margin(20,20,20,20)
     )
 ) %>%
   ggMarginal(type = "boxplot", color = 'black')
@@ -186,7 +183,7 @@ ggplot(df, aes(x = Diámetro)) +
       color = 'black',
       hjust = 0.5
     ),
-    plot.margin =  margin(20)
+    plot.margin =  margin(20,20,20,20)
   ) + 
   scale_x_continuous(breaks = seq(0, max(Diámetro), 12))+ 
   scale_y_continuous(breaks = seq(0, 100, 20))
@@ -215,7 +212,7 @@ ggplot(
       color = 'black',
       hjust = 0.5
     ),
-    plot.margin =  margin(20)
+    plot.margin =  margin(20,20,20,20)
   ) +
   geom_text(aes(label = round(DiámetroPromedio, 2)),
             vjust = 1.5,
@@ -244,7 +241,7 @@ ggplot(
       color = 'black',
       hjust = 0.5
     ),
-    plot.margin =  margin(20)
+    plot.margin =  margin(20,20,20,20)
   ) +
   scale_x_continuous(breaks = seq(0, max(Diámetro), 1)) +
   scale_y_continuous(breaks = seq(0, max(Diámetro), 10))
@@ -262,7 +259,7 @@ ggplot(df, aes(x = Diámetro)) +
       color = 'black',
       hjust = 0.5
     ),
-    plot.margin =  margin(20)
+    plot.margin =  margin(20,20,20,20)
   ) +
   facet_grid(Especie ~ .)
 
@@ -280,7 +277,7 @@ ggplot(df, aes(x = Inclinación)) +
       color = 'black',
       hjust = 0.5
     ),
-    plot.margin =  margin(20)
+    plot.margin =  margin(20,20,20,20)
   ) +
   facet_grid(Especie ~ .)
 
@@ -298,7 +295,7 @@ ggplot(df, aes(x = Inclinación)) +
       color = 'black',
       hjust = 0.5
     ),
-    plot.margin =  margin(20)
+    plot.margin =  margin(20,20,20,20)
   ) +
   scale_x_continuous(breaks = seq(0, max(Inclinación), 5))
 
@@ -316,7 +313,7 @@ ggplot(df, aes(x = Inclinación, y = 'Identity')) +
       color = 'black',
       hjust = 0.5
     ),
-    plot.margin =  margin(20)
+    plot.margin =  margin(20,20,20,20)
   )
 
 
@@ -334,7 +331,7 @@ ggplot(df, aes(x = Inclinación)) +
       color = 'black',
       hjust = 0.5
     ),
-    plot.margin =  margin(20)
+    plot.margin =  margin(20,20,20,20)
   )
 
 
@@ -364,7 +361,7 @@ ggplot(
       color = 'black',
       hjust = 0.5
     ),
-    plot.margin =  margin(20)
+    plot.margin =  margin(20,20,20,20)
   )
 
 # Especie -----------------------------------------------------------------
@@ -383,7 +380,7 @@ ggplot(df, aes(x = Altura)) +
       color = 'black',
       hjust = 0.5
     ),
-    plot.margin =  margin(20)
+    plot.margin =  margin(20,20,20,20)
   ) +
   facet_grid(Especie ~ .)
 
@@ -405,7 +402,7 @@ ggplot(df %>%
       color = 'black',
       hjust = 0.5
     ),
-    plot.margin =  margin(20)
+    plot.margin =  margin(20,20,20,20)
   ) +
   geom_text(aes(label = Cant),
             vjust = 1.5,
@@ -417,7 +414,7 @@ ggplot(df %>%
 #TODO: Acá también habría que poner el gráfico de manera que quede
 #una curva, sin huecos. (COSO de telegram)
 ggplot(df %>% filter(Origen == 'Nativo/Autóctono'), aes(x = Altura)) +
-  geom_bar(color = paleta[3], fill = paleta[4]) +
+  geom_histogram(color = paleta[3], fill = paleta[4], binwidth = 4) +
   labs(x = 'Altura (m)', y = 'Cantidad de árboles') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('CANTIDAD DE ÁRBALOS DE ORIGEN NATIVO/AUTÓCTONO SEGÚN LA ALTURA\nBUENOS AIRES, 2011') +
@@ -429,11 +426,11 @@ ggplot(df %>% filter(Origen == 'Nativo/Autóctono'), aes(x = Altura)) +
       color = 'black',
       hjust = 0.5
     ),
-    plot.margin =  margin(20)
+    plot.margin =  margin(20,20,20,20)
   )
 #TODO: ídem. Poner el mismo width así podemos hacer las comparaciones.
 ggplot(df %>% filter(Origen == 'Exótico'), aes(x = Altura)) +
-  geom_bar(color = paleta[1], fill = paleta[2]) +
+  geom_histogram(color = paleta[1], fill = paleta[2],binwidth = 4) +
   labs(x = 'Altura (m)', y = 'Cantidad de árboles') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('CANTIDAD DE ÁRBALOS DE ORIGEN EXÓTICO SEGÚN LA ALTURA\nBUENOS AIRES, 2011') +
@@ -445,7 +442,7 @@ ggplot(df %>% filter(Origen == 'Exótico'), aes(x = Altura)) +
       color = 'black',
       hjust = 0.5
     ),
-    plot.margin =  margin(20)
+    plot.margin =  margin(20,20,20,20)
   )
 
 #Variables para el gráfico de torta.
@@ -482,7 +479,7 @@ ggplot(df,
       color = 'black',
       hjust = 0.5
     ),
-    plot.margin =  margin(20)
+    plot.margin =  margin(20,20,20,20)
   )
 
 
@@ -507,7 +504,7 @@ ggplot(
       color = 'black',
       hjust = 0.5
     ),
-    plot.margin =  margin(20)
+    plot.margin =  margin(20,20,20,20)
   )
 
 
@@ -539,7 +536,7 @@ ggplot(
       color = 'black',
       hjust = 0.5
     ),
-    plot.margin =  margin(20)
+    plot.margin =  margin(20,20,20,20)
   )
 
 
@@ -568,7 +565,7 @@ ggplot(
       color = 'black',
       hjust = 0.5
     ),
-    plot.margin =  margin(20)
+    plot.margin =  margin(20,20,20,20)
   )
 
 ggplot(
@@ -594,7 +591,7 @@ ggplot(
       color = 'black',
       hjust = 0.5
     ),
-    plot.margin =  margin(20)
+    plot.margin =  margin(20,20,20,20)
   )
 
 # Altura promedio por especie ---------------------------------------------
@@ -625,7 +622,7 @@ ggplot(
       color = 'black',
       hjust = 0.5
     ),
-    plot.margin =  margin(20)
+    plot.margin =  margin(20,20,20,20)
   )
 
 # Tabla de frecuencia ---------------------------------
