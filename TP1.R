@@ -153,7 +153,7 @@ ggplot(df, aes(x = Diámetro)) +
   geom_histogram(color = paleta[3],
                  fill = paleta[4],
                  binwidth = 12,
-                 breaks = seq(0, max(Diámetro), 10)) +
+                 breaks = seq(0, max(Diámetro), 10), closed = "left") +
   labs(x = 'Diámetro (cm)', y = 'Cantidad de árboles') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('CANTIDAD DE ÁRBOLES SEGÚN EL DIÁMETRO\nBUENOS AIRES, 2011') +
@@ -299,7 +299,7 @@ ggplot(
 # Especie -----------------------------------------------------------------
 
 ggplot(df, aes(x = Altura)) +
-  geom_histogram(color = paleta[8], fill = paleta[7], breaks = seq(1, 37, 3)) +
+  geom_histogram(color = paleta[8], fill = paleta[7], breaks = seq(1, 37, 3), closed = "left") +
   labs(x = 'Altura', y = 'Cantidad de árboles') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('ALTURA SEGÚN LA ESPECIE\nBUENOS AIRES, 2011') +
