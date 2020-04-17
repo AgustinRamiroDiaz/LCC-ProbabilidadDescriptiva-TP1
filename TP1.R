@@ -361,11 +361,11 @@ ggplot(df, aes(x = Altura)) +
     plot.margin =  margin(20,20,20,20)
   ) +
   scale_x_continuous(breaks = seq(0, 300, 3)) +
-  scale_y_continuous(breaks = seq(0, 300, 5)) +
+  scale_y_continuous(breaks = seq(0, 300, 10)) +
   facet_grid(Origen ~ .)
 
 ggplot(df, aes(x = Diámetro)) +
-  geom_histogram(color = paleta[1], fill = paleta[2], breaks = seq(0, 250, 10), closed = "left") +
+  geom_histogram(color = paleta[1], fill = paleta[2], breaks = seq(0, 260, 10), closed = "left") +
   labs(x = 'Altura (m)', y = 'Cantidad de árboles') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('ALTURA SEGÚN EL ORIGEN\nBUENOS AIRES, 2011') +
@@ -379,8 +379,8 @@ ggplot(df, aes(x = Diámetro)) +
     ),
     plot.margin =  margin(20,20,20,20)
   ) +
-  scale_x_continuous(breaks = seq(0, 300, 3)) +
-  scale_y_continuous(breaks = seq(0, 300, 5)) +
+  scale_x_continuous(breaks = seq(0, 300, 20)) +
+  scale_y_continuous(breaks = seq(0, 300, 10)) +
   facet_grid(Origen ~ .)
   
 
@@ -398,7 +398,7 @@ pie(
   border = "white",
   col = brewer.pal(10, "Spectral"),
   main = "PROPORCIÓN DE ÁRBOLES SEGÚN SU ORIGEN\nBUENOS AIRES, 2011")
-)
+
 
 # Brotes ------------------------------------------------------------------
 
@@ -536,10 +536,9 @@ ggplot(
   df %>%
     group_by(Especie) %>%
     summarise(
-      AlturaPromedio = mean(Altura),
-      DesviacionEstandar = sd(Altura)
+      AlturaPromedio = mean(Altura)
     ),
-  aes(x = reorder(Especie), y = AlturaPromedio)
+  aes(x = reorder(Especie, AlturaPromedio), y = AlturaPromedio)
 ) +
   geom_col(color = paleta[2], fill = paleta[1]) +
   coord_flip() +
