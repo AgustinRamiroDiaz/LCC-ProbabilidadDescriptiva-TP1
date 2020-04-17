@@ -57,7 +57,7 @@ ggplot(df, aes(x = Altura)) +
     ),
     plot.margin =  margin(20,20,20,20)
   ) + 
-  scale_x_continuous(breaks = seq(0, max(Altura), 4)) + 
+  scale_x_continuous(breaks = seq(1, 37, 3)) + 
   scale_y_continuous(breaks = seq(0, 100, 10))
 
 ggplot(
@@ -563,35 +563,13 @@ ggplot(
 
 # Tabla de frecuencia ---------------------------------
 
-#Espera un dataframe de 2 columnas, la primera con las etiquetas y la segunda con las cantidades
-tablaFrecuencia <- function(dataframe) {
-  tablaFrec <- dataframe
-  
-  names(tablaFrec)[2] = 'Frecuencia Absoluta'
-  
-  tablaFrec["Frecuencia Relativa"] <-
-    (tablaFrec["Frecuencia Absoluta"] / sum(tablaFrec["Frecuencia Absoluta"]))
-  
-  tablaFrec["Frecuencia Absoluta Acumulada"] <-
-    round(cumsum(tablaFrec["Frecuencia Absoluta"]), 2)
-  
-  tablaFrec['Frecuencia Relativa Acumulada'] <-
-    round(cumsum(tablaFrec["Frecuencia Relativa"]), 2)
-  
-  tablaFrec["Frecuencia Relativa"] <-
-    round(tablaFrec["Frecuencia Relativa"], 2)
-  
-  
-  return (tablaFrec)
-}
-
 
 
 #Tabla de frecuencia de la altura.
 
 TFAltura <-
   tablaFrecuencia(as.data.frame(table(cut(
-    Altura, right = FALSE, breaks = seq(0, 41, 4)
+    Altura, right = FALSE, breaks = seq(1, 37, 3)
   ))))
 names(TFAltura)[1] = "Altura (m)"
 TFAltura <- TFAltura %>%
@@ -721,6 +699,30 @@ imprimirTabla(
   'Fuente: Censo Forestal Urbano Público'
 )
 
+#Espera un dataframe de 2 columnas, la primera con las etiquetas y la segunda con las cantidades
+tablaFrecuencia <- function(dataframe) {
+  tablaFrec <- dataframe
+  
+  names(tablaFrec)[2] = 'Frecuencia Absoluta'
+  
+  tablaFrec["Frecuencia Relativa"] <-
+    (tablaFrec["Frecuencia Absoluta"] / sum(tablaFrec["Frecuencia Absoluta"]))
+  
+  tablaFrec["Frecuencia Absoluta Acumulada"] <-
+    round(cumsum(tablaFrec["Frecuencia Absoluta"]), 2)
+  
+  tablaFrec['Frecuencia Relativa Acumulada'] <-
+    round(cumsum(tablaFrec["Frecuencia Relativa"]), 2)
+  
+  tablaFrec["Frecuencia Relativa"] <-
+    round(tablaFrec["Frecuencia Relativa"], 2)
+  
+  
+  return (tablaFrec)
+}
+
+
+
 #Para exportar las imágenes a png.
 imprimirTabla <- function(tabla, titulo, pie) {
   tema <-
@@ -749,4 +751,3 @@ imprimirTabla <- function(tabla, titulo, pie) {
   grid.draw(p)
 }
 
-dev.off()
