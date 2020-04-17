@@ -131,7 +131,7 @@ ggplot(
     labs(x = 'Diámetro (cm)', y = 'Inclinación (°)') +
     labs(caption = "Fuente: Censo Forestal Urbano Público") +
     ggtitle(
-      'RELACIÓN ENTRE DIPAMETRO E INCLINACIÓN POR ÁRBOL\nBUENOS AIRES, 2011'
+      'RELACIÓN ENTRE DIÁMETRO E INCLINACIÓN POR ÁRBOL\nBUENOS AIRES, 2011'
     ) +
     theme(
       plot.title = element_text(
@@ -397,7 +397,7 @@ pie(
   pedazos,
   border = "white",
   col = brewer.pal(10, "Spectral"),
-  main = "PROPORCIÓN DE ÁRBOLES SEGÚN SU ORIGEN\nBUENOS AIRES, 2011"
+  main = "PROPORCIÓN DE ÁRBOLES SEGÚN SU ORIGEN\nBUENOS AIRES, 2011")
 )
 
 # Brotes ------------------------------------------------------------------
