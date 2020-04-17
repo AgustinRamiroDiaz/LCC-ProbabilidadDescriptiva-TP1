@@ -153,7 +153,7 @@ ggplot(df, aes(x = Diámetro)) +
   geom_histogram(color = paleta[3],
                  fill = paleta[4],
                  binwidth = 12,
-                 breaks = seq(0, max(Diámetro), 10), closed = "left") +
+                 breaks = seq(0, 250, 10), closed = "left") +
   labs(x = 'Diámetro (cm)', y = 'Cantidad de árboles') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('CANTIDAD DE ÁRBOLES SEGÚN EL DIÁMETRO\nBUENOS AIRES, 2011') +
@@ -167,7 +167,7 @@ ggplot(df, aes(x = Diámetro)) +
     ),
     plot.margin =  margin(20,20,20,20)
   ) + 
-  scale_x_continuous(breaks = seq(0, max(Diámetro), 20))+ 
+  scale_x_continuous(breaks = seq(0, 260, 20))+ 
   scale_y_continuous(breaks = seq(0, 100, 20))
 
 
@@ -346,7 +346,7 @@ ggplot(df %>%
 
 # Origen ------------------------------------------------------------------
 ggplot(df, aes(x = Altura)) +
-  geom_histogram(color = paleta[1], fill = paleta[2], breaks = seq(0, max(Altura), 3)) +
+  geom_histogram(color = paleta[1], fill = paleta[2], breaks = seq(1, 37, 3), closed = "left") +
   labs(x = 'Altura (m)', y = 'Cantidad de árboles') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('ALTURA SEGÚN EL ORIGEN\nBUENOS AIRES, 2011') +
@@ -365,7 +365,7 @@ ggplot(df, aes(x = Altura)) +
   facet_grid(Origen ~ .)
 
 ggplot(df, aes(x = Diámetro)) +
-  geom_histogram(color = paleta[1], fill = paleta[2], breaks = seq(0, 250, 10)) +
+  geom_histogram(color = paleta[1], fill = paleta[2], breaks = seq(0, 250, 10), closed = "left") +
   labs(x = 'Altura (m)', y = 'Cantidad de árboles') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('ALTURA SEGÚN EL ORIGEN\nBUENOS AIRES, 2011') +
