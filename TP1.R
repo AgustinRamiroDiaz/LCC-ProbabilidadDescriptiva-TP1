@@ -38,13 +38,15 @@ plot(df)
 summary(df)
 paleta = brewer.pal(10, name = 'Spectral')
 
-tema = theme(plot.title = element_text(color="black", size=14, face="bold.italic", hjust = 0.5),
+tema = theme(plot.title = element_text(size = rel(relacion_titulo), vjust = 2, face = 'bold', color = 'black', hjust = 0.5),
              plot.subtitle = element_text(hjust = 0.5),
              axis.title.x = element_text(color="#993333", size=10, face="bold"),
              axis.title.y = element_text(color="#993333", size=10, face="bold"),
              plot.tag = element_text(color="#000000", size=8, face="bold.italic"),
-             plot.tag.position = "bottomright"
+             plot.tag.position = "bottomright",
+             plot.margin =  margin(20,20,20,20)
 )
+removeAxisTicks = theme(axis.text.y = element_blank(), axis.ticks.y = element_blank())
 relacion_titulo = 1.5
 
 ################################################ QUEDA
@@ -58,16 +60,6 @@ ggplot(df, aes(x = Altura)) +
   labs(tag = "FIG 1") +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('Distribucion de altura del total de los arboles censados\nBuenos Aires, 2011') +
-  theme(
-    plot.title = element_text(
-      size = rel(relacion_titulo),
-      vjust = 2,
-      face = 'bold',
-      color = 'black',
-      hjust = 0.5
-    ),
-    plot.margin =  margin(20,20,20,20)
-  ) + 
   scale_x_continuous(breaks = seq(1, 37, 3)) + 
   scale_y_continuous(breaks = seq(0, 100, 10)) +
   tema
@@ -84,17 +76,7 @@ ggplot(df, aes(x = Diámetro)) +
   labs(x = 'Diámetro (en centimetros)', y = 'Frecuencia') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   labs(tag = "FIG 2") +
-  ggtitle('Diámetro de los árboles\nBuenos Aires, 2011') +
-  theme(
-    plot.title = element_text(
-      size = rel(relacion_titulo),
-      vjust = 2,
-      face = 'plain',
-      color = 'black',
-      hjust = 0.5
-    ),
-    plot.margin =  margin(20,20,20,20)
-  ) + 
+  ggtitle('Diámetro de los árboles\nBuenos Aires, 2011') + 
   scale_x_continuous(breaks = seq(0, 260, 20)) + 
   scale_y_continuous(breaks = seq(0, 100, 20)) +
   tema
@@ -111,20 +93,9 @@ ggplot(df, aes(x = Inclinación)) +
   labs(tag = "FIG 3") +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('Densidad de árboles según la inclinación\nBuenos Aires, 2011') +
-  theme(
-    axis.text.y = element_blank(),    
-    axis.ticks.y = element_blank(),
-    plot.title = element_text(
-      size = rel(relacion_titulo),
-      vjust = 2,
-      face = 'plain',
-      color = 'black',
-      hjust = 0.5
-    ),
-    plot.margin =  margin(20,20,20,20)
-  ) +
   scale_x_continuous(breaks = seq(0, max(Inclinación), 5)) +
-  tema
+  tema +
+  removeAxisTicks
 ################################################
 
 ################################################ QUEDA
@@ -139,16 +110,6 @@ ggplot(df %>%
   labs(tag = "FIG 4") +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('Cantidad de árboles según la especie\nBuenos Aires, 2011') +
-  theme(
-    plot.title = element_text(
-      size = rel(relacion_titulo),
-      vjust = 2,
-      face = 'plain',
-      color = 'black',
-      hjust = 0.5
-    ),
-    plot.margin =  margin(20, 20, 20, 20)
-  ) +
   geom_text(aes(label = Cant),
             hjust = 1.5,
             color = "white",
@@ -188,17 +149,7 @@ ggplot(df,
   labs(tag = "FIG 6") +
   ggtitle(
     'CANTIDAD DE ÁRBOLES POR CANTIDAD DE BROTES\nBUENOS AIRES, 2011'
-  ) +
-  theme(
-    plot.title = element_text(
-      size = rel(relacion_titulo),
-      vjust = 2,
-      face = 'plain',
-      color = 'black',
-      hjust = 0.5
-    ),
-    plot.margin =  margin(20,20,20,20)
-  ) +   
+  ) +  
   scale_x_continuous(breaks = seq(0, 10, 1)) +
   tema
 ################################################
@@ -218,16 +169,6 @@ ggplot(
   labs(caption = "Fuente: Censo Forestal Urbano Público (FIGURA N)") +
   labs(tag = "FIG 7") +
   ggtitle('Altura promedio según especie\nBuenos Aires, 2011') +
-  theme(
-    plot.title = element_text(
-      size = rel(relacion_titulo),
-      vjust = 2,
-      face = 'plain',
-      color = 'black',
-      hjust = 0.5
-    ),
-    plot.margin =  margin(20,20,20,20)
-  ) +
   geom_text(aes(label = round(AlturaPromedio, 2)),
             hjust = 1.5,
             color = "white",
@@ -254,16 +195,6 @@ ggplot(
   labs(tag = "FIG 8") +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('Diámetro promedio según la especie\nBuenos Aires, 2011') +
-  theme(
-    plot.title = element_text(
-      size = rel(relacion_titulo),
-      vjust = 2,
-      face = 'plain',
-      color = 'black',
-      hjust = 0.5
-    ),
-    plot.margin =  margin(20,20,20,20)
-  ) +
   geom_text(aes(label = round(DiámetroPromedio, 2)),
             hjust = 1.5,
             color = "white",
@@ -294,16 +225,6 @@ ggplot(
             color = "white",
             size = 3.5) +
   ggtitle('Inclinación promedio según la especie\nBuenos Aires, 2011') +
-  theme(
-    plot.title = element_text(
-      size = rel(relacion_titulo),
-      vjust = 2,
-      face = 'plain',
-      color = 'black',
-      hjust = 0.5
-    ),
-    plot.margin =  margin(20,20,20,20)
-  ) +
   tema
 ################################################
 
@@ -316,18 +237,6 @@ ggplot(df, aes(x = Altura)) +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   labs(tag = "FIG 10") +
   ggtitle('Altura según la especie\nBuenos Aires, 2011') +
-  theme(
-    axis.text.y = element_blank(),
-    axis.ticks.y = element_blank(),
-    plot.title = element_text(
-      size = rel(relacion_titulo),
-      vjust = 2,
-      face = 'plain',
-      color = 'black',
-      hjust = 0.5
-    ),
-    plot.margin =  margin(20,20,20,20)
-  ) +
   facet_wrap(Especie ~ .) +
   scale_x_continuous(breaks = seq(1, 50, 5)) +
   tema
@@ -342,21 +251,10 @@ ggplot(df, aes(x = Diámetro)) +
   labs(tag = "FIG 11") +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('Diámetro según la especie\nBuenos Aires, 2011') +
-  theme(
-    axis.text.y = element_blank(),    
-    axis.ticks.y = element_blank(),
-    plot.title = element_text(
-      size = rel(relacion_titulo),
-      vjust = 2,
-      face = 'plain',
-      color = 'black',
-      hjust = 0.5
-    ),
-    plot.margin =  margin(20,20,20,20)
-  ) +
   facet_grid(Especie ~ .) +
   scale_x_continuous(breaks = seq(0, 300, 20)) +
-  tema
+  tema +
+  removeAxisTicks
 ################################################
 
 ################################################ QUEDA
@@ -368,18 +266,6 @@ ggplot(df, aes(x = Inclinación)) +
   labs(tag = "FIG 12") +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('INCLINACIÓN SEGÚN LA ESPECIE\nBUENOS AIRES, 2011') +
-  theme(
-    axis.text.y = element_blank(),    
-    axis.ticks.y = element_blank(),
-    plot.title = element_text(
-      size = rel(relacion_titulo),
-      vjust = 2,
-      face = 'plain',
-      color = 'black',
-      hjust = 0.5
-    ),
-    plot.margin =  margin(20,20,20,20)
-  ) +
   facet_wrap(Especie ~ .) +
   scale_x_continuous(breaks = seq(0, 70, 5)) +
   tema
@@ -396,16 +282,6 @@ ggplot(df, aes(x = Altura)) +
   labs(tag = "FIG 13") +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('Altura según el origen\nBuenos Aires, 2011') +
-  theme(
-    plot.title = element_text(
-      size = rel(relacion_titulo),
-      vjust = 2,
-      face = 'plain',
-      color = 'black',
-      hjust = 0.5
-    ),
-    plot.margin =  margin(20,20,20,20)
-  ) +
   scale_x_continuous(breaks = seq(0, 300, 3)) +
   scale_y_continuous(breaks = seq(0, 300, 10)) +
   facet_grid(Origen ~ .) +
@@ -422,16 +298,6 @@ ggplot(df, aes(x = Diámetro)) +
     labs(tag = "FIG 14")
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('Diámetro según el origen\nBuenos Aires, 2011') +
-  theme(
-    plot.title = element_text(
-      size = rel(relacion_titulo),
-      vjust = 2,
-      face = 'plain',
-      color = 'black',
-      hjust = 0.5
-    ),
-    plot.margin =  margin(20,20,20,20)
-  ) +
   scale_x_continuous(breaks = seq(0, 300, 20)) +
   scale_y_continuous(breaks = seq(0, 300, 10)) +
   facet_grid(Origen ~ .) +
@@ -450,19 +316,9 @@ ggplot(df,
   ggtitle(
     'CANTIDAD DE BROTES POR ESPECIE\nBUENOS AIRES, 2011'
   ) +
-  theme(
-    plot.title = element_text(
-      size = rel(relacion_titulo),
-      vjust = 2,
-      face = 'plain',
-      color = 'black',
-      hjust = 0.5
-    ),
-    plot.margin =  margin(20,20,20,20)
-  ) +   
   scale_x_continuous(breaks = seq(0, 10, 1)) +
   facet_wrap(Especie ~ .) +
-  relacion_titulo
+  tema
 ################################################
 
 
@@ -485,16 +341,6 @@ ggplot(
             color = "white",
             size = 3.5) +
   ggtitle('Promedio de brotes según la especie\nBuenos Aires, 2011') +
-  theme(
-    plot.title = element_text(
-      size = rel(relacion_titulo),
-      vjust = 2,
-      face = 'plain',
-      color = 'black',
-      hjust = 0.5
-    ),
-    plot.margin =  margin(20,20,20,20)
-  ) +
   tema
 ################################################
   
