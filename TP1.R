@@ -38,6 +38,7 @@ plot(df)
 summary(df)
 paleta = brewer.pal(10, name = 'Spectral')
 
+relacion_titulo = 1.5
 tema = theme(plot.title = element_text(size = rel(relacion_titulo), vjust = 2, face = 'bold', color = 'black', hjust = 0.5),
              plot.subtitle = element_text(hjust = 0.5),
              axis.title.x = element_text(color="#993333", size=10, face="bold"),
@@ -47,12 +48,12 @@ tema = theme(plot.title = element_text(size = rel(relacion_titulo), vjust = 2, f
              plot.margin =  margin(20,20,20,20)
 )
 removeAxisTicks = theme(axis.text.y = element_blank(), axis.ticks.y = element_blank())
-relacion_titulo = 1.5
 
 ################################################ QUEDA
 ################################################ ALTURA DE LOS ARBOLES
 ################################################ PRIMER GRAFICO
-ggplot(df, aes(x = Altura)) +
+cumsum(Altura)
+  ggplot(df, aes(x = Altura)) +
   geom_histogram(color = paleta[7],
                  fill = paleta[8],
                  breaks = seq(1, 37, 3), closed = "left") +
@@ -63,6 +64,18 @@ ggplot(df, aes(x = Altura)) +
   scale_x_continuous(breaks = seq(1, 37, 3)) + 
   scale_y_continuous(breaks = seq(0, 100, 10)) +
   tema
+
+  ggplot(df, aes(x = Altura)) +
+  stat_bin(data = df, aes(y = (cumsum(..count..))/length(Altura) ),geom="line", breaks = seq(-2, 37, 3), closed = "right") +
+  labs(x = 'Altura (en metros)', y = 'Frecuencia Absoluta') +
+  labs(tag = "FIG 1") +
+  labs(caption = "Fuente: Censo Forestal Urbano Público") +
+  ggtitle('Distribucion de altura del total de los arboles censados\nBuenos Aires, 2011') +
+  scale_x_continuous(breaks = seq(1, 37, 3)) + 
+  scale_y_continuous(breaks = seq(0, 1, 0.1)) +
+  tema
+
+#AGREGAR POLIGONO
 ################################################
 
 ################################################ QUEDA
@@ -138,7 +151,7 @@ pie(
   tema
 ################################################
 
-################################################ QUEDA """CAMBIAR A BARPLOT"""
+################################################ QUEDA
 ################################################ CANTIDAD DE ARBOLES POR CANTIDAD DE BROTES
 ################################################ 6° GRAFICO
 ggplot(df,
@@ -239,7 +252,8 @@ ggplot(df, aes(x = Altura)) +
   ggtitle('Altura según la especie\nBuenos Aires, 2011') +
   facet_wrap(Especie ~ .) +
   scale_x_continuous(breaks = seq(1, 50, 5)) +
-  tema
+  tema +
+  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank() )
 ################################################
 
 ################################################ QUEDA
@@ -276,6 +290,16 @@ ggplot(df, aes(x = Inclinación)) +
 ################################################ QUEDA
 ################################################ ALTURA SEGUN EL ORIGEN """HACER RELATIVAS LAS MEDIDAS"""
 ################################################ 13° GRAFICO
+prueba <- length(Altura)
+prueba
+typeof(Altura)
+summary(Altura)
+Altura
+summarise(Altura)
+datos <- table(Altura)
+as.data.frame(datos)
+typeof(datos)
+
 ggplot(df, aes(x = Altura)) +
   geom_histogram(color = paleta[1], fill = paleta[2], breaks = seq(1, 37, 3), closed = "left") +
   labs(x = 'Altura (en metros)', y = 'Cantidad de árboles') +
@@ -294,8 +318,8 @@ ggplot(df, aes(x = Altura)) +
 ################################################ 14° GRAFICO
 ggplot(df, aes(x = Diámetro)) +
   geom_histogram(color = paleta[1], fill = paleta[2], breaks = seq(0, 260, 10), closed = "left") +
-  labs(x = 'Altura (m)', y = 'Cantidad de árboles') +
-    labs(tag = "FIG 14")
+  labs(x = 'Altura (en metros)', y = 'Cantidad de árboles') +
+  labs(tag = "FIG 14") +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('Diámetro según el origen\nBuenos Aires, 2011') +
   scale_x_continuous(breaks = seq(0, 300, 20)) +
@@ -592,7 +616,7 @@ imprimirTabla <- function(tabla, titulo, pie) {
   ggMarginal(type = "boxplot", fill = paleta[9], color = 'black')
 
 
-################################################ QUEDA 
+################################################ ¿QUEDA? 
 ################################################ BROTES SEGUN ESPECIE """HACER RELATIVAS LAS MEDIDAS"""
 ################################################ 16° GRAFICO
 ggplot(
