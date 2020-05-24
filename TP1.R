@@ -52,13 +52,12 @@ removeAxisTicks = theme(axis.text.y = element_blank(), axis.ticks.y = element_bl
 ################################################ QUEDA
 ################################################ ALTURA DE LOS ARBOLES
 ################################################ PRIMER GRAFICO
-cumsum(Altura)
   ggplot(df, aes(x = Altura)) +
   geom_histogram(color = paleta[7],
                  fill = paleta[8],
                  breaks = seq(1, 37, 3), closed = "left") +
   labs(x = 'Altura (en metros)', y = 'Frecuencia Absoluta') +
-  labs(tag = "FIG 1") +
+  labs(tag = "FIG 1.1") +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('Distribucion de altura del total de los arboles censados\nBuenos Aires, 2011') +
   scale_x_continuous(breaks = seq(1, 37, 3)) + 
@@ -67,10 +66,10 @@ cumsum(Altura)
 
   ggplot(df, aes(x = Altura)) +
   stat_bin(data = df, aes(y = (cumsum(..count..))/length(Altura) ),geom="line", breaks = seq(-2, 37, 3), closed = "right") +
-  labs(x = 'Altura (en metros)', y = 'Frecuencia Absoluta') +
-  labs(tag = "FIG 1") +
+  labs(x = 'Altura (en metros)', y = 'Frecuencia Acumulada') +
+  labs(tag = "FIG 1.2") +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
-  ggtitle('Distribucion de altura del total de los arboles censados\nBuenos Aires, 2011') +
+  ggtitle('Distribucion acumulada de altura del total de los arboles censados\nBuenos Aires, 2011') +
   scale_x_continuous(breaks = seq(1, 37, 3)) + 
   scale_y_continuous(breaks = seq(0, 1, 0.1)) +
   tema
@@ -86,12 +85,22 @@ ggplot(df, aes(x = Diámetro)) +
                  fill = paleta[8],
                  binwidth = 12,
                  breaks = seq(0, 250, 10), closed = "left") +
-  labs(x = 'Diámetro (en centimetros)', y = 'Frecuencia') +
+  labs(x = 'Diámetro (en centimetros)', y = 'Frecuencia Absoluta') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
-  labs(tag = "FIG 2") +
+  labs(tag = "FIG 2.1") +
   ggtitle('Diámetro de los árboles\nBuenos Aires, 2011') + 
   scale_x_continuous(breaks = seq(0, 260, 20)) + 
   scale_y_continuous(breaks = seq(0, 100, 20)) +
+  tema
+  
+ggplot(df, aes(x = Diámetro)) +
+  stat_bin(data = df, aes(y = (cumsum(..count..))/length(Altura) ),geom="line",breaks = seq(0, 250, 10), closed = "left") +
+  labs(x = 'Diámetro (en centimetros)', y = 'Frecuencia Relativa') +
+  labs(caption = "Fuente: Censo Forestal Urbano Público") +
+  labs(tag = "FIG 2.2") +
+  ggtitle('Diámetro de los árboles\nBuenos Aires, 2011') + 
+  scale_x_continuous(breaks = seq(0, 260, 20)) + 
+  scale_y_continuous(breaks = seq(0, 1, 0.1)) +
   tema
 ################################################
 
@@ -159,7 +168,19 @@ ggplot(df,
   geom_bar(color = paleta[8], fill = paleta[8], width = 0.2) +
   labs(x = 'Brotes', y = 'Cantidad') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
-  labs(tag = "FIG 6") +
+  labs(tag = "FIG 6.1") +
+  ggtitle(
+    'CANTIDAD DE ÁRBOLES POR CANTIDAD DE BROTES\nBUENOS AIRES, 2011'
+  ) +  
+  scale_x_continuous(breaks = seq(0, 10, 1)) +
+  tema
+
+ggplot(df,
+       aes(x = Brotes, y = (cumsum(Brotes)))) +
+  stat_bin(data = df, aes(y = (cumsum(..count..))/length(Brotes) ),geom="step", closed = "left") +
+  labs(x = 'Brotes', y = 'Cantidad') +
+  labs(caption = "Fuente: Censo Forestal Urbano Público") +
+  labs(tag = "FIG 6.2") +
   ggtitle(
     'CANTIDAD DE ÁRBOLES POR CANTIDAD DE BROTES\nBUENOS AIRES, 2011'
   ) +  
@@ -187,6 +208,8 @@ ggplot(
             color = "white",
             size = 3.5) +
   tema
+
+
 ################################################
 
 ################################################ QUEDA "PASAR A PARTE DE ANALISIS UNIVARIADOS"
