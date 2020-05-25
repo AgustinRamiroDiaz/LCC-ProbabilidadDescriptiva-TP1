@@ -327,16 +327,33 @@ ggplot(df, aes(x = Altura)) +
   scale_y_continuous(labels = scales::percent) +
   facet_grid(Origen ~ .) +
   tema
+  
+  esCero <- function(n) {
+      if (n == 0) {
+        return (1)
+      } 
+      else{
+        return (n)
+      }
+  }
 
-  ggplot(df, aes(x = Altura, group = Origen)) + 
-  geom_histogram(aes(y = ..prop..), stat = "count", color = paleta[7], 
-                 fill = paleta[8], 
-                 breaks = seq(1, 37, 3), closed = "left") + 
-  scale_y_continuous(labels=scales::percent) +
-  scale_x_continuous(breaks = seq(0, 300, 3)) +
-  ylab("relative frequencies") +
-  facet_grid(Origen ~.) +
-  tema
+  data <- 
+    df %>% 
+    mutate(x.ranges = cut(Altura,  breaks = c(seq(0, 38, 3))))  %>%
+    group_by(Origen, x.ranges) %>% 
+    summarise(n = n()) %>% 
+    # group_by(Species) %>% 
+    mutate(p = n / esCero(sum(n)))
+  
+  data %>% 
+    ggplot(aes(x = x.ranges, y = p, width = 1)) + 
+    geom_histogram(position = "stack", stat = "identity",color = paleta[7], fill = paleta[8]) + 
+    scale_y_continuous(labels = scales::percent) +
+    scale_x_discrete(labels = c(seq(0, 37, 3))) +
+    ylab("...") +
+    xlab("...") +
+    facet_grid(Origen ~.) +
+    tema
 ################################################
 
 ################################################ ¿QUEDA?
