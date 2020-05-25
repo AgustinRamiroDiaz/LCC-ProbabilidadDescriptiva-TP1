@@ -156,8 +156,9 @@ pie(
   border = "white",
   col = brewer.pal(10, "Spectral"),
   # PONER NOMBRE DE LA FIGURA
-  main = "PROPORCIÓN DE ÁRBOLES SEGÚN SU ORIGEN\nBUENOS AIRES, 2011") +
+  main = "Proporción de árboles según su origen\nBuenos Aires, 2011") +
   tema
+  mtext("FIG 5", side = 1, adj = 1)
 ################################################
 
 ################################################ QUEDA
@@ -170,7 +171,7 @@ ggplot(df,
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   labs(tag = "FIG 6.1") +
   ggtitle(
-    'CANTIDAD DE ÁRBOLES POR CANTIDAD DE BROTES\nBUENOS AIRES, 2011'
+    'Cantidad de árboles por cantidad de brotes\nBuenos Aires, 2011'
   ) +  
   scale_x_continuous(breaks = seq(0, 10, 1)) +
   tema
@@ -182,7 +183,7 @@ ggplot(df,
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   labs(tag = "FIG 6.2") +
   ggtitle(
-    'CANTIDAD DE ÁRBOLES POR CANTIDAD DE BROTES\nBUENOS AIRES, 2011'
+    'Cantidad de árboles por cantidad de brotes\nBuenos Aires, 2011'
   ) +  
   scale_x_continuous(breaks = seq(0, 10, 1)) +
   tema
@@ -276,7 +277,7 @@ ggplot(df, aes(x = Altura)) +
   facet_wrap(Especie ~ .) +
   scale_x_continuous(breaks = seq(1, 50, 5)) +
   tema +
-  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank() )
+  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank())
 ################################################
 
 ################################################ QUEDA
@@ -297,15 +298,17 @@ ggplot(df, aes(x = Diámetro)) +
 ################################################ QUEDA
 ################################################ INCLINACION SEGUN LA ESPECIE """ORDENAR POR "GRUPOS" """
 ################################################ 12° GRAFICO
+#ORDENAR
 ggplot(df, aes(x = Inclinación)) +
   geom_boxplot(color = 'black', fill = paleta[8]) +
   labs(x = 'Inclinación', y = '') +
   labs(tag = "FIG 12") +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
-  ggtitle('INCLINACIÓN SEGÚN LA ESPECIE\nBUENOS AIRES, 2011') +
-  facet_wrap(Especie ~ .) +
+  ggtitle('Inclinación según la especie\nBuenos Aires, 2011') +
+  facet_grid(Especie ~ .) +
   scale_x_continuous(breaks = seq(0, 70, 5)) +
-  tema
+  tema +
+  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank())
 ################################################
   
   
@@ -313,45 +316,30 @@ ggplot(df, aes(x = Inclinación)) +
 ################################################ QUEDA
 ################################################ ALTURA SEGUN EL ORIGEN """HACER RELATIVAS LAS MEDIDAS"""
 ################################################ 13° GRAFICO
-prueba <- length(Altura)
-prueba
-typeof(Altura)
-summary(Altura)
-Altura
-summarise(Altura)
-datos <- table(Altura)
-as.data.frame(datos)
-typeof(datos)
-
 ggplot(df, aes(x = Altura)) +
-  geom_histogram(color = paleta[1], fill = paleta[2], breaks = seq(1, 37, 3), closed = "left") +
+  geom_histogram(aes(y = stat(..count..) / sum(count)), color = paleta[7], 
+                 fill = paleta[8], breaks = seq(1, 37, 3), closed = "left") +
   labs(x = 'Altura (en metros)', y = 'Cantidad de árboles') +
   labs(tag = "FIG 13") +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('Altura según el origen\nBuenos Aires, 2011') +
   scale_x_continuous(breaks = seq(0, 300, 3)) +
-  scale_y_continuous(breaks = seq(0, 300, 10)) +
+  scale_y_continuous(labels = scales::percent) +
   facet_grid(Origen ~ .) +
+  tema
+
+  ggplot(df, aes(x = Altura, group = Origen)) + 
+  geom_histogram(aes(y = ..prop..), stat = "count", color = paleta[7], 
+                 fill = paleta[8], 
+                 breaks = seq(1, 37, 3), closed = "left") + 
+  scale_y_continuous(labels=scales::percent) +
+  scale_x_continuous(breaks = seq(0, 300, 3)) +
+  ylab("relative frequencies") +
+  facet_grid(Origen ~.) +
   tema
 ################################################
 
-
-################################################ QUEDA
-################################################ DIAMETRO SEGUN ORIGEN """HACER RELATIVAS LAS MEDIDAS"""
-################################################ 14° GRAFICO
-ggplot(df, aes(x = Diámetro)) +
-  geom_histogram(color = paleta[1], fill = paleta[2], breaks = seq(0, 260, 10), closed = "left") +
-  labs(x = 'Altura (en metros)', y = 'Cantidad de árboles') +
-  labs(tag = "FIG 14") +
-  labs(caption = "Fuente: Censo Forestal Urbano Público") +
-  ggtitle('Diámetro según el origen\nBuenos Aires, 2011') +
-  scale_x_continuous(breaks = seq(0, 300, 20)) +
-  scale_y_continuous(breaks = seq(0, 300, 10)) +
-  facet_grid(Origen ~ .) +
-  tema
-################################################
-
-################################################ ¿QUEDA? """PASAR A BARPLOT"""
+################################################ ¿QUEDA?
 ################################################ BROTES SEGUN ORIGEN """HACER RELATIVAS LAS MEDIDAS"""
 ################################################ 15° GRAFICO
 ggplot(df,
@@ -369,7 +357,7 @@ ggplot(df,
 ################################################
 
 
-################################################ ¿QUEDA?
+################################################ ¿QUEDA? UNIVARIADO
 ################################################ PROMEDIO DE BROTES SEGUN LA ESPECIE """HACER RELATIVAS LAS MEDIDAS"""
 ################################################ 16° GRAFICO
 ggplot(
@@ -676,3 +664,17 @@ ggplot(
   )
 ################################################
 
+################################################ QUEDA
+################################################ DIAMETRO SEGUN ORIGEN """HACER RELATIVAS LAS MEDIDAS"""
+################################################ 14° GRAFICO
+ggplot(df, aes(x = Diámetro)) +
+  geom_histogram(color = paleta[7], fill = paleta[8], breaks = seq(0, 260, 10), closed = "left") +
+  labs(x = 'Altura (en metros)', y = 'Cantidad de árboles') +
+  labs(tag = "FIG 14") +
+  labs(caption = "Fuente: Censo Forestal Urbano Público") +
+  ggtitle('Diámetro según el origen\nBuenos Aires, 2011') +
+  scale_x_continuous(breaks = seq(0, 300, 20)) +
+  scale_y_continuous(breaks = seq(0, 300, 10)) +
+  facet_grid(Origen ~ .) +
+  tema
+################################################
