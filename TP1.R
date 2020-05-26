@@ -205,9 +205,9 @@ ggplot(
   labs(tag = "FIG 7") +
   ggtitle('Altura promedio según especie\nBuenos Aires, 2011') +
   geom_text(aes(label = round(AlturaPromedio, 2)),
-            hjust = 1.5,
+            hjust = 1.3,
             color = "white",
-            size = 3.5) +
+            size = 3) +
   tema
 
 
@@ -233,9 +233,9 @@ ggplot(
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('Diámetro promedio según la especie\nBuenos Aires, 2011') +
   geom_text(aes(label = round(DiámetroPromedio, 2)),
-            hjust = 1.5,
+            hjust = 1.3,
             color = "white",
-            size = 3.5) +
+            size = 3) +
   scale_x_continuous(breaks = seq(0, max(Diámetro), 10)) +
   tema
 ################################################
@@ -258,9 +258,9 @@ ggplot(
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   labs(tag = "FIG 9") +
   geom_text(aes(label = round(InclinacionPromedio, 1)),
-            hjust = 1.5,
+            hjust = 1.3,
             color = "white",
-            size = 3.5) +
+            size = 3) +
   ggtitle('Inclinación promedio según la especie\nBuenos Aires, 2011') +
   tema
 ################################################
