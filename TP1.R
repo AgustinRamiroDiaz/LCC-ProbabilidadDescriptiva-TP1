@@ -316,27 +316,28 @@ ggplot(df, aes(x = Inclinación)) +
 ################################################ QUEDA
 ################################################ ALTURA SEGUN EL ORIGEN """HACER RELATIVAS LAS MEDIDAS"""
 ################################################ 13° GRAFICO
-ggplot(df, aes(x = Altura)) +
+
+ggplot(df %>% filter(Origen != "Exótico"), aes(x = Altura)) +
+  geom_histogram(aes(y = stat(..count..) / sum(count)), color = paleta[7], 
+                 fill = paleta[8], breaks = seq(1, 37, 3), closed = "left") +
+  labs(x = 'Altura (en metros)', y = 'Cantidad de árboles') +
+  ggtitle('Altura según el origen\nBuenos Aires, 2011') +
+  scale_x_continuous(breaks = seq(1, 300, 3)) +
+  scale_y_continuous(labels = scales::percent, breaks = seq(0, .2, .05)) +
+  facet_grid(Origen ~ .) +
+  tema
+
+ggplot(df %>% filter(Origen == "Exótico"), aes(x = Altura)) +
   geom_histogram(aes(y = stat(..count..) / sum(count)), color = paleta[7], 
                  fill = paleta[8], breaks = seq(1, 37, 3), closed = "left") +
   labs(x = 'Altura (en metros)', y = 'Cantidad de árboles') +
   labs(tag = "FIG 13") +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
-  ggtitle('Altura según el origen\nBuenos Aires, 2011') +
-  scale_x_continuous(breaks = seq(0, 300, 3)) +
-  scale_y_continuous(labels = scales::percent) +
+  scale_x_continuous(breaks = seq(1, 300, 3)) +
+  scale_y_continuous(labels = scales::percent, breaks = seq(0, .2, .05)) +
   facet_grid(Origen ~ .) +
   tema
 
-  ggplot(df, aes(x = Altura, group = Origen)) + 
-  geom_histogram(aes(y = ..prop..), stat = "count", color = paleta[7], 
-                 fill = paleta[8], 
-                 breaks = seq(1, 37, 3), closed = "left") + 
-  scale_y_continuous(labels=scales::percent) +
-  scale_x_continuous(breaks = seq(0, 300, 3)) +
-  ylab("relative frequencies") +
-  facet_grid(Origen ~.) +
-  tema
 ################################################
 
 ################################################ ¿QUEDA?
