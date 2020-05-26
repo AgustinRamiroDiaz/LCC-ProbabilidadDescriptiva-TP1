@@ -66,7 +66,7 @@ removeAxisTicks = theme(axis.text.y = element_blank(), axis.ticks.y = element_bl
 
   ggplot(df, aes(x = Altura)) +
   stat_bin(data = df, aes(y = (cumsum(..count..))/length(Altura) ),geom="line", breaks = seq(-2, 37, 3), closed = "right") +
-  labs(x = 'Altura (en metros)', y = 'Frecuencia Acumulada') +
+  labs(x = 'Altura (en metros)', y = 'Frecuencia relativa acumulada') +
   labs(tag = "FIG 1.2") +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('Distribucion acumulada de altura del total de los arboles censados\nBuenos Aires, 2011') +
@@ -95,7 +95,7 @@ ggplot(df, aes(x = Diámetro)) +
   
 ggplot(df, aes(x = Diámetro)) +
   stat_bin(data = df, aes(y = (cumsum(..count..))/length(Altura) ),geom="line",breaks = seq(0, 250, 10), closed = "left") +
-  labs(x = 'Diámetro (en centimetros)', y = 'Frecuencia Relativa') +
+  labs(x = 'Diámetro (en centimetros)', y = 'Frecuencia relativa acumulada') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   labs(tag = "FIG 2.2") +
   ggtitle('Diámetro de los árboles\nBuenos Aires, 2011') + 
@@ -179,7 +179,7 @@ ggplot(df,
 ggplot(df,
        aes(x = Brotes, y = (cumsum(Brotes)))) +
   stat_bin(data = df, aes(y = (cumsum(..count..))/length(Brotes) ),geom="step", closed = "left") +
-  labs(x = 'Brotes', y = 'Frecuencia acumulada') +
+  labs(x = 'Brotes', y = 'Frecuencia relativa acumulada') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   labs(tag = "FIG 6.2") +
   ggtitle(
@@ -265,6 +265,28 @@ ggplot(
   tema
 ################################################
 
+################################################ ¿QUEDA? UNIVARIADO
+################################################ PROMEDIO DE BROTES SEGUN LA ESPECIE """HACER RELATIVAS LAS MEDIDAS"""
+################################################ 16° GRAFICO
+ggplot(
+  df %>%
+    group_by(Especie) %>%
+    summarise(BrotesPromedio = mean(Brotes)),
+  aes(x = reorder(Especie, BrotesPromedio), y = BrotesPromedio)
+) +
+  geom_col(color = paleta[7], fill = paleta[8]) +
+  coord_flip() +
+  labs(x = 'Especie', y = 'Brotes promedio') +
+  labs(tag = "FIG 10") +
+  labs(caption = "Fuente: Censo Forestal Urbano Público") +
+  geom_text(aes(label = round(BrotesPromedio, 1)),
+            hjust = 1.3,
+            color = "white",
+            size = 3) +
+  ggtitle('Promedio de brotes según la especie\nBuenos Aires, 2011') +
+  tema
+################################################
+
 ################################################ QUEDA """YA BIVARIADOS"""
 ################################################ ALTURA SEGUN LA ESPECIE
 ################################################ 10° GRAFICO
@@ -272,7 +294,7 @@ ggplot(df, aes(x = Altura)) +
   geom_boxplot(color = 'black', fill = paleta[8]) +
   labs(x = 'Altura', y = '') +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
-  labs(tag = "FIG 10") +
+  labs(tag = "FIG 11") +
   ggtitle('Altura según la especie\nBuenos Aires, 2011') +
   facet_grid(Especie ~ .) +
   scale_x_continuous(breaks = seq(1, 50, 5)) +
@@ -286,7 +308,7 @@ ggplot(df, aes(x = Altura)) +
 ggplot(df, aes(x = Diámetro)) +
   geom_boxplot(color = 'black', fill = paleta[8]) +
   labs(x = 'Diámetro', y = '') +
-  labs(tag = "FIG 11") +
+  labs(tag = "FIG 12") +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('Diámetro según la especie\nBuenos Aires, 2011') +
   facet_grid(Especie ~ .) +
@@ -302,7 +324,7 @@ ggplot(df, aes(x = Diámetro)) +
 ggplot(df, aes(x = Inclinación)) +
   geom_boxplot(color = 'black', fill = paleta[8]) +
   labs(x = 'Inclinación', y = '') +
-  labs(tag = "FIG 12") +
+  labs(tag = "FIG 13") +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   ggtitle('Inclinación según la especie\nBuenos Aires, 2011') +
   facet_grid(
@@ -334,7 +356,7 @@ ggplot(df %>% filter(Origen == "Exótico"), aes(x = Altura)) +
   geom_histogram(aes(y = stat(..count..) / sum(count)), color = paleta[7], 
                  fill = paleta[8], breaks = seq(1, 37, 3), closed = "left") +
   labs(x = 'Altura (en metros)', y = 'Cantidad de árboles') +
-  labs(tag = "FIG 13") +
+  labs(tag = "FIG 14") +
   labs(caption = "Fuente: Censo Forestal Urbano Público") +
   scale_x_continuous(breaks = seq(1, 300, 3)) +
   scale_y_continuous(labels = scales::percent, breaks = seq(0, .2, .05)) +
@@ -360,28 +382,6 @@ ggplot(df,
   tema
 ################################################
 
-
-################################################ ¿QUEDA? UNIVARIADO
-################################################ PROMEDIO DE BROTES SEGUN LA ESPECIE """HACER RELATIVAS LAS MEDIDAS"""
-################################################ 16° GRAFICO
-ggplot(
-  df %>%
-    group_by(Especie) %>%
-    summarise(BrotesPromedio = mean(Brotes)),
-  aes(x = reorder(Especie, BrotesPromedio), y = BrotesPromedio)
-) +
-  geom_col(color = paleta[7], fill = paleta[8]) +
-  coord_flip() +
-  labs(x = 'Especie', y = 'Brotes promedio') +
-  labs(tag = "FIG 14") +
-  labs(caption = "Fuente: Censo Forestal Urbano Público") +
-  geom_text(aes(label = round(BrotesPromedio, 1)),
-            hjust = 1.5,
-            color = "white",
-            size = 3.5) +
-  ggtitle('Promedio de brotes según la especie\nBuenos Aires, 2011') +
-  tema
-################################################
   
 
 ####################################################################
